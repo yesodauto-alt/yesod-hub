@@ -20,7 +20,7 @@ import { useAuth, useIsAdmin } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { CATEGORIES } from "@/lib/yesod";
 
-export const Route = createFileRoute("/feed")({
+export const Route = createFileRoute("/comunidade")({
   head: () => ({
     meta: [
       { title: "Feed da Comunidade YESOD — novidades e dicas de pré-impressão" },
