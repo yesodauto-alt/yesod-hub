@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ComunidadeRouteImport } from './routes/comunidade'
 import { Route as ContatoRouteImport } from './routes/contato'
+import { Route as ProdutosRouteImport } from './routes/produtos'
 import { Route as ProjetosRouteImport } from './routes/projetos'
 import { Route as ServicosRouteImport } from './routes/servicos'
 import { Route as AuthenticatedMeuEspacoRouteImport } from './routes/_authenticated/meu-espaco'
@@ -42,6 +43,11 @@ const ContatoRoute = ContatoRouteImport.update({
   path: '/contato',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProdutosRoute = ProdutosRouteImport.update({
+  id: '/produtos',
+  path: '/produtos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProjetosRoute = ProjetosRouteImport.update({
   id: '/projetos',
   path: '/projetos',
@@ -63,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/comunidade': typeof ComunidadeRoute
   '/contato': typeof ContatoRoute
+  '/produtos': typeof ProdutosRoute
   '/projetos': typeof ProjetosRoute
   '/servicos': typeof ServicosRoute
   '/meu-espaco': typeof AuthenticatedMeuEspacoRoute
@@ -72,6 +79,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/comunidade': typeof ComunidadeRoute
   '/contato': typeof ContatoRoute
+  '/produtos': typeof ProdutosRoute
   '/projetos': typeof ProjetosRoute
   '/servicos': typeof ServicosRoute
   '/meu-espaco': typeof AuthenticatedMeuEspacoRoute
@@ -83,6 +91,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/comunidade': typeof ComunidadeRoute
   '/contato': typeof ContatoRoute
+  '/produtos': typeof ProdutosRoute
   '/projetos': typeof ProjetosRoute
   '/servicos': typeof ServicosRoute
   '/_authenticated/meu-espaco': typeof AuthenticatedMeuEspacoRoute
@@ -94,6 +103,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/comunidade'
     | '/contato'
+    | '/produtos'
     | '/projetos'
     | '/servicos'
     | '/meu-espaco'
@@ -103,6 +113,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/comunidade'
     | '/contato'
+    | '/produtos'
     | '/projetos'
     | '/servicos'
     | '/meu-espaco'
@@ -113,6 +124,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/comunidade'
     | '/contato'
+    | '/produtos'
     | '/projetos'
     | '/servicos'
     | '/_authenticated/meu-espaco'
@@ -124,6 +136,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ComunidadeRoute: typeof ComunidadeRoute
   ContatoRoute: typeof ContatoRoute
+  ProdutosRoute: typeof ProdutosRoute
   ProjetosRoute: typeof ProjetosRoute
   ServicosRoute: typeof ServicosRoute
 }
@@ -163,6 +176,13 @@ declare module '@tanstack/react-router' {
       path: '/contato'
       fullPath: '/contato'
       preLoaderRoute: typeof ContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/produtos': {
+      id: '/produtos'
+      path: '/produtos'
+      fullPath: '/produtos'
+      preLoaderRoute: typeof ProdutosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projetos': {
@@ -206,6 +226,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ComunidadeRoute: ComunidadeRoute,
   ContatoRoute: ContatoRoute,
+  ProdutosRoute: ProdutosRoute,
   ProjetosRoute: ProjetosRoute,
   ServicosRoute: ServicosRoute,
 }
