@@ -119,25 +119,130 @@ export type Database = {
       }
       profiles: {
         Row: {
+          account_type: string | null
+          avatar_url: string | null
+          community_goal: string | null
           company: string | null
           created_at: string
+          employee_count: number | null
           full_name: string | null
           id: string
+          newsletter_opt_in: boolean
+          phone: string | null
           updated_at: string
         }
         Insert: {
+          account_type?: string | null
+          avatar_url?: string | null
+          community_goal?: string | null
           company?: string | null
           created_at?: string
+          employee_count?: number | null
           full_name?: string | null
           id: string
+          newsletter_opt_in?: boolean
+          phone?: string | null
           updated_at?: string
         }
         Update: {
+          account_type?: string | null
+          avatar_url?: string | null
+          community_goal?: string | null
           company?: string | null
           created_at?: string
+          employee_count?: number | null
           full_name?: string | null
           id?: string
+          newsletter_opt_in?: boolean
+          phone?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      projects: {
+        Row: {
+          automation: Json
+          category: Json
+          content: Json
+          context: Json
+          created_at: string
+          gallery_urls: string[]
+          id: string
+          image_url: string | null
+          interaction_label: Json
+          interaction_type: string
+          interaction_url: string | null
+          published: boolean
+          result: Json
+          slug: string
+          solution: Json
+          sort_order: number
+          summary: Json
+          title: Json
+          updated_at: string
+        }
+        Insert: {
+          automation?: Json
+          category?: Json
+          content?: Json
+          context?: Json
+          created_at?: string
+          gallery_urls?: string[]
+          id?: string
+          image_url?: string | null
+          interaction_label?: Json
+          interaction_type?: string
+          interaction_url?: string | null
+          published?: boolean
+          result?: Json
+          slug: string
+          solution?: Json
+          sort_order?: number
+          summary?: Json
+          title?: Json
+          updated_at?: string
+        }
+        Update: {
+          automation?: Json
+          category?: Json
+          content?: Json
+          context?: Json
+          created_at?: string
+          gallery_urls?: string[]
+          id?: string
+          image_url?: string | null
+          interaction_label?: Json
+          interaction_type?: string
+          interaction_url?: string | null
+          published?: boolean
+          result?: Json
+          slug?: string
+          solution?: Json
+          sort_order?: number
+          summary?: Json
+          title?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          created_at: string
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          created_at?: string
+          key: string
+          updated_at?: string
+          value?: Json
+        }
+        Update: {
+          created_at?: string
+          key?: string
+          updated_at?: string
+          value?: Json
         }
         Relationships: []
       }
