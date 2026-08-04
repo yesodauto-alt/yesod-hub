@@ -46,24 +46,26 @@ function ProjectDetail() {
         toast.success(t("common.linkCopied"));
       }
     } catch {
-      /* dismissed by the user */
+      // Compartilhamento cancelado pelo usuário.
     }
   }
 
   if (projectQuery.isLoading) {
-    return <p className="mx-auto max-w-3xl px-6 py-20 text-muted-foreground">{t("common.loading")}</p>;
+    return <p className="mx-auto max-w-4xl px-6 py-20 text-sm text-muted-foreground">{t("common.loading")}</p>;
   }
 
   if (!project) {
     return (
-      <div className="mx-auto max-w-3xl px-6 py-20">
-        <p className="text-muted-foreground">{t("projects.notFound")}</p>
-        <Button asChild variant="outline" className="mt-6">
-          <Link to="/projetos">
-            <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" />
-            {t("projects.backToList")}
-          </Link>
-        </Button>
+      <div className="mx-auto max-w-4xl px-6 py-20">
+        <div className="rounded-2xl border border-border bg-card p-8">
+          <p className="text-muted-foreground">{t("projects.notFound")}</p>
+          <Button asChild variant="outline" className="mt-6">
+            <Link to="/projetos">
+              <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" />
+              {t("projects.backToList")}
+            </Link>
+          </Button>
+        </div>
       </div>
     );
   }
@@ -74,80 +76,71 @@ function ProjectDetail() {
     { label: t("projects.automation"), text: tm(project.automation) },
     { label: t("projects.solution"), text: tm(project.solution) },
     { label: t("projects.result"), text: tm(project.result) },
-  ].filter((s) => s.text);
+  ].filter((section) => section.text);
   const content = tm(project.content);
 
   return (
-    <article className="mx-auto max-w-4xl px-6 py-14">
+    <article className="mx-auto max-w-5xl px-6 py-14 sm:py-18">
       <Link
         to="/projetos"
-        className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+        className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
         {t("projects.backToList")}
       </Link>
 
-      {cover && (
-        <img
-          src={cover}
-          alt={title}
-          className="mt-8 aspect-[16/9] w-full rounded-2xl object-cover shadow-soft"
-        />
-      )}
-
-      <header className="mt-10">
-        <span className="inline-flex rounded-full bg-accent px-3 py-1 text-xs font-semibold text-accent-foreground">
+      <header className="mt-10 max-w-3xl">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
           {tm(project.category)}
-        </span>
-        <h1 className="mt-4 text-3xl sm:text-4xl">{title}</h1>
-        <p className="mt-4 leading-relaxed text-muted-foreground">{tm(project.summary)}</p>
+        </p>
+        <h1 className="mt-5 text-3xl leading-tight sm:text-5xl">{title}</h1>
+        <p className="mt-5 text-lg leading-8 text-muted-foreground">{tm(project.summary)}</p>
       </header>
 
-      <div className="mt-12 space-y-8">
+      {cover && (
+        <img src={cover} alt={title} className="mt-10 aspect-[16/9] w-full rounded-2xl border border-border object-cover" />
+      )}
+
+      <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2">
         {sections.map((section) => (
-          <section key={section.label}>
-            <h2 className="text-lg">{section.label}</h2>
-            <p className="mt-2 whitespace-pre-line leading-relaxed text-muted-foreground">
-              {section.text}
-            </p>
+          <section key={section.label} className="bg-card p-6 sm:p-8">
+            <h2 className="text-base">{section.label}</h2>
+            <p className="mt-3 whitespace-pre-line text-sm leading-7 text-muted-foreground">{section.text}</p>
           </section>
         ))}
-        {content && (
-          <p className="whitespace-pre-line leading-relaxed text-foreground/90">{content}</p>
-        )}
       </div>
 
+      {content && (
+        <section className="mx-auto mt-12 max-w-3xl border-l-2 border-primary/40 pl-6">
+          <p className="whitespace-pre-line leading-8 text-foreground/85">{content}</p>
+        </section>
+      )}
+
       {gallery.length > 0 && (
-        <section className="mt-14">
-          <h2 className="text-lg">{t("projects.gallery")}</h2>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <section className="mt-14 border-t border-border pt-10">
+          <h2 className="text-xl">{t("projects.gallery")}</h2>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {gallery.map((url) => (
-              <img
-                key={url}
-                src={url}
-                alt={title}
-                loading="lazy"
-                className="aspect-[4/3] w-full rounded-xl object-cover shadow-soft"
-              />
+              <img key={url} src={url} alt={title} loading="lazy" className="aspect-[4/3] w-full rounded-xl border border-border object-cover" />
             ))}
           </div>
         </section>
       )}
 
-      <div className="mt-14 flex flex-wrap gap-3">
-        <Button asChild size="lg">
+      <div className="mt-14 flex flex-wrap gap-3 border-t border-border pt-8">
+        <Button asChild>
           <a href={whatsappUrl(t("wa.project", { name: title }))} target="_blank" rel="noreferrer">
             {t("common.talkToYesod")}
           </a>
         </Button>
         {project.interaction_type === "external_demo" && project.interaction_url && (
-          <Button asChild size="lg" variant="outline">
+          <Button asChild variant="outline">
             <a href={project.interaction_url} target="_blank" rel="noreferrer noopener">
               {tm(project.interaction_label) || t("projects.openDemo")}
             </a>
           </Button>
         )}
-        <Button size="lg" variant="outline" onClick={share}>
+        <Button variant="ghost" onClick={share}>
           <Share2 className="mr-2 h-4 w-4" aria-hidden="true" />
           {t("common.share")}
         </Button>

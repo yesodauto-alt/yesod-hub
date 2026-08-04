@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { whatsappUrl } from "@/lib/yesod";
+import { useI18n, useLocalizedMeta } from "@/lib/i18n";
+import { CONTACT_EMAIL, WHATSAPP_DISPLAY, whatsappUrl } from "@/lib/yesod";
 
 export const Route = createFileRoute("/contato")({
   head: () => ({
@@ -29,117 +30,85 @@ export const Route = createFileRoute("/contato")({
 });
 
 function Contato() {
+  const { t } = useI18n();
   const [name, setName] = useState("");
   const [company, setCompany] = useState("");
   const [process, setProcess] = useState("");
   const [message, setMessage] = useState("");
+  useLocalizedMeta("meta.contact.title", "meta.contact.desc");
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const fallback = t("wa.notInformed");
     const text = [
-      "Olá, YESOD! Vim pelo site.",
-      `Nome: ${name || "não informado"}`,
-      `Empresa: ${company || "não informada"}`,
-      `Processo que quero automatizar: ${process || "não informado"}`,
-      `Mensagem: ${message || "não informada"}`,
+      t("wa.contactIntro"),
+      `${t("wa.contactName")}: ${name || fallback}`,
+      `${t("wa.contactCompany")}: ${company || fallback}`,
+      `${t("wa.contactProcess")}: ${process || fallback}`,
+      `${t("wa.contactMessage")}: ${message || fallback}`,
     ].join("\n");
     window.open(whatsappUrl(text), "_blank", "noopener,noreferrer");
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-20">
+    <div className="mx-auto max-w-5xl px-6 py-16 sm:py-20">
       <header className="max-w-2xl">
-        <h1 className="text-3xl sm:text-4xl">Contato</h1>
-        <p className="mt-4 leading-relaxed text-muted-foreground">
-          O WhatsApp é o canal principal da YESOD. Fale direto com a equipe ou preencha o formulário
-          — ele monta a mensagem e abre a conversa para você.
-        </p>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">YESOD</p>
+        <h1 className="mt-4 text-3xl sm:text-4xl">{t("contact.title")}</h1>
+        <p className="mt-4 leading-7 text-muted-foreground">{t("contact.subtitle")}</p>
       </header>
 
-      <div className="mt-14 grid gap-8 lg:grid-cols-[1fr_1.1fr]">
-        <div className="rounded-3xl bg-brand-gradient p-8 text-white shadow-lift">
-          <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15">
-            <MessageCircle className="h-6 w-6" />
+      <div className="mt-12 grid overflow-hidden rounded-2xl border border-border bg-card lg:grid-cols-[0.85fr_1.15fr]">
+        <aside className="bg-navy p-7 text-white sm:p-9">
+          <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-white/10">
+            <MessageCircle className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
           </span>
-          <h2 className="mt-6 text-2xl">Fale no WhatsApp</h2>
-          <p className="mt-3 leading-relaxed text-white/75">
-            Resposta rápida em horário comercial. Conte qual rotina consome o tempo do seu time.
-          </p>
-          <p className="mt-6 font-display text-2xl font-semibold">+55 11 93413-6614</p>
-          <Button asChild size="lg" variant="secondary" className="mt-8 w-full">
-            <a
-              href={whatsappUrl("Olá! Quero falar com a YESOD sobre automação com IA.")}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Abrir conversa no WhatsApp
+          <h2 className="mt-7 text-2xl">{t("contact.whatsappTitle")}</h2>
+          <p className="mt-3 text-sm leading-6 text-white/70">{t("contact.whatsappText")}</p>
+          <p className="mt-7 font-display text-xl font-semibold">{WHATSAPP_DISPLAY}</p>
+          <Button asChild size="lg" variant="secondary" className="mt-7 w-full">
+            <a href={whatsappUrl(t("wa.generic"))} target="_blank" rel="noreferrer">
+              {t("contact.openWhatsapp")}
             </a>
           </Button>
 
-          <ul className="mt-10 space-y-3 text-sm text-white/75">
+          <ul className="mt-9 space-y-3 border-t border-white/10 pt-6 text-sm text-white/65">
             <li className="flex items-center gap-2.5">
-              <Clock className="h-4 w-4 shrink-0" />
-              Seg a sex, 9h às 18h (horário de Brasília)
+              <Clock className="h-4 w-4 shrink-0" strokeWidth={1.8} aria-hidden="true" />
+              {t("contact.hours")}
             </li>
             <li className="flex items-center gap-2.5">
-              <Mail className="h-4 w-4 shrink-0" />
-              yesod.auto@gmail.com
+              <Mail className="h-4 w-4 shrink-0" strokeWidth={1.8} aria-hidden="true" />
+              {CONTACT_EMAIL}
             </li>
           </ul>
-        </div>
+        </aside>
 
-        <form
-          onSubmit={handleSubmit}
-          className="rounded-3xl border border-border bg-card p-8 shadow-soft"
-        >
-          <h2 className="text-xl">Prefere escrever antes?</h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Ao enviar, o WhatsApp abre com a mensagem já preenchida.
-          </p>
+        <form onSubmit={handleSubmit} className="p-7 sm:p-9">
+          <h2 className="text-xl">{t("contact.formTitle")}</h2>
+          <p className="mt-2 text-sm leading-6 text-muted-foreground">{t("contact.formText")}</p>
 
-          <div className="mt-8 space-y-5">
+          <div className="mt-7 grid gap-5 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="name">Seu nome</Label>
-              <Input
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Como podemos te chamar?"
-                required
-              />
+              <Label htmlFor="name">{t("contact.name")}</Label>
+              <Input id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder={t("contact.namePlaceholder")} required />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="company">Empresa</Label>
-              <Input
-                id="company"
-                value={company}
-                onChange={(e) => setCompany(e.target.value)}
-                placeholder="Nome da sua empresa"
-              />
+              <Label htmlFor="company">{t("contact.company")}</Label>
+              <Input id="company" value={company} onChange={(e) => setCompany(e.target.value)} placeholder={t("contact.companyPlaceholder")} />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="process">Processo que quer automatizar</Label>
-              <Input
-                id="process"
-                value={process}
-                onChange={(e) => setProcess(e.target.value)}
-                placeholder="Ex.: orçamentos, conferência de arquivos, relatórios"
-              />
+            <div className="space-y-2 sm:col-span-2">
+              <Label htmlFor="process">{t("contact.process")}</Label>
+              <Input id="process" value={process} onChange={(e) => setProcess(e.target.value)} placeholder={t("contact.processPlaceholder")} />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="message">Mensagem</Label>
-              <Textarea
-                id="message"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Conte um pouco sobre o seu cenário atual."
-                rows={5}
-              />
+            <div className="space-y-2 sm:col-span-2">
+              <Label htmlFor="message">{t("contact.message")}</Label>
+              <Textarea id="message" value={message} onChange={(e) => setMessage(e.target.value)} placeholder={t("contact.messagePlaceholder")} rows={5} />
             </div>
           </div>
 
-          <Button type="submit" size="lg" className="mt-8 w-full">
-            Enviar pelo WhatsApp
+          <Button type="submit" size="lg" className="mt-7 w-full sm:w-auto">
+            {t("contact.submit")}
           </Button>
         </form>
       </div>

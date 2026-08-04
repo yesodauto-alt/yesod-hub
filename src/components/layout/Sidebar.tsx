@@ -18,7 +18,11 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { useI18n, type TranslationKey } from "@/lib/i18n";
 
-const items: Array<{ to: "/" | "/hub" | "/projetos" | "/servicos" | "/produtos" | "/meu-espaco" | "/contato"; label: TranslationKey; icon: typeof Home }> = [
+const items: Array<{
+  to: "/" | "/hub" | "/projetos" | "/servicos" | "/produtos" | "/meu-espaco" | "/contato";
+  label: TranslationKey;
+  icon: typeof Home;
+}> = [
   { to: "/", label: "nav.home", icon: Home },
   { to: "/hub", label: "nav.hub", icon: Users },
   { to: "/projetos", label: "nav.projects", icon: Layers },
@@ -33,51 +37,47 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
   const { t } = useI18n();
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full flex-col bg-card">
       <Link
         to="/"
         onClick={onNavigate}
-        className="mx-4 mt-6 flex items-center justify-center rounded-2xl bg-white px-4 py-3 shadow-soft transition-transform hover:scale-[1.02]"
+        className="mx-5 mt-7 flex items-center rounded-lg px-2 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <img src={logo.url} alt="YESOD Automation" className="h-7 w-auto" />
       </Link>
 
-      <nav className="mt-8 flex flex-1 flex-col gap-1 px-3" aria-label={t("nav.navigation")}>
+      <nav className="mt-10 flex flex-1 flex-col gap-1 px-4" aria-label={t("nav.navigation")}>
         {items.map((item) => (
           <Link
             key={item.to}
             to={item.to}
             onClick={onNavigate}
             activeOptions={{ exact: item.to === "/" }}
-            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-white/65 transition-all duration-200 hover:bg-white/10 hover:text-white"
-            activeProps={{ className: "bg-white/12 text-white" }}
+            className="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+            activeProps={{ className: "bg-accent text-primary" }}
           >
-            <item.icon className="h-[18px] w-[18px]" aria-hidden="true" />
+            <item.icon className="h-[17px] w-[17px]" strokeWidth={1.8} aria-hidden="true" />
             {t(item.label)}
           </Link>
         ))}
       </nav>
 
-      <div className="space-y-4 p-4">
+      <div className="space-y-4 border-t border-border p-4">
         <LanguageSwitcher />
         {user ? (
-          <Button asChild variant="secondary" className="w-full">
+          <Button asChild className="w-full" variant="outline">
             <Link to="/meu-espaco" onClick={onNavigate}>
               {t("nav.mySpace")}
             </Link>
           </Button>
         ) : (
-          <div className="space-y-2">
-            <Button asChild variant="secondary" className="w-full">
+          <div className="grid gap-2">
+            <Button asChild className="w-full">
               <Link to="/auth" search={{ modo: "cadastro" }} onClick={onNavigate}>
                 {t("nav.signup")}
               </Link>
             </Button>
-            <Button
-              asChild
-              variant="outline"
-              className="w-full border-white/25 bg-transparent text-white hover:bg-white/10 hover:text-white"
-            >
+            <Button asChild variant="ghost" className="w-full text-muted-foreground">
               <Link to="/auth" onClick={onNavigate}>
                 {t("nav.signin")}
               </Link>
@@ -100,12 +100,12 @@ export function Sidebar() {
 
   return (
     <>
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col bg-brand-gradient lg:flex">
+      <aside className="fixed inset-y-0 left-0 z-40 hidden w-60 border-r border-border bg-card lg:block">
         <NavList />
       </aside>
 
-      <header className="sticky top-0 z-40 flex items-center justify-between bg-brand-gradient px-4 py-3 lg:hidden">
-        <Link to="/" className="flex items-center rounded-xl bg-white px-3 py-2">
+      <header className="sticky top-0 z-40 flex items-center justify-between border-b border-border bg-card/95 px-4 py-3 backdrop-blur lg:hidden">
+        <Link to="/" className="flex items-center rounded-md px-1 py-1">
           <img src={logo.url} alt="YESOD" className="h-5 w-auto" />
         </Link>
         <div className="flex items-center gap-2">
@@ -115,7 +115,7 @@ export function Sidebar() {
             aria-label={t("nav.openMenu")}
             aria-expanded={open}
             onClick={() => setOpen(true)}
-            className="rounded-xl border border-white/20 p-2 text-white transition-colors hover:bg-white/10"
+            className="rounded-lg border border-border p-2 text-foreground hover:bg-muted"
           >
             <Menu className="h-5 w-5" aria-hidden="true" />
           </button>
@@ -128,14 +128,14 @@ export function Sidebar() {
             type="button"
             aria-label={t("nav.closeMenu")}
             onClick={() => setOpen(false)}
-            className="absolute inset-0 bg-navy-deep/70 backdrop-blur-sm"
+            className="absolute inset-0 bg-navy-deep/35 backdrop-blur-sm"
           />
-          <div className="animate-in slide-in-from-left absolute inset-y-0 left-0 flex w-72 flex-col bg-brand-gradient duration-200">
+          <div className="animate-in slide-in-from-left absolute inset-y-0 left-0 w-[19rem] border-r border-border bg-card shadow-lift duration-200">
             <button
               type="button"
               aria-label={t("nav.closeMenu")}
               onClick={() => setOpen(false)}
-              className="absolute right-3 top-3 rounded-lg p-2 text-white/70 hover:bg-white/10 hover:text-white"
+              className="absolute right-3 top-3 rounded-lg p-2 text-muted-foreground hover:bg-muted hover:text-foreground"
             >
               <X className="h-5 w-5" aria-hidden="true" />
             </button>
