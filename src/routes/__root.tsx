@@ -82,14 +82,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Comunidade YESOD — Automação para o setor gráfico" },
+      { title: "Comunidade YESOD — automação e escala com inteligência artificial" },
       {
         name: "description",
         content:
-          "Hub de conteúdo, projetos e suporte da YESOD Automation para profissionais de pré-impressão.",
+          "Comunidade YESOD: conteúdo, projetos e área de membros para quem quer transformar processos manuais em operações automatizadas com IA.",
       },
-      { name: "author", content: "YESOD Automation" },
+      { name: "author", content: "YESOD" },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Comunidade YESOD" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
@@ -98,11 +99,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap",
       },
       { rel: "icon", type: "image/png", href: "/favicon.png" },
     ],
   }),
+
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
