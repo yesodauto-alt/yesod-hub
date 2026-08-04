@@ -23,19 +23,21 @@ import { CATEGORIES } from "@/lib/yesod";
 export const Route = createFileRoute("/comunidade")({
   head: () => ({
     meta: [
-      { title: "Feed da Comunidade YESOD — novidades e dicas de pré-impressão" },
+      { title: "Comunidade YESOD — feed de automação e IA" },
       {
         name: "description",
         content:
-          "Publicações da equipe YESOD: novidades, dicas de pré-impressão, projetos e ofertas. Curta e comente com sua conta de membro.",
+          "Publicações da equipe YESOD: novidades, automação, projetos e ofertas. Curta e comente com sua conta de membro.",
       },
-      { property: "og:title", content: "Feed da Comunidade YESOD" },
+      { property: "og:title", content: "Comunidade YESOD" },
       {
         property: "og:description",
-        content: "Novidades, dicas de pré-impressão, projetos e ofertas da YESOD Automation.",
+        content: "Novidades, automação, projetos e ofertas da YESOD.",
       },
     ],
+    links: [{ rel: "canonical", href: "/comunidade" }],
   }),
+
   component: FeedPage,
 });
 
