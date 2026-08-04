@@ -19,74 +19,66 @@ export const Route = createFileRoute("/projetos")({
           "Vitrine de projetos da YESOD: automação gráfica, comercial, de dados e IA aplicada, com o que cada projeto automatiza e o resultado alcançado.",
       },
       { property: "og:title", content: "Projetos da YESOD" },
-      {
-        property: "og:description",
-        content: "Automações reais em operação, por categoria e resultado.",
-      },
+      { property: "og:description", content: "Automações reais em operação, por categoria e resultado." },
     ],
     links: [{ rel: "canonical", href: "/projetos" }],
   }),
   component: Projetos,
 });
 
-function ProjectCard({ project }: { project: ProjectRow }) {
+function ProjectCard({ project, index }: { project: ProjectRow; index: number }) {
   const { t, tm } = useI18n();
   const cover = useMediaUrl(PROJECT_BUCKET, project.image_url);
   const title = tm(project.title);
   const label = tm(project.interaction_label);
+  const buttonLabel = label || (
+    project.interaction_type === "external_demo"
+      ? t("projects.openDemo")
+      : project.interaction_type === "whatsapp"
+        ? t("projects.talk")
+        : t("projects.view")
+  );
 
-  const action = (() => {
-    if (project.interaction_type === "external_demo" && project.interaction_url) {
-      return (
-        <Button asChild variant="outline" size="sm" className="mt-5 w-full">
-          <a href={project.interaction_url} target="_blank" rel="noreferrer noopener">
-            {label || t("projects.openDemo")}
-            <ArrowUpRight className="ml-1.5 h-3.5 w-3.5" aria-hidden="true" />
-          </a>
-        </Button>
-      );
-    }
-    if (project.interaction_type === "whatsapp") {
-      return (
-        <Button asChild variant="outline" size="sm" className="mt-5 w-full">
-          <a
-            href={whatsappUrl(t("wa.project", { name: title }))}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {label || t("projects.talk")}
-          </a>
-        </Button>
-      );
-    }
-    return (
-      <Button asChild variant="outline" size="sm" className="mt-5 w-full">
-        <Link to="/projetos/$slug" params={{ slug: project.slug }}>
-          {label || t("projects.view")}
-        </Link>
-      </Button>
-    );
-  })();
+  const action = project.interaction_type === "external_demo" && project.interaction_url ? (
+    <Button asChild variant="outline" size="sm" className="mt-6 w-full sm:w-fit">
+      <a href={project.interaction_url} target="_blank" rel="noreferrer noopener">
+        {buttonLabel}<ArrowUpRight className="ml-1.5 h-3.5 w-3.5" aria-hidden="true" />
+      </a>
+    </Button>
+  ) : project.interaction_type === "whatsapp" ? (
+    <Button asChild variant="outline" size="sm" className="mt-6 w-full sm:w-fit">
+      <a href={whatsappUrl(t("wa.project", { name: title }))} target="_blank" rel="noreferrer">
+        {buttonLabel}
+      </a>
+    </Button>
+  ) : (
+    <Button asChild variant="outline" size="sm" className="mt-6 w-full sm:w-fit">
+      <Link to="/projetos/$slug" params={{ slug: project.slug }}>{buttonLabel}</Link>
+    </Button>
+  );
 
   return (
-    <article className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
-      <div className="aspect-[16/9] w-full bg-placeholder-gradient">
+    <article className="grid overflow-hidden rounded-2xl border border-border bg-card md:grid-cols-[minmax(220px,0.8fr)_1.2fr]">
+      <div className="min-h-56 bg-placeholder-gradient md:min-h-full">
         {cover ? (
           <img src={cover} alt={title} className="h-full w-full object-cover" loading="lazy" />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-white/70">
-            <ImageIcon className="h-8 w-8" aria-hidden="true" />
+          <div className="flex h-full min-h-56 items-center justify-center text-white/70">
+            <ImageIcon className="h-8 w-8" strokeWidth={1.5} aria-hidden="true" />
           </div>
         )}
       </div>
-      <div className="flex flex-1 flex-col p-5">
-        <span className="inline-flex w-fit rounded-full bg-accent px-2.5 py-0.5 text-xs font-semibold text-accent-foreground">
-          {tm(project.category)}
-        </span>
-        <h2 className="mt-3 text-base font-semibold leading-snug">{title}</h2>
-        <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-muted-foreground">
-          {tm(project.summary)}
-        </p>
+      <div className="flex flex-col p-6 sm:p-8">
+        <div className="flex items-start justify-between gap-4">
+          <span className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+            {tm(project.category)}
+          </span>
+          <span className="text-xs font-semibold tracking-[0.16em] text-muted-foreground">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+        </div>
+        <h2 className="mt-7 text-xl leading-snug sm:text-2xl">{title}</h2>
+        <p className="mt-4 flex-1 text-sm leading-7 text-muted-foreground">{tm(project.summary)}</p>
         {action}
       </div>
     </article>
@@ -111,34 +103,31 @@ function Projetos() {
   });
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-20">
+    <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
       <header className="max-w-2xl">
-        <h1 className="text-3xl sm:text-4xl">{t("projects.title")}</h1>
-        <p className="mt-4 leading-relaxed text-muted-foreground">{t("projects.subtitle")}</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">YESOD</p>
+        <h1 className="mt-4 text-3xl sm:text-4xl">{t("projects.title")}</h1>
+        <p className="mt-4 leading-7 text-muted-foreground">{t("projects.subtitle")}</p>
       </header>
 
-      {projectsQuery.isLoading && (
-        <p className="mt-14 text-muted-foreground">{t("projects.loading")}</p>
-      )}
-      {projectsQuery.isError && (
-        <p className="mt-14 text-destructive">{t("common.error")}</p>
-      )}
+      {projectsQuery.isLoading && <p className="mt-12 text-sm text-muted-foreground">{t("projects.loading")}</p>}
+      {projectsQuery.isError && <p className="mt-12 text-sm text-destructive">{t("common.error")}</p>}
       {projectsQuery.data?.length === 0 && (
-        <p className="mt-14 rounded-2xl border border-dashed border-border p-10 text-center text-muted-foreground">
+        <p className="mt-12 rounded-2xl border border-dashed border-border bg-card p-10 text-center text-sm text-muted-foreground">
           {t("projects.empty")}
         </p>
       )}
 
       {projectsQuery.data && projectsQuery.data.length > 0 && (
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {projectsQuery.data.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+        <div className="mt-12 space-y-5">
+          {projectsQuery.data.map((project, index) => (
+            <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>
       )}
 
-      <div className="mt-14 text-center">
-        <Button asChild size="lg">
+      <div className="mt-12 border-t border-border pt-8">
+        <Button asChild>
           <a href={whatsappUrl(t("wa.generic"))} target="_blank" rel="noreferrer">
             {t("common.talkToYesod")}
           </a>
