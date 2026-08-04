@@ -18,26 +18,23 @@ import {
 } from "@/components/ui/select";
 import { useAuth, useIsAdmin } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
+import { LOCALES, useI18n, useLocalizedMeta, type TranslationKey } from "@/lib/i18n";
 import { CATEGORIES } from "@/lib/yesod";
 
 export const Route = createFileRoute("/hub")({
   head: () => ({
     meta: [
-      { title: "Comunidade YESOD — feed de automação e IA" },
+      { title: "Yesod HUB — feed de automação e IA" },
       {
         name: "description",
         content:
           "Publicações da equipe YESOD: novidades, automação, projetos e ofertas. Curta e comente com sua conta de membro.",
       },
-      { property: "og:title", content: "Comunidade YESOD" },
-      {
-        property: "og:description",
-        content: "Novidades, automação, projetos e ofertas da YESOD.",
-      },
+      { property: "og:title", content: "Yesod HUB" },
+      { property: "og:description", content: "Novidades, automação, projetos e ofertas da YESOD." },
     ],
     links: [{ rel: "canonical", href: "/hub" }],
   }),
-
   component: FeedPage,
 });
 
@@ -51,18 +48,16 @@ type Post = {
   created_at: string;
 };
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
+function categoryKey(category: string): TranslationKey {
+  return `hub.cat.${category}` as TranslationKey;
 }
 
 function FeedPage() {
   const { user, loading } = useAuth();
   const isAdmin = useIsAdmin(user);
+  const { t, lang } = useI18n();
   const [category, setCategory] = useState<string>("Todas");
+  useLocalizedMeta("meta.hub.title", "meta.hub.desc");
 
   const postsQuery = useQuery({
     queryKey: ["posts", category],
@@ -79,57 +74,51 @@ function FeedPage() {
   });
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
-      <header>
-        <h1 className="text-3xl sm:text-4xl">Comunidade</h1>
-        <p className="mt-3 text-muted-foreground">
-          Novidades, automação, projetos e ofertas publicados pela equipe YESOD.
-        </p>
+    <div className="mx-auto max-w-4xl px-5 py-14 sm:px-6 sm:py-20">
+      <header className="max-w-2xl">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">YESOD</p>
+        <h1 className="mt-4 text-3xl sm:text-4xl">{t("hub.title")}</h1>
+        <p className="mt-4 leading-7 text-muted-foreground">{t("hub.subtitle")}</p>
       </header>
-
 
       {isAdmin && <AdminComposer />}
 
-      <div className="mt-8 flex flex-wrap gap-2">
-        {["Todas", ...CATEGORIES].map((c) => (
+      <div className="mt-9 flex flex-wrap gap-2 border-b border-border pb-5">
+        {["Todas", ...CATEGORIES].map((item) => (
           <button
-            key={c}
+            key={item}
             type="button"
-            onClick={() => setCategory(c)}
-            className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
-              category === c
-                ? "border-primary bg-primary text-primary-foreground"
-                : "border-border bg-background text-muted-foreground hover:bg-muted"
+            onClick={() => setCategory(item)}
+            className={`rounded-full px-3.5 py-1.5 text-sm font-medium ${
+              category === item
+                ? "bg-navy text-white"
+                : "border border-border bg-card text-muted-foreground hover:bg-muted hover:text-foreground"
             }`}
           >
-            {c}
+            {item === "Todas" ? t("hub.all") : t(categoryKey(item))}
           </button>
         ))}
       </div>
 
       {!user && !loading && (
-        <div className="mt-6 rounded-xl border border-border bg-surface p-4 text-sm">
-          <span className="text-muted-foreground">
-            Entre na sua conta para curtir e comentar as publicações.{" "}
-          </span>
+        <div className="mt-6 rounded-xl border border-border bg-card px-4 py-3 text-sm">
+          <span className="text-muted-foreground">{t("hub.signInBanner")} </span>
           <Link to="/auth" className="font-semibold text-primary hover:underline">
-            Entrar ou criar conta
+            {t("hub.signInLink")}
           </Link>
         </div>
       )}
 
-      <div className="mt-8 space-y-6">
-        {postsQuery.isLoading && <p className="text-muted-foreground">Carregando publicações…</p>}
-        {postsQuery.isError && (
-          <p className="text-destructive">Não foi possível carregar as publicações.</p>
-        )}
+      <div className="mt-7 space-y-5">
+        {postsQuery.isLoading && <p className="text-sm text-muted-foreground">{t("hub.loadingPosts")}</p>}
+        {postsQuery.isError && <p className="text-sm text-destructive">{t("hub.loadError")}</p>}
         {postsQuery.data?.length === 0 && (
-          <p className="rounded-xl border border-dashed border-border p-8 text-center text-muted-foreground">
-            Ainda não há publicações nesta categoria.
+          <p className="rounded-xl border border-dashed border-border bg-card p-10 text-center text-sm text-muted-foreground">
+            {t("hub.empty")}
           </p>
         )}
         {postsQuery.data?.map((post) => (
-          <PostCard key={post.id} post={post} userId={user?.id ?? null} />
+          <PostCard key={post.id} post={post} userId={user?.id ?? null} locale={LOCALES[lang]} />
         ))}
       </div>
     </div>
@@ -138,6 +127,7 @@ function FeedPage() {
 
 function AdminComposer() {
   const queryClient = useQueryClient();
+  const { t } = useI18n();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [category, setCategory] = useState<string>(CATEGORIES[0]);
@@ -146,7 +136,7 @@ function AdminComposer() {
   const mutation = useMutation({
     mutationFn: async () => {
       const { data: auth } = await supabase.auth.getUser();
-      if (!auth.user) throw new Error("Sessão expirada.");
+      if (!auth.user) throw new Error(t("auth.failed"));
       const { data: profile } = await supabase
         .from("profiles")
         .select("full_name")
@@ -154,7 +144,7 @@ function AdminComposer() {
         .maybeSingle();
       const { error } = await supabase.from("posts").insert({
         author_id: auth.user.id,
-        author_name: profile?.full_name || "Equipe YESOD",
+        author_name: profile?.full_name || "YESOD",
         title,
         content,
         category,
@@ -163,7 +153,7 @@ function AdminComposer() {
       if (error) throw error;
     },
     onSuccess: () => {
-      toast.success("Publicação criada!");
+      toast.success(t("hub.published"));
       setTitle("");
       setContent("");
       setImageUrl("");
@@ -173,61 +163,47 @@ function AdminComposer() {
   });
 
   return (
-    <Card className="mt-8 border-primary/30">
-      <CardHeader>
-        <h2 className="font-display text-lg font-semibold">Publicar (administrador)</h2>
+    <Card className="mt-9 border-border shadow-none">
+      <CardHeader className="border-b border-border">
+        <h2 className="font-display text-base font-semibold">{t("hub.composerTitle")}</h2>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="post-title">Título</Label>
+      <CardContent className="grid gap-4 pt-6 sm:grid-cols-2">
+        <div className="space-y-2 sm:col-span-2">
+          <Label htmlFor="post-title">{t("hub.postTitle")}</Label>
           <Input id="post-title" value={title} onChange={(e) => setTitle(e.target.value)} />
         </div>
         <div className="space-y-2">
-          <Label>Categoria</Label>
+          <Label>{t("hub.postCategory")}</Label>
           <Select value={category} onValueChange={setCategory}>
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
+            <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>
-              {CATEGORIES.map((c) => (
-                <SelectItem key={c} value={c}>
-                  {c}
-                </SelectItem>
+              {CATEGORIES.map((item) => (
+                <SelectItem key={item} value={item}>{t(categoryKey(item))}</SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="post-content">Conteúdo</Label>
-          <Textarea
-            id="post-content"
-            rows={5}
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
+          <Label htmlFor="post-image">{t("hub.postImage")}</Label>
+          <Input id="post-image" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="https://…" />
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="post-image">URL da imagem (opcional)</Label>
-          <Input
-            id="post-image"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
-            placeholder="https://…"
-          />
+        <div className="space-y-2 sm:col-span-2">
+          <Label htmlFor="post-content">{t("hub.postContent")}</Label>
+          <Textarea id="post-content" rows={5} value={content} onChange={(e) => setContent(e.target.value)} />
         </div>
-        <Button
-          onClick={() => mutation.mutate()}
-          disabled={mutation.isPending || !title.trim() || !content.trim()}
-        >
-          {mutation.isPending ? "Publicando…" : "Publicar"}
-        </Button>
+        <div className="sm:col-span-2">
+          <Button onClick={() => mutation.mutate()} disabled={mutation.isPending || !title.trim() || !content.trim()}>
+            {mutation.isPending ? t("hub.publishing") : t("hub.publish")}
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
 }
 
-function PostCard({ post, userId }: { post: Post; userId: string | null }) {
+function PostCard({ post, userId, locale }: { post: Post; userId: string | null; locale: string }) {
   const queryClient = useQueryClient();
+  const { t } = useI18n();
   const [showComments, setShowComments] = useState(false);
   const [comment, setComment] = useState("");
 
@@ -253,22 +229,16 @@ function PostCard({ post, userId }: { post: Post; userId: string | null }) {
     },
   });
 
-  const liked = Boolean(userId && likesQuery.data?.some((l) => l.user_id === userId));
+  const liked = Boolean(userId && likesQuery.data?.some((item) => item.user_id === userId));
 
   const toggleLike = useMutation({
     mutationFn: async () => {
-      if (!userId) throw new Error("Entre na sua conta para curtir.");
+      if (!userId) throw new Error(t("hub.needAuthLike"));
       if (liked) {
-        const { error } = await supabase
-          .from("post_likes")
-          .delete()
-          .eq("post_id", post.id)
-          .eq("user_id", userId);
+        const { error } = await supabase.from("post_likes").delete().eq("post_id", post.id).eq("user_id", userId);
         if (error) throw error;
       } else {
-        const { error } = await supabase
-          .from("post_likes")
-          .insert({ post_id: post.id, user_id: userId });
+        const { error } = await supabase.from("post_likes").insert({ post_id: post.id, user_id: userId });
         if (error) throw error;
       }
     },
@@ -278,16 +248,12 @@ function PostCard({ post, userId }: { post: Post; userId: string | null }) {
 
   const addComment = useMutation({
     mutationFn: async () => {
-      if (!userId) throw new Error("Entre na sua conta para comentar.");
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("full_name")
-        .eq("id", userId)
-        .maybeSingle();
+      if (!userId) throw new Error(t("hub.needAuthComment"));
+      const { data: profile } = await supabase.from("profiles").select("full_name").eq("id", userId).maybeSingle();
       const { error } = await supabase.from("post_comments").insert({
         post_id: post.id,
         user_id: userId,
-        author_name: profile?.full_name || "Membro",
+        author_name: profile?.full_name || "YESOD",
         content: comment,
       });
       if (error) throw error;
@@ -299,78 +265,68 @@ function PostCard({ post, userId }: { post: Post; userId: string | null }) {
     onError: (error: Error) => toast.error(error.message),
   });
 
-  return (
-    <article className="overflow-hidden rounded-2xl border border-border bg-card shadow-soft">
-      {post.image_url && (
-        <img src={post.image_url} alt={post.title} className="h-56 w-full object-cover" />
-      )}
-      <div className="p-5 sm:p-6">
-        <span className="inline-flex rounded-full bg-accent px-3 py-1 text-xs font-semibold text-accent-foreground">
-          {post.category}
-        </span>
-        <h2 className="mt-3 text-xl font-semibold">{post.title}</h2>
-        <p className="mt-1 text-sm text-muted-foreground">
-          {post.author_name} · {formatDate(post.created_at)}
-        </p>
-        <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-foreground/90">
-          {post.content}
-        </p>
+  const date = new Date(post.created_at).toLocaleDateString(locale, {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
 
-        <div className="mt-5 flex items-center gap-4 border-t border-border pt-4">
+  return (
+    <article className="overflow-hidden rounded-xl border border-border bg-card">
+      {post.image_url && <img src={post.image_url} alt={post.title} className="max-h-[28rem] w-full object-cover" />}
+      <div className="p-5 sm:p-7">
+        <span className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+          {t(categoryKey(post.category))}
+        </span>
+        <h2 className="mt-3 text-xl leading-snug">{post.title}</h2>
+        <p className="mt-2 text-xs text-muted-foreground">{post.author_name} · {date}</p>
+        <p className="mt-5 whitespace-pre-line text-sm leading-7 text-foreground/85">{post.content}</p>
+
+        <div className="mt-6 flex items-center gap-5 border-t border-border pt-4">
           <button
             type="button"
             onClick={() => toggleLike.mutate()}
             disabled={!userId || toggleLike.isPending}
-            className={`flex items-center gap-2 text-sm font-medium transition-colors ${
-              liked ? "text-primary" : "text-muted-foreground hover:text-foreground"
-            } disabled:opacity-60`}
+            className={`flex items-center gap-2 text-sm font-medium ${liked ? "text-primary" : "text-muted-foreground hover:text-foreground"} disabled:opacity-50`}
           >
-            <Heart className={`h-4 w-4 ${liked ? "fill-current" : ""}`} />
+            <Heart className={`h-4 w-4 ${liked ? "fill-current" : ""}`} aria-hidden="true" />
             {likesQuery.data?.length ?? 0}
           </button>
           <button
             type="button"
-            onClick={() => setShowComments((v) => !v)}
+            onClick={() => setShowComments((value) => !value)}
             className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground"
           >
-            <MessageSquare className="h-4 w-4" />
+            <MessageSquare className="h-4 w-4" aria-hidden="true" />
             {commentsQuery.data?.length ?? 0}
           </button>
         </div>
 
         {showComments && (
-          <div className="mt-4 space-y-4">
-            {commentsQuery.data?.map((c) => (
-              <div key={c.id} className="rounded-lg bg-surface p-3">
-                <p className="text-xs font-semibold">{c.author_name}</p>
-                <p className="mt-1 text-sm text-foreground/90">{c.content}</p>
+          <div className="mt-5 space-y-3 border-t border-border pt-5">
+            {commentsQuery.data?.map((item) => (
+              <div key={item.id} className="rounded-lg bg-muted/70 p-3.5">
+                <p className="text-xs font-semibold">{item.author_name}</p>
+                <p className="mt-1 text-sm leading-6 text-foreground/85">{item.content}</p>
               </div>
             ))}
-            {commentsQuery.data?.length === 0 && (
-              <p className="text-sm text-muted-foreground">Nenhum comentário ainda.</p>
-            )}
+            {commentsQuery.data?.length === 0 && <p className="text-sm text-muted-foreground">{t("hub.noComments")}</p>}
             {userId ? (
-              <div className="flex gap-2">
-                <Input
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  placeholder="Escreva um comentário…"
-                />
+              <div className="flex gap-2 pt-1">
+                <Input value={comment} onChange={(e) => setComment(e.target.value)} placeholder={t("hub.commentPlaceholder")} />
                 <Button
                   size="icon"
                   onClick={() => addComment.mutate()}
                   disabled={!comment.trim() || addComment.isPending}
-                  aria-label="Enviar comentário"
+                  aria-label={t("hub.sendComment")}
                 >
-                  <Send className="h-4 w-4" />
+                  <Send className="h-4 w-4" aria-hidden="true" />
                 </Button>
               </div>
             ) : (
               <p className="text-sm text-muted-foreground">
-                <Link to="/auth" className="font-semibold text-primary hover:underline">
-                  Entre
-                </Link>{" "}
-                para comentar.
+                <Link to="/auth" className="font-semibold text-primary hover:underline">{t("hub.signIn")}</Link>{" "}
+                {t("hub.signInToComment")}
               </p>
             )}
           </div>
