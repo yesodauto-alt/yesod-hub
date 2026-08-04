@@ -140,16 +140,18 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Sidebar />
-      <div className="flex min-h-screen flex-col lg:pl-64">
-        <main className="flex-1">
-          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-          <Outlet />
-        </main>
-        <Footer />
-      </div>
-      <WhatsAppFloatingButton />
-      <Toaster />
+      <I18nProvider>
+        <Sidebar />
+        <div className="flex min-h-screen flex-col lg:pl-64">
+          <main className="flex-1">
+            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+            <Outlet />
+          </main>
+          <Footer />
+        </div>
+        <WhatsAppFloatingButton />
+        <Toaster />
+      </I18nProvider>
     </QueryClientProvider>
   );
 
