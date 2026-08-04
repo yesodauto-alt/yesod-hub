@@ -1,4 +1,8 @@
+import type { TranslationKey } from "@/lib/i18n";
+
 export const WHATSAPP_NUMBER = "5511934136614";
+export const WHATSAPP_DISPLAY = "+55 11 93413-6614";
+export const CONTACT_EMAIL = "yesod.auto@gmail.com";
 
 export function whatsappUrl(message: string) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
@@ -10,110 +14,68 @@ export const CATEGORIES = ["Novidades", "Automação", "Projetos", "Ofertas"] as
 
 export type Category = (typeof CATEGORIES)[number];
 
+export function categoryKey(category: string): TranslationKey {
+  const known = (CATEGORIES as readonly string[]).includes(category);
+  return (known ? `hub.cat.${category}` : "hub.cat.Novidades") as TranslationKey;
+}
+
 /**
- * Produtos configuráveis.
- * Edite livremente: adicione, remova ou altere qualquer campo abaixo.
- * Mantenha `price` como "Preço a definir" enquanto os valores não estiverem fechados.
+ * Soluções configuráveis da YESOD.
+ * Edite livremente: os textos vêm dos dicionários em src/lib/i18n.tsx.
+ * Nenhuma informação de preço ou disponibilidade é exibida publicamente.
  */
 export type Product = {
-  name: string;
-  description: string;
-  features: string[];
-  price: string;
-  availability: string;
+  id: string;
+  nameKey: TranslationKey;
+  descriptionKey: TranslationKey;
+  featureKeys: TranslationKey[];
   featured?: boolean;
 };
 
 export const PRODUCTS: Product[] = [
   {
-    name: "Diagnóstico de Automação",
-    description:
-      "Mapeamento dos processos manuais da sua operação e um plano claro do que pode ser automatizado primeiro.",
-    features: [
-      "Mapeamento de processos",
-      "Priorização por impacto",
-      "Relatório com plano de ação",
-      "Reunião de devolutiva",
+    id: "diagnostic",
+    nameKey: "product.diagnostic.name",
+    descriptionKey: "product.diagnostic.desc",
+    featureKeys: [
+      "product.diagnostic.f1",
+      "product.diagnostic.f2",
+      "product.diagnostic.f3",
+      "product.diagnostic.f4",
     ],
-    price: "Preço a definir",
-    availability: "Disponível",
   },
   {
-    name: "Automação Sob Medida",
-    description:
-      "Construção de fluxos automatizados para as rotinas repetitivas do seu time, com IA onde faz sentido.",
-    features: [
-      "Escopo desenhado com você",
-      "Automação de rotinas repetitivas",
-      "IA aplicada a decisões e leitura de dados",
-      "Acompanhamento durante a implantação",
+    id: "custom",
+    nameKey: "product.custom.name",
+    descriptionKey: "product.custom.desc",
+    featureKeys: [
+      "product.custom.f1",
+      "product.custom.f2",
+      "product.custom.f3",
+      "product.custom.f4",
     ],
-    price: "Preço a definir",
-    availability: "Disponível",
     featured: true,
   },
   {
-    name: "Integrações e APIs",
-    description:
-      "Conexão entre os sistemas que você já usa, para que os dados circulem sem digitação manual.",
-    features: [
-      "Integração entre sistemas internos",
-      "Conexão com APIs de terceiros",
-      "Sincronização de dados",
-      "Monitoramento de falhas",
+    id: "integrations",
+    nameKey: "product.integrations.name",
+    descriptionKey: "product.integrations.desc",
+    featureKeys: [
+      "product.integrations.f1",
+      "product.integrations.f2",
+      "product.integrations.f3",
+      "product.integrations.f4",
     ],
-    price: "Preço a definir",
-    availability: "Disponível",
   },
   {
-    name: "Operação em Escala",
-    description:
-      "Acompanhamento contínuo da sua operação automatizada, com evolução e suporte da equipe YESOD.",
-    features: [
-      "Suporte contínuo",
-      "Ajustes e melhorias periódicas",
-      "Painel de acompanhamento",
-      "Conteúdo exclusivo da comunidade",
+    id: "scale",
+    nameKey: "product.scale.name",
+    descriptionKey: "product.scale.desc",
+    featureKeys: [
+      "product.scale.f1",
+      "product.scale.f2",
+      "product.scale.f3",
+      "product.scale.f4",
     ],
-    price: "Preço a definir",
-    availability: "Sob consulta",
-  },
-];
-
-export type Project = {
-  name: string;
-  category: string;
-  automates: string;
-  result: string;
-};
-
-export const PROJECTS: Project[] = [
-  {
-    name: "Automação de pré-impressão",
-    category: "Automação Gráfica",
-    automates:
-      "Conferência e preparação de arquivos gráficos: sangria, cores, fontes e imposição verificadas automaticamente.",
-    result: "Redução expressiva de retrabalho e liberação da equipe técnica para tarefas de decisão.",
-  },
-  {
-    name: "Qualificação automática de leads",
-    category: "Automação Comercial",
-    automates:
-      "Triagem, enriquecimento e distribuição de contatos recebidos por diferentes canais.",
-    result: "Resposta muito mais rápida ao cliente e um funil organizado sem trabalho manual.",
-  },
-  {
-    name: "Leitura inteligente de documentos",
-    category: "IA Aplicada",
-    automates:
-      "Extração de dados de notas, contratos e planilhas com modelos de IA, com validação assistida.",
-    result: "Digitação praticamente eliminada e histórico consultável de tudo que foi processado.",
-  },
-  {
-    name: "Relatórios operacionais automáticos",
-    category: "Automação de Dados",
-    automates:
-      "Coleta de indicadores em múltiplas fontes e montagem periódica dos relatórios da operação.",
-    result: "Informação pronta no início do dia, sem consolidação manual de planilhas.",
   },
 ];
