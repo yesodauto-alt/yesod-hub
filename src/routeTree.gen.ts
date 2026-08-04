@@ -18,6 +18,7 @@ import { Route as ProdutosRouteImport } from './routes/produtos'
 import { Route as ProjetosRouteImport } from './routes/projetos'
 import { Route as ServicosRouteImport } from './routes/servicos'
 import { Route as AuthenticatedMeuEspacoRouteImport } from './routes/_authenticated/meu-espaco'
+import { Route as ProjetosSlugRouteImport } from './routes/projetos.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -63,6 +64,11 @@ const AuthenticatedMeuEspacoRoute = AuthenticatedMeuEspacoRouteImport.update({
   path: '/meu-espaco',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ProjetosSlugRoute = ProjetosSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ProjetosRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -70,9 +76,10 @@ export interface FileRoutesByFullPath {
   '/comunidade': typeof ComunidadeRoute
   '/contato': typeof ContatoRoute
   '/produtos': typeof ProdutosRoute
-  '/projetos': typeof ProjetosRoute
+  '/projetos': typeof ProjetosRouteWithChildren
   '/servicos': typeof ServicosRoute
   '/meu-espaco': typeof AuthenticatedMeuEspacoRoute
+  '/projetos/$slug': typeof ProjetosSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -80,9 +87,10 @@ export interface FileRoutesByTo {
   '/comunidade': typeof ComunidadeRoute
   '/contato': typeof ContatoRoute
   '/produtos': typeof ProdutosRoute
-  '/projetos': typeof ProjetosRoute
+  '/projetos': typeof ProjetosRouteWithChildren
   '/servicos': typeof ServicosRoute
   '/meu-espaco': typeof AuthenticatedMeuEspacoRoute
+  '/projetos/$slug': typeof ProjetosSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -92,9 +100,10 @@ export interface FileRoutesById {
   '/comunidade': typeof ComunidadeRoute
   '/contato': typeof ContatoRoute
   '/produtos': typeof ProdutosRoute
-  '/projetos': typeof ProjetosRoute
+  '/projetos': typeof ProjetosRouteWithChildren
   '/servicos': typeof ServicosRoute
   '/_authenticated/meu-espaco': typeof AuthenticatedMeuEspacoRoute
+  '/projetos/$slug': typeof ProjetosSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -107,6 +116,7 @@ export interface FileRouteTypes {
     | '/projetos'
     | '/servicos'
     | '/meu-espaco'
+    | '/projetos/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -117,6 +127,7 @@ export interface FileRouteTypes {
     | '/projetos'
     | '/servicos'
     | '/meu-espaco'
+    | '/projetos/$slug'
   id:
     | '__root__'
     | '/'
@@ -128,6 +139,7 @@ export interface FileRouteTypes {
     | '/projetos'
     | '/servicos'
     | '/_authenticated/meu-espaco'
+    | '/projetos/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -137,7 +149,7 @@ export interface RootRouteChildren {
   ComunidadeRoute: typeof ComunidadeRoute
   ContatoRoute: typeof ContatoRoute
   ProdutosRoute: typeof ProdutosRoute
-  ProjetosRoute: typeof ProjetosRoute
+  ProjetosRoute: typeof ProjetosRouteWithChildren
   ServicosRoute: typeof ServicosRoute
 }
 
@@ -206,6 +218,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMeuEspacoRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/projetos/$slug': {
+      id: '/projetos/$slug'
+      path: '/$slug'
+      fullPath: '/projetos/$slug'
+      preLoaderRoute: typeof ProjetosSlugRouteImport
+      parentRoute: typeof ProjetosRoute
+    }
   }
 }
 
@@ -220,6 +239,18 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface ProjetosRouteChildren {
+  ProjetosSlugRoute: typeof ProjetosSlugRoute
+}
+
+const ProjetosRouteChildren: ProjetosRouteChildren = {
+  ProjetosSlugRoute: ProjetosSlugRoute,
+}
+
+const ProjetosRouteWithChildren = ProjetosRoute._addFileChildren(
+  ProjetosRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -227,7 +258,7 @@ const rootRouteChildren: RootRouteChildren = {
   ComunidadeRoute: ComunidadeRoute,
   ContatoRoute: ContatoRoute,
   ProdutosRoute: ProdutosRoute,
-  ProjetosRoute: ProjetosRoute,
+  ProjetosRoute: ProjetosRouteWithChildren,
   ServicosRoute: ServicosRoute,
 }
 export const routeTree = rootRouteImport
