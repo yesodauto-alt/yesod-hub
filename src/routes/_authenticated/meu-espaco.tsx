@@ -32,20 +32,21 @@ export const Route = createFileRoute("/_authenticated/meu-espaco")({
 const exclusives = [
   {
     icon: BookOpen,
-    title: "Guia de preflight YESOD",
-    description: "Checklist completo de verificação de arquivos antes da produção.",
+    title: "Guia de automação YESOD",
+    description: "Como identificar processos repetitivos e priorizar o que automatizar primeiro.",
   },
   {
     icon: Wrench,
-    title: "Presets de correção",
-    description: "Configurações recomendadas por tipo de material e acabamento.",
+    title: "Receitas de integração",
+    description: "Padrões prontos para conectar sistemas e APIs sem digitação manual.",
   },
   {
     icon: GraduationCap,
-    title: "Trilha de pré-impressão",
-    description: "Materiais de estudo para padronizar a rotina do seu setor.",
+    title: "Trilha de IA aplicada",
+    description: "Materiais de estudo para usar inteligência artificial na rotina da operação.",
   },
 ];
+
 
 function MeuEspaco() {
   const navigate = useNavigate();

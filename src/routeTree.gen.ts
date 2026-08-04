@@ -12,9 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ComunidadeRouteImport } from './routes/comunidade'
 import { Route as ContatoRouteImport } from './routes/contato'
-import { Route as FeedRouteImport } from './routes/feed'
-import { Route as PlanosRouteImport } from './routes/planos'
+import { Route as ProdutosRouteImport } from './routes/produtos'
 import { Route as ProjetosRouteImport } from './routes/projetos'
 import { Route as ServicosRouteImport } from './routes/servicos'
 import { Route as AuthenticatedMeuEspacoRouteImport } from './routes/_authenticated/meu-espaco'
@@ -33,19 +33,19 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComunidadeRoute = ComunidadeRouteImport.update({
+  id: '/comunidade',
+  path: '/comunidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContatoRoute = ContatoRouteImport.update({
   id: '/contato',
   path: '/contato',
   getParentRoute: () => rootRouteImport,
 } as any)
-const FeedRoute = FeedRouteImport.update({
-  id: '/feed',
-  path: '/feed',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PlanosRoute = PlanosRouteImport.update({
-  id: '/planos',
-  path: '/planos',
+const ProdutosRoute = ProdutosRouteImport.update({
+  id: '/produtos',
+  path: '/produtos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjetosRoute = ProjetosRouteImport.update({
@@ -67,9 +67,9 @@ const AuthenticatedMeuEspacoRoute = AuthenticatedMeuEspacoRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/comunidade': typeof ComunidadeRoute
   '/contato': typeof ContatoRoute
-  '/feed': typeof FeedRoute
-  '/planos': typeof PlanosRoute
+  '/produtos': typeof ProdutosRoute
   '/projetos': typeof ProjetosRoute
   '/servicos': typeof ServicosRoute
   '/meu-espaco': typeof AuthenticatedMeuEspacoRoute
@@ -77,9 +77,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/comunidade': typeof ComunidadeRoute
   '/contato': typeof ContatoRoute
-  '/feed': typeof FeedRoute
-  '/planos': typeof PlanosRoute
+  '/produtos': typeof ProdutosRoute
   '/projetos': typeof ProjetosRoute
   '/servicos': typeof ServicosRoute
   '/meu-espaco': typeof AuthenticatedMeuEspacoRoute
@@ -89,9 +89,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/comunidade': typeof ComunidadeRoute
   '/contato': typeof ContatoRoute
-  '/feed': typeof FeedRoute
-  '/planos': typeof PlanosRoute
+  '/produtos': typeof ProdutosRoute
   '/projetos': typeof ProjetosRoute
   '/servicos': typeof ServicosRoute
   '/_authenticated/meu-espaco': typeof AuthenticatedMeuEspacoRoute
@@ -101,9 +101,9 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/comunidade'
     | '/contato'
-    | '/feed'
-    | '/planos'
+    | '/produtos'
     | '/projetos'
     | '/servicos'
     | '/meu-espaco'
@@ -111,9 +111,9 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/comunidade'
     | '/contato'
-    | '/feed'
-    | '/planos'
+    | '/produtos'
     | '/projetos'
     | '/servicos'
     | '/meu-espaco'
@@ -122,9 +122,9 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/comunidade'
     | '/contato'
-    | '/feed'
-    | '/planos'
+    | '/produtos'
     | '/projetos'
     | '/servicos'
     | '/_authenticated/meu-espaco'
@@ -134,9 +134,9 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  ComunidadeRoute: typeof ComunidadeRoute
   ContatoRoute: typeof ContatoRoute
-  FeedRoute: typeof FeedRoute
-  PlanosRoute: typeof PlanosRoute
+  ProdutosRoute: typeof ProdutosRoute
   ProjetosRoute: typeof ProjetosRoute
   ServicosRoute: typeof ServicosRoute
 }
@@ -164,6 +164,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/comunidade': {
+      id: '/comunidade'
+      path: '/comunidade'
+      fullPath: '/comunidade'
+      preLoaderRoute: typeof ComunidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contato': {
       id: '/contato'
       path: '/contato'
@@ -171,18 +178,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContatoRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/feed': {
-      id: '/feed'
-      path: '/feed'
-      fullPath: '/feed'
-      preLoaderRoute: typeof FeedRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/planos': {
-      id: '/planos'
-      path: '/planos'
-      fullPath: '/planos'
-      preLoaderRoute: typeof PlanosRouteImport
+    '/produtos': {
+      id: '/produtos'
+      path: '/produtos'
+      fullPath: '/produtos'
+      preLoaderRoute: typeof ProdutosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projetos': {
@@ -224,22 +224,12 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  ComunidadeRoute: ComunidadeRoute,
   ContatoRoute: ContatoRoute,
-  FeedRoute: FeedRoute,
-  PlanosRoute: PlanosRoute,
+  ProdutosRoute: ProdutosRoute,
   ProjetosRoute: ProjetosRoute,
   ServicosRoute: ServicosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
