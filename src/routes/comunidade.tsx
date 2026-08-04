@@ -81,11 +81,12 @@ function FeedPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
       <header>
-        <h1 className="text-3xl font-bold sm:text-4xl">Feed da comunidade</h1>
-        <p className="mt-2 text-muted-foreground">
-          Novidades, dicas de pré-impressão, projetos e ofertas publicadas pela equipe YESOD.
+        <h1 className="text-3xl sm:text-4xl">Comunidade</h1>
+        <p className="mt-3 text-muted-foreground">
+          Novidades, automação, projetos e ofertas publicados pela equipe YESOD.
         </p>
       </header>
+
 
       {isAdmin && <AdminComposer />}
 
