@@ -52,8 +52,8 @@ const heroCopy: Record<Lang, {
   news: string;
 }> = {
   pt: {
-    titleOne: "A inteligência artificial trabalha no repetitivo.",
-    titleTwo: "Você ganha tempo para pensar, decidir e crescer.",
+    titleOne: "Automatize o que consome seu time. Potencialize o que só o humano faz.",
+    titleTwo: "É assim que a IA vira lucro e não custo.",
     text:
       "Ela organiza informações, acelera tarefas e reduz erros no dia a dia. Conheça os projetos e soluções da YESOD e acompanhe as novidades que já estão transformando empresas.",
     projects: "Conhecer projetos",
@@ -61,8 +61,8 @@ const heroCopy: Record<Lang, {
     news: "Acompanhar novidades",
   },
   en: {
-    titleOne: "Artificial intelligence handles the repetitive work.",
-    titleTwo: "You gain time to think, decide and grow.",
+    titleOne: "Automate what drains your team. Amplify what only humans can do.",
+    titleTwo: "That is how AI becomes profit, not cost.",
     text:
       "It organizes information, speeds up tasks and reduces everyday errors. Explore YESOD projects and solutions and follow the updates already transforming businesses.",
     projects: "Explore projects",
@@ -70,8 +70,8 @@ const heroCopy: Record<Lang, {
     news: "Follow AI updates",
   },
   es: {
-    titleOne: "La inteligencia artificial se ocupa de lo repetitivo.",
-    titleTwo: "Tú ganas tiempo para pensar, decidir y crecer.",
+    titleOne: "Automatiza lo que consume a tu equipo. Potencia lo que solo el humano hace.",
+    titleTwo: "Así la IA se convierte en ganancia y no en costo.",
     text:
       "Organiza información, acelera tareas y reduce errores del día a día. Conoce los proyectos y soluciones de YESOD y sigue las novedades que ya están transformando empresas.",
     projects: "Conocer proyectos",
