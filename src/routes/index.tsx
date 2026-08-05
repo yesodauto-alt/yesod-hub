@@ -147,7 +147,7 @@ function FounderSection() {
   const bio = tm(founder?.bio);
 
   return (
-    <section className="border-y border-primary/15 bg-card py-20 sm:py-24">
+    <section className="home-reveal border-y border-primary/15 bg-card py-20 sm:py-24">
       <div className="mx-auto grid max-w-6xl gap-10 px-6 md:grid-cols-[260px_minmax(0,1fr)] md:items-center">
         <div className="overflow-hidden rounded-md border border-primary/15 bg-placeholder-gradient shadow-soft">
           <div className="aspect-[4/5] w-full">
@@ -210,10 +210,10 @@ function Home() {
             </div>
           </div>
 
-          <div className="relative">
+          <div className="hero-panel-float relative">
             <div
               aria-hidden="true"
-              className="absolute -right-5 top-8 h-[78%] w-12 bg-[#e86f22] will-change-transform"
+              className="hero-orange-rail absolute -right-5 top-8 h-[78%] w-12 bg-[#e86f22] will-change-transform"
               style={{ transform: `translate3d(0, ${parallaxOffset}px, 0)` }}
             />
             <div className="relative border border-border bg-white p-5 shadow-soft sm:p-7">
@@ -240,12 +240,12 @@ function Home() {
         </div>
       </section>
 
-      <section className="bg-background">
+      <section className="home-reveal bg-background">
         <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
           <SectionHeading title={t("home.pillarsTitle")} text={t("home.pillarsText")} />
           <div className="mt-10 grid gap-px border-y border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
             {pillars.map((pillar) => (
-              <Link key={pillar.titleKey} to={pillar.to} className="group bg-white p-6 transition-colors hover:bg-[#fff8f3]">
+              <Link key={pillar.titleKey} to={pillar.to} className="interactive-card group bg-white p-6 transition-colors hover:bg-[#fff8f3]">
                 <pillar.icon className="h-5 w-5 text-[#d75a12]" strokeWidth={1.7} aria-hidden="true" />
                 <h3 className="mt-8 text-base group-hover:text-primary">{t(pillar.titleKey)}</h3>
                 <p className="mt-3 text-sm leading-6 text-muted-foreground">{t(pillar.textKey)}</p>
@@ -257,7 +257,7 @@ function Home() {
 
       <FounderSection />
 
-      <section className="bg-background">
+      <section className="home-reveal bg-background">
         <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <SectionHeading title={t("home.productsTitle")} text={t("home.productsText")} />
@@ -267,7 +267,7 @@ function Home() {
           </div>
           <div className="mt-10 grid gap-4 sm:grid-cols-2">
             {PRODUCTS.map((product) => (
-              <article key={product.id} className="border border-border border-t-2 border-t-[#e86f22] bg-white p-6 shadow-soft">
+              <article key={product.id} className="interactive-card border border-border border-t-2 border-t-[#e86f22] bg-white p-6 shadow-soft">
                 <div className="flex items-start justify-between gap-4">
                   <h3 className="text-lg">{t(product.nameKey)}</h3>
                   {product.featured && (
@@ -283,7 +283,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="border-y border-primary/15 bg-card py-20 sm:py-24">
+      <section className="home-reveal border-y border-primary/15 bg-card py-20 sm:py-24">
         <div className="mx-auto max-w-3xl px-6">
           <SectionHeading title={t("home.faqTitle")} />
           <Accordion type="single" collapsible className="mt-8">
@@ -297,7 +297,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="bg-background">
+      <section className="home-reveal bg-background">
         <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
           <div className="relative overflow-hidden bg-navy px-7 py-12 text-white shadow-lift sm:px-12 sm:py-14">
             <div className="absolute inset-y-0 left-0 w-1 bg-[#e86f22]" />
