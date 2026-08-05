@@ -169,38 +169,20 @@
 @layer components {
   .hero-feature-panel {
     position: relative;
-    isolation: isolate;
+    outline: 1px solid rgb(234 88 12 / 58%);
+    outline-offset: 3px;
     box-shadow:
-      0 22px 48px -28px rgb(15 23 42 / 42%),
-      0 0 0 1px rgb(180 83 9 / 18%),
-      0 0 28px rgb(180 83 9 / 26%);
-  }
-
-  .hero-feature-panel::before {
-    position: absolute;
-    z-index: -1;
-    inset: -12px;
-    border-radius: 1.45rem;
-    background:
-      radial-gradient(ellipse at 16% 12%, rgb(194 65 12 / 44%), transparent 42%),
-      radial-gradient(ellipse at 86% 82%, rgb(180 83 9 / 38%), transparent 46%);
-    filter: blur(18px);
-    opacity: 0.82;
-    content: "";
+      0 22px 48px -28px rgb(15 23 42 / 46%),
+      0 0 12px rgb(234 88 12 / 14%);
   }
 
   @media (max-width: 639px) {
     .hero-feature-panel {
+      outline-color: rgb(234 88 12 / 46%);
+      outline-offset: 2px;
       box-shadow:
-        0 18px 36px -26px rgb(15 23 42 / 38%),
-        0 0 0 1px rgb(180 83 9 / 14%),
-        0 0 20px rgb(180 83 9 / 20%);
-    }
-
-    .hero-feature-panel::before {
-      inset: -8px;
-      filter: blur(13px);
-      opacity: 0.64;
+        0 18px 36px -26px rgb(15 23 42 / 42%),
+        0 0 8px rgb(234 88 12 / 10%);
     }
   }
 }
