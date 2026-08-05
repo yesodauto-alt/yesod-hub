@@ -125,6 +125,6 @@ export const DEFAULT_AI_EXPERIENCE: AiExperienceSettings = {
   enabled: false,
   headline: "Experimente a inteligência artificial da YESOD",
   description: "Converse com nossa IA e veja como uma experiência automatizada pode transformar o atendimento.",
-  buttonLabel: "Converse com a nossa IA",
+  buttonLabel: "FALE COM O MARLEY",
   url: "",
 };
