@@ -1,10 +1,10 @@
 const nodes: { x: number; y: number; r: number }[] = [
-  { x: 60, y: 120, r: 3 },
-  { x: 150, y: 260, r: 2 },
-  { x: 40, y: 420, r: 2.5 },
-  { x: 210, y: 90, r: 2 },
-  { x: 260, y: 380, r: 3 },
-  { x: 120, y: 540, r: 2 },
+  { x: 320, y: 90, r: 3 },
+  { x: 250, y: 250, r: 2 },
+  { x: 300, y: 470, r: 2.5 },
+  { x: 420, y: 40, r: 2 },
+  { x: 380, y: 560, r: 3 },
+  { x: 200, y: 600, r: 2 },
   { x: 1140, y: 100, r: 3 },
   { x: 1050, y: 240, r: 2 },
   { x: 1180, y: 380, r: 2.5 },
@@ -107,7 +107,7 @@ export function HeroBackdrop() {
           ))}
         </g>
       </svg>
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(237,244,251,0.72)_0%,rgba(237,244,251,0.15)_58%,transparent_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(237,244,251,0.6)_0%,rgba(237,244,251,0.08)_60%,transparent_100%)]" />
     </div>
   );
 }
