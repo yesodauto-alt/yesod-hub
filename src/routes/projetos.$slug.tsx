@@ -101,6 +101,29 @@ function ProjectDetail() {
         <img src={cover} alt={title} className="mt-10 aspect-[16/9] w-full rounded-2xl border border-border object-cover" />
       )}
 
+      {gallery.length > 0 && (
+        <section className="mt-8">
+          <h2 className="text-xl">{t("projects.gallery")}</h2>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            {gallery.map((url, index) => (
+              <a
+                key={url}
+                href={url}
+                target="_blank"
+                rel="noreferrer"
+                className="group overflow-hidden rounded-2xl border border-border bg-card"
+              >
+                <img
+                  src={url}
+                  alt={`${title} — ${index + 1}`}
+                  className="aspect-[16/10] w-full object-cover transition-transform duration-300 group-hover:scale-[1.015]"
+                />
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
       <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2">
         {sections.map((section) => (
           <section key={section.label} className="bg-card p-6 sm:p-8">
@@ -113,17 +136,6 @@ function ProjectDetail() {
       {content && (
         <section className="mx-auto mt-12 max-w-3xl border-l-2 border-primary/40 pl-6">
           <p className="whitespace-pre-line leading-8 text-foreground/85">{content}</p>
-        </section>
-      )}
-
-      {gallery.length > 0 && (
-        <section className="mt-14 border-t border-border pt-10">
-          <h2 className="text-xl">{t("projects.gallery")}</h2>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {gallery.map((url) => (
-              <img key={url} src={url} alt={title} loading="lazy" className="aspect-[4/3] w-full rounded-xl border border-border object-cover" />
-            ))}
-          </div>
         </section>
       )}
 
