@@ -1,4 +1,4 @@
-import { Bot, Plus, Save, Trash2 } from "lucide-react";
+import { Bot, Languages, Plus, Save, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -12,7 +12,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import type { Json } from "@/integrations/supabase/types";
-import type { Lang } from "@/lib/i18n";
+import type { Lang, Multilingual } from "@/lib/i18n";
+import { translateContent } from "@/lib/translate-content";
 import {
   DEFAULT_AI_EXPERIENCE,
   defaultConfigurableProducts,
@@ -71,12 +72,38 @@ export function ProductSettingsEditor() {
   async function save() {
     setSaving(true);
     try {
+      const fields: Record<string, string | string[]> = {};
+      products.forEach((product, index) => {
+        fields[`product_${index}_name`] = product.name.pt ?? "";
+        fields[`product_${index}_description`] = product.description.pt ?? "";
+        fields[`product_${index}_features`] = product.features.pt ?? [];
+      });
+      const translated = await translateContent(fields);
+      const localizedProducts = products.map((product, index) => ({
+        ...product,
+        name: {
+          pt: product.name.pt ?? "",
+          en: String(translated.en?.[`product_${index}_name`] ?? product.name.en ?? ""),
+          es: String(translated.es?.[`product_${index}_name`] ?? product.name.es ?? ""),
+        },
+        description: {
+          pt: product.description.pt ?? "",
+          en: String(translated.en?.[`product_${index}_description`] ?? product.description.en ?? ""),
+          es: String(translated.es?.[`product_${index}_description`] ?? product.description.es ?? ""),
+        },
+        features: {
+          pt: product.features.pt ?? [],
+          en: (translated.en?.[`product_${index}_features`] as string[] | undefined) ?? product.features.en ?? [],
+          es: (translated.es?.[`product_${index}_features`] as string[] | undefined) ?? product.features.es ?? [],
+        },
+      }));
+      setProducts(localizedProducts);
       const { error } = await supabase
         .from("site_settings")
-        .upsert({ key: "products", value: products as unknown as Json }, { onConflict: "key" });
+        .upsert({ key: "products", value: localizedProducts as unknown as Json }, { onConflict: "key" });
       if (error) throw error;
       await queryClient.invalidateQueries({ queryKey: ["site-settings", "products"] });
-      toast.success("Produtos atualizados com sucesso.");
+      toast.success("Produtos atualizados e traduzidos para inglês e espanhol.");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : String(error));
     } finally {
@@ -174,7 +201,18 @@ export function AiExperienceSettingsEditor() {
   });
 
   useEffect(() => {
-    if (query.data) setSettings({ ...DEFAULT_AI_EXPERIENCE, ...query.data });
+    if (!query.data) return;
+    const value = query.data as AiExperienceSettings & Record<string, unknown>;
+    const localized = (candidate: unknown, fallback: Multilingual): Multilingual =>
+      typeof candidate === "string" ? { ...fallback, pt: candidate } : { ...fallback, ...(candidate as Multilingual) };
+    setSettings({
+      ...DEFAULT_AI_EXPERIENCE,
+      ...value,
+      eyebrow: localized(value.eyebrow, DEFAULT_AI_EXPERIENCE.eyebrow),
+      headline: localized(value.headline, DEFAULT_AI_EXPERIENCE.headline),
+      description: localized(value.description, DEFAULT_AI_EXPERIENCE.description),
+      buttonLabel: localized(value.buttonLabel, DEFAULT_AI_EXPERIENCE.buttonLabel),
+    });
   }, [query.data]);
 
   async function save() {
@@ -184,12 +222,26 @@ export function AiExperienceSettingsEditor() {
     }
     setSaving(true);
     try {
+      const translations = await translateContent({
+        eyebrow: settings.eyebrow.pt ?? "",
+        headline: settings.headline.pt ?? "",
+        description: settings.description.pt ?? "",
+        buttonLabel: settings.buttonLabel.pt ?? "",
+      });
+      const localizedSettings: AiExperienceSettings = {
+        ...settings,
+        eyebrow: { pt: settings.eyebrow.pt ?? "", en: String(translations.en?.eyebrow ?? settings.eyebrow.en ?? ""), es: String(translations.es?.eyebrow ?? settings.eyebrow.es ?? "") },
+        headline: { pt: settings.headline.pt ?? "", en: String(translations.en?.headline ?? settings.headline.en ?? ""), es: String(translations.es?.headline ?? settings.headline.es ?? "") },
+        description: { pt: settings.description.pt ?? "", en: String(translations.en?.description ?? settings.description.en ?? ""), es: String(translations.es?.description ?? settings.description.es ?? "") },
+        buttonLabel: { pt: settings.buttonLabel.pt ?? "", en: String(translations.en?.buttonLabel ?? settings.buttonLabel.en ?? ""), es: String(translations.es?.buttonLabel ?? settings.buttonLabel.es ?? "") },
+      };
+      setSettings(localizedSettings);
       const { error } = await supabase
         .from("site_settings")
-        .upsert({ key: "ai_experience", value: settings as unknown as Json }, { onConflict: "key" });
+        .upsert({ key: "ai_experience", value: localizedSettings as unknown as Json }, { onConflict: "key" });
       if (error) throw error;
       await queryClient.invalidateQueries({ queryKey: ["site-settings", "ai-experience"] });
-      toast.success("Experiência de IA atualizada.");
+      toast.success("Experiência de IA atualizada e traduzida para inglês e espanhol.");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : String(error));
     } finally {
@@ -215,18 +267,37 @@ export function AiExperienceSettingsEditor() {
           <Checkbox checked={settings.enabled} onCheckedChange={(checked) => setSettings((current) => ({ ...current, enabled: checked === true }))} />
           Exibir a experiência de IA na página inicial
         </label>
-        <div className="space-y-2">
-          <Label>Título</Label>
-          <Input value={settings.headline} onChange={(event) => setSettings((current) => ({ ...current, headline: event.target.value }))} />
+        <div className="flex items-start gap-3 border border-[#e86f22]/35 bg-[#fff8f3] p-4 text-sm text-foreground">
+          <Languages className="mt-0.5 h-5 w-5 shrink-0 text-[#d75a12]" />
+          <p>Escreva em português. Ao salvar, o sistema gera automaticamente as versões em inglês e espanhol. As abas EN e ES permanecem disponíveis para sua revisão e ajuste.</p>
         </div>
-        <div className="space-y-2">
-          <Label>Descrição</Label>
-          <Textarea rows={3} value={settings.description} onChange={(event) => setSettings((current) => ({ ...current, description: event.target.value }))} />
-        </div>
-        <div className="space-y-2">
-          <Label>Texto do botão</Label>
-          <Input value={settings.buttonLabel} onChange={(event) => setSettings((current) => ({ ...current, buttonLabel: event.target.value }))} />
-        </div>
+        <Tabs defaultValue="pt">
+          <TabsList>
+            <TabsTrigger value="pt">PT</TabsTrigger>
+            <TabsTrigger value="en">EN</TabsTrigger>
+            <TabsTrigger value="es">ES</TabsTrigger>
+          </TabsList>
+          {languages.map((language) => (
+            <TabsContent key={language} value={language} className="mt-5 grid gap-4">
+              <div className="space-y-2">
+                <Label>Chamada superior</Label>
+                <Input value={settings.eyebrow[language] ?? ""} onChange={(event) => setSettings((current) => ({ ...current, eyebrow: { ...current.eyebrow, [language]: event.target.value } }))} />
+              </div>
+              <div className="space-y-2">
+                <Label>Título</Label>
+                <Input value={settings.headline[language] ?? ""} onChange={(event) => setSettings((current) => ({ ...current, headline: { ...current.headline, [language]: event.target.value } }))} />
+              </div>
+              <div className="space-y-2">
+                <Label>Descrição</Label>
+                <Textarea rows={3} value={settings.description[language] ?? ""} onChange={(event) => setSettings((current) => ({ ...current, description: { ...current.description, [language]: event.target.value } }))} />
+              </div>
+              <div className="space-y-2">
+                <Label>Texto do botão</Label>
+                <Input value={settings.buttonLabel[language] ?? ""} onChange={(event) => setSettings((current) => ({ ...current, buttonLabel: { ...current.buttonLabel, [language]: event.target.value } }))} />
+              </div>
+            </TabsContent>
+          ))}
+        </Tabs>
         <div className="space-y-2">
           <Label>URL pública da experiência</Label>
           <Input type="url" placeholder="https://…" value={settings.url} onChange={(event) => setSettings((current) => ({ ...current, url: event.target.value }))} />
