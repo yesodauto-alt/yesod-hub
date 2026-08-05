@@ -166,13 +166,10 @@ function FounderSection() {
           {name && <p className="mt-7 font-display text-xl font-semibold">{name}</p>}
           {role && <p className="mt-1 text-sm font-medium text-primary">{role}</p>}
           {bio && (
-            <div className="mt-5 max-w-3xl space-y-4 text-base leading-8 text-muted-foreground">
-              {bio.split(/\n\s*\n/).map((paragraph, index) => (
-                <p key={index} className="whitespace-pre-line break-words">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
+            <div
+              className="rich-text mt-5 max-w-3xl whitespace-pre-line break-words text-base leading-8 text-muted-foreground"
+              dangerouslySetInnerHTML={{ __html: bio }}
+            />
           )}
         </div>
       </div>
