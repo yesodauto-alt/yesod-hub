@@ -48,14 +48,14 @@ function Servicos() {
             key={service.title}
             className="grid gap-5 border-b border-border p-6 last:border-b-0 sm:grid-cols-[56px_1fr_auto] sm:items-start sm:p-7"
           >
-            <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-accent text-primary">
+            <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#fff1e7] text-[#d75a12]">
               <service.icon className="h-5 w-5" strokeWidth={1.7} aria-hidden="true" />
             </span>
             <div>
               <h2 className="text-lg">{t(service.title)}</h2>
               <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">{t(service.text)}</p>
             </div>
-            <span className="text-xs font-semibold tracking-[0.16em] text-muted-foreground">0{index + 1}</span>
+            <span className="text-xs font-semibold tracking-[0.16em] text-[#d75a12]">0{index + 1}</span>
           </article>
         ))}
       </div>
@@ -64,7 +64,7 @@ function Servicos() {
         <div className="max-w-2xl">
           <h2 className="text-2xl sm:text-3xl">{t("services.ctaTitle")}</h2>
           <p className="mt-4 leading-7 text-white/70">{t("services.ctaText")}</p>
-          <Button asChild size="lg" variant="secondary" className="mt-7">
+          <Button asChild size="lg" className="mt-7 bg-[#e86f22] text-white hover:bg-[#cf5c16]">
             <a href={whatsappUrl(t("wa.generic"))} target="_blank" rel="noreferrer">
               {t("common.talkToYesod")}
             </a>
