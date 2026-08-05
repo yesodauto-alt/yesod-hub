@@ -167,7 +167,7 @@ export function Sidebar() {
 
   return (
     <>
-      <aside className="fixed inset-y-4 left-4 z-40 hidden w-60 overflow-hidden rounded-2xl border border-white/10 shadow-lift lg:block">
+      <aside className="sidebar-float fixed inset-y-4 left-4 z-40 hidden w-60 overflow-hidden rounded-2xl border border-white/10 shadow-lift lg:block">
         <NavList />
       </aside>
 
