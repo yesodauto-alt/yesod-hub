@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap");
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -272,11 +272,11 @@
 @keyframes yesod-copy-zoom {
   from {
     opacity: 0;
-    transform: scale(0.9);
+    transform: translateY(14px) scale(0.72);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -288,7 +288,7 @@
   .hero-zoom-copy {
     display: inline-block;
     transform-origin: left center;
-    animation: yesod-copy-zoom 1.15s cubic-bezier(0.22, 1, 0.36, 1) 180ms both;
+    animation: yesod-copy-zoom 1.9s cubic-bezier(0.16, 1, 0.3, 1) 260ms both;
   }
 
   .sidebar-float {
