@@ -11,6 +11,8 @@ import { Label } from "@/components/ui/label";
 import { RichTextEditor, sanitizeRichText } from "@/components/ui/rich-text-editor";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
+import { useI18n, type Multilingual } from "@/lib/i18n";
+import { translateContent } from "@/lib/translate-content";
 import {
   EXCLUSIVE_MEDIA_BUCKET,
   safeFileName,
@@ -25,6 +27,10 @@ type ExclusiveContent = {
   excerpt: string;
   content_html: string;
   category: string;
+  title_i18n: Multilingual;
+  excerpt_i18n: Multilingual;
+  content_i18n: Multilingual;
+  category_i18n: Multilingual;
   cover_image_url: string | null;
   media_url: string | null;
   media_type: string | null;
@@ -43,6 +49,10 @@ const blankForm = (): FormState => ({
   excerpt: "",
   content_html: "",
   category: "Material",
+  title_i18n: {},
+  excerpt_i18n: {},
+  content_i18n: {},
+  category_i18n: {},
   cover_image_url: null,
   media_url: null,
   media_type: null,
@@ -100,6 +110,7 @@ function ContentMedia({ item }: { item: ExclusiveContent }) {
 }
 
 export function ExclusiveContentCenter({ isAdmin }: { isAdmin: boolean }) {
+  const { tm } = useI18n();
   const queryClient = useQueryClient();
   const [form, setForm] = useState<FormState>(blankForm);
   const [saving, setSaving] = useState(false);
@@ -110,7 +121,7 @@ export function ExclusiveContentCenter({ isAdmin }: { isAdmin: boolean }) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("exclusive_contents")
-        .select("id,title,excerpt,content_html,category,cover_image_url,media_url,media_type,external_video_url,published,sort_order,author_id,created_at")
+        .select("id,title,excerpt,content_html,category,title_i18n,excerpt_i18n,content_i18n,category_i18n,cover_image_url,media_url,media_type,external_video_url,published,sort_order,author_id,created_at")
         .order("sort_order")
         .order("created_at", { ascending: false });
       if (error) throw error;
@@ -150,11 +161,20 @@ export function ExclusiveContentCenter({ isAdmin }: { isAdmin: boolean }) {
     try {
       const { data: auth } = await supabase.auth.getUser();
       if (!auth.user) throw new Error("Sessão expirada.");
+      const title = form.title.trim();
+      const excerpt = form.excerpt.trim();
+      const contentHtml = sanitizeRichText(form.content_html);
+      const category = form.category.trim() || "Material";
+      const translations = await translateContent({ title, excerpt, content_html: contentHtml, category });
       const payload = {
-        title: form.title.trim(),
-        excerpt: form.excerpt.trim(),
-        content_html: sanitizeRichText(form.content_html),
-        category: form.category.trim() || "Material",
+        title,
+        excerpt,
+        content_html: contentHtml,
+        category,
+        title_i18n: { pt: title, en: String(translations.en?.title ?? ""), es: String(translations.es?.title ?? "") },
+        excerpt_i18n: { pt: excerpt, en: String(translations.en?.excerpt ?? ""), es: String(translations.es?.excerpt ?? "") },
+        content_i18n: { pt: contentHtml, en: String(translations.en?.content_html ?? ""), es: String(translations.es?.content_html ?? "") },
+        category_i18n: { pt: category, en: String(translations.en?.category ?? ""), es: String(translations.es?.category ?? "") },
         cover_image_url: form.cover_image_url,
         media_url: form.media_url,
         media_type: form.media_type,
@@ -170,7 +190,7 @@ export function ExclusiveContentCenter({ isAdmin }: { isAdmin: boolean }) {
       if (result.error) throw result.error;
       await queryClient.invalidateQueries({ queryKey: ["exclusive-contents"] });
       setForm(blankForm());
-      toast.success(form.published ? "Conteúdo publicado." : "Rascunho salvo.");
+      toast.success(form.published ? "Conteúdo publicado e traduzido." : "Rascunho salvo e traduzido.");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Não foi possível salvar.");
     } finally {
@@ -207,7 +227,7 @@ export function ExclusiveContentCenter({ isAdmin }: { isAdmin: boolean }) {
         <Card className="mt-7 border-t-4 border-t-[#e86f22]">
           <CardHeader>
             <h3 className="text-xl font-bold">{form.id ? "Editar conteúdo" : "Adicionar conteúdo exclusivo"}</h3>
-            <p className="text-sm text-muted-foreground">Crie textos formatados, adicione imagens, vídeos enviados ou links do YouTube e Vimeo.</p>
+            <p className="text-sm text-muted-foreground">Crie em português; ao salvar, o texto e a formatação são traduzidos automaticamente para inglês e espanhol. Adicione imagens, vídeos enviados ou links do YouTube e Vimeo.</p>
           </CardHeader>
           <CardContent className="grid gap-5 sm:grid-cols-2">
             <div className="space-y-2 sm:col-span-2"><Label>Título</Label><Input value={form.title} onChange={(e) => setForm((c) => ({ ...c, title: e.target.value }))} /></div>
@@ -241,12 +261,12 @@ export function ExclusiveContentCenter({ isAdmin }: { isAdmin: boolean }) {
             <ContentMedia item={item} />
             <div className="p-6 sm:p-8">
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <span className="text-xs font-bold uppercase tracking-[0.16em] text-[#d75a12]">{item.category}</span>
+                <span className="text-xs font-bold uppercase tracking-[0.16em] text-[#d75a12]">{tm(item.category_i18n) || item.category}</span>
                 {isAdmin && <span className={`text-xs font-semibold ${item.published ? "text-emerald-700" : "text-amber-700"}`}>{item.published ? "Publicado" : "Rascunho"}</span>}
               </div>
-              <h3 className="mt-3 text-2xl font-bold">{item.title}</h3>
-              {item.excerpt && <p className="mt-3 text-muted-foreground">{item.excerpt}</p>}
-              <div className="rich-text mt-6 text-base leading-8 text-slate-700" dangerouslySetInnerHTML={{ __html: sanitizeRichText(item.content_html) }} />
+              <h3 className="mt-3 text-2xl font-bold">{tm(item.title_i18n) || item.title}</h3>
+              {(tm(item.excerpt_i18n) || item.excerpt) && <p className="mt-3 text-muted-foreground">{tm(item.excerpt_i18n) || item.excerpt}</p>}
+              <div className="rich-text mt-6 text-base leading-8 text-slate-700" dangerouslySetInnerHTML={{ __html: sanitizeRichText(tm(item.content_i18n) || item.content_html) }} />
               {isAdmin && (
                 <div className="mt-7 flex gap-3 border-t border-border pt-5">
                   <Button variant="outline" onClick={() => { setForm({ ...item, external_video_url: item.external_video_url ?? null }); window.scrollTo({ top: 0, behavior: "smooth" }); }}><Edit3 className="mr-2 h-4 w-4" />Editar</Button>
