@@ -150,8 +150,7 @@ function Home() {
       <section className="bg-hero-gradient">
         <div className="mx-auto grid max-w-6xl gap-12 px-6 py-20 sm:py-28 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
-            <img src={logo.url} alt="YESOD" className="h-7 w-auto" />
-            <p className="mt-10 text-xs font-semibold uppercase tracking-[0.22em] text-primary-deep">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-deep">
               {t("brand.tagline")}
             </p>
             <h1 className="mt-5 max-w-3xl text-4xl leading-[1.08] text-foreground sm:text-5xl lg:text-[3.55rem]">
