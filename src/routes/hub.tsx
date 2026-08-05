@@ -91,8 +91,8 @@ function FeedPage() {
             onClick={() => setCategory(item)}
             className={`rounded-full px-3.5 py-1.5 text-sm font-medium ${
               category === item
-                ? "bg-navy text-white"
-                : "border border-border bg-card text-muted-foreground hover:bg-muted hover:text-foreground"
+                ? "bg-[#e86f22] text-white shadow-sm hover:bg-[#cf5c16]"
+                : "border border-[#e86f22]/45 bg-card text-[#c65313] hover:border-[#e86f22] hover:bg-[#fff1e7] hover:text-[#a8440e]"
             }`}
           >
             {item === "Todas" ? t("hub.all") : t(categoryKey(item))}
@@ -103,7 +103,7 @@ function FeedPage() {
       {!user && !loading && (
         <div className="mt-6 rounded-xl border border-border bg-card px-4 py-3 text-sm">
           <span className="text-muted-foreground">{t("hub.signInBanner")} </span>
-          <Link to="/auth" className="font-semibold text-primary hover:underline">
+          <Link to="/auth" className="font-semibold text-[#d75a12] hover:text-[#a8440e] hover:underline">
             {t("hub.signInLink")}
           </Link>
         </div>
