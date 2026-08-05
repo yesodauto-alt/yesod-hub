@@ -6,6 +6,8 @@ export const AVATAR_BUCKET = "profile-avatars";
 export const PROJECT_BUCKET = "project-media";
 export const SITE_BUCKET = "site-media";
 
+const PUBLIC_MEDIA_BUCKETS = new Set([PROJECT_BUCKET, SITE_BUCKET]);
+
 export const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 export const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/avif"];
 
@@ -17,10 +19,16 @@ export function safeFileName(name: string) {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${safeExt}`;
 }
 
-/** Buckets are private, so media is read through short-lived signed URLs. */
+/** Public site/project media uses stable URLs; private member avatars use signed URLs. */
 export async function resolveMediaUrl(bucket: string, path: string | null | undefined) {
   if (!path) return null;
   if (/^https?:\/\//i.test(path)) return path;
+
+  if (PUBLIC_MEDIA_BUCKETS.has(bucket)) {
+    const { data } = supabase.storage.from(bucket).getPublicUrl(path);
+    return data.publicUrl || null;
+  }
+
   const { data, error } = await supabase.storage.from(bucket).createSignedUrl(path, 60 * 60);
   if (error) return null;
   return data?.signedUrl ?? null;
@@ -41,7 +49,7 @@ export function useMediaUrls(bucket: string, paths: string[] | null | undefined)
   const query = useQuery({
     queryKey: ["media-urls", bucket, list],
     queryFn: async () => {
-      const resolved = await Promise.all(list.map((p) => resolveMediaUrl(bucket, p)));
+      const resolved = await Promise.all(list.map((path) => resolveMediaUrl(bucket, path)));
       return resolved.filter((url): url is string => Boolean(url));
     },
     enabled: list.length > 0,
