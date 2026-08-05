@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      exclusive_contents: {
+        Row: {
+          author_id: string
+          category: string
+          content_html: string
+          cover_image_url: string | null
+          created_at: string
+          excerpt: string
+          external_video_url: string | null
+          id: string
+          media_type: string | null
+          media_url: string | null
+          published: boolean
+          sort_order: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_id: string
+          category?: string
+          content_html?: string
+          cover_image_url?: string | null
+          created_at?: string
+          excerpt?: string
+          external_video_url?: string | null
+          id?: string
+          media_type?: string | null
+          media_url?: string | null
+          published?: boolean
+          sort_order?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string
+          category?: string
+          content_html?: string
+          cover_image_url?: string | null
+          created_at?: string
+          excerpt?: string
+          external_video_url?: string | null
+          id?: string
+          media_type?: string | null
+          media_url?: string | null
+          published?: boolean
+          sort_order?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       post_comments: {
         Row: {
           author_name: string
@@ -88,8 +139,12 @@ export type Database = {
           category: string
           content: string
           created_at: string
+          external_video_url: string | null
           id: string
           image_url: string | null
+          media_type: string | null
+          media_url: string | null
+          published: boolean
           title: string
           updated_at: string
         }
@@ -99,8 +154,12 @@ export type Database = {
           category?: string
           content: string
           created_at?: string
+          external_video_url?: string | null
           id?: string
           image_url?: string | null
+          media_type?: string | null
+          media_url?: string | null
+          published?: boolean
           title: string
           updated_at?: string
         }
@@ -110,8 +169,12 @@ export type Database = {
           category?: string
           content?: string
           created_at?: string
+          external_video_url?: string | null
           id?: string
           image_url?: string | null
+          media_type?: string | null
+          media_url?: string | null
+          published?: boolean
           title?: string
           updated_at?: string
         }
