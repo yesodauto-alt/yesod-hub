@@ -1,4 +1,4 @@
-import type { TranslationKey } from "@/lib/i18n";
+import { translateKey, type Lang, type Multilingual, type TranslationKey } from "@/lib/i18n";
 
 export const WHATSAPP_NUMBER = "551153063212";
 export const WHATSAPP_DISPLAY = "+55 11 5306-3212";
@@ -79,3 +79,52 @@ export const PRODUCTS: Product[] = [
     ],
   },
 ];
+
+
+export type ConfigurableProduct = {
+  id: string;
+  name: Multilingual;
+  description: Multilingual;
+  features: Record<Lang, string[]>;
+  featured: boolean;
+  published: boolean;
+};
+
+export function defaultConfigurableProducts(): ConfigurableProduct[] {
+  return PRODUCTS.map((product) => ({
+    id: product.id,
+    name: {
+      pt: translateKey(product.nameKey, "pt"),
+      en: translateKey(product.nameKey, "en"),
+      es: translateKey(product.nameKey, "es"),
+    },
+    description: {
+      pt: translateKey(product.descriptionKey, "pt"),
+      en: translateKey(product.descriptionKey, "en"),
+      es: translateKey(product.descriptionKey, "es"),
+    },
+    features: {
+      pt: product.featureKeys.map((key) => translateKey(key, "pt")),
+      en: product.featureKeys.map((key) => translateKey(key, "en")),
+      es: product.featureKeys.map((key) => translateKey(key, "es")),
+    },
+    featured: product.featured === true,
+    published: true,
+  }));
+}
+
+export type AiExperienceSettings = {
+  enabled: boolean;
+  headline: string;
+  description: string;
+  buttonLabel: string;
+  url: string;
+};
+
+export const DEFAULT_AI_EXPERIENCE: AiExperienceSettings = {
+  enabled: false,
+  headline: "Experimente a inteligência artificial da YESOD",
+  description: "Converse com nossa IA e veja como uma experiência automatizada pode transformar o atendimento.",
+  buttonLabel: "Converse com a nossa IA",
+  url: "",
+};
