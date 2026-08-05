@@ -3,20 +3,18 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
   ArrowDown,
   ArrowUp,
-  BookOpen,
   Camera,
   FolderKanban,
-  GraduationCap,
   ImagePlus,
   LogOut,
   Plus,
   Save,
   Trash2,
-  Wrench,
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
+import { ExclusiveContentCenter } from "@/components/admin/exclusive-content-center";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -284,15 +282,6 @@ function MeuEspaco() {
     navigate({ to: "/auth", replace: true });
   }
 
-  const exclusives = useMemo(
-    () => [
-      { icon: BookOpen, title: t("space.ex1"), description: t("space.ex1Text") },
-      { icon: Wrench, title: t("space.ex2"), description: t("space.ex2Text") },
-      { icon: GraduationCap, title: t("space.ex3"), description: t("space.ex3Text") },
-    ],
-    [t],
-  );
-
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       <header className="flex flex-wrap items-center justify-between gap-4">
@@ -399,21 +388,7 @@ function MeuEspaco() {
 
       {isAdmin && <ProjectAdmin />}
 
-      <section className="mt-12">
-        <h2 className="text-2xl font-bold">{t("space.exclusiveTitle")}</h2>
-        <p className="mt-2 text-muted-foreground">{t("space.exclusiveText")}</p>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {exclusives.map((item) => (
-            <div key={item.title} className="rounded-2xl border border-border bg-card p-6 shadow-soft">
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent text-accent-foreground">
-                <item.icon className="h-5 w-5" aria-hidden="true" />
-              </span>
-              <h3 className="mt-4 font-semibold">{item.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{item.description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <ExclusiveContentCenter isAdmin={isAdmin} />
     </div>
   );
 }
