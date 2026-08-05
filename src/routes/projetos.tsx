@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { ArrowUpRight, ImageIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -87,6 +87,7 @@ function ProjectCard({ project, index }: { project: ProjectRow; index: number })
 
 function Projetos() {
   const { t } = useI18n();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
   useLocalizedMeta("meta.projects.title", "meta.projects.desc");
 
   const projectsQuery = useQuery({
@@ -101,6 +102,10 @@ function Projetos() {
       return (data ?? []) as unknown as ProjectRow[];
     },
   });
+
+  if (pathname.startsWith("/projetos/")) {
+    return <Outlet />;
+  }
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
