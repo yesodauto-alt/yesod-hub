@@ -59,11 +59,16 @@ function ProjectCard({ project, index }: { project: ProjectRow; index: number })
 
   return (
     <article className="grid overflow-hidden rounded-2xl border border-border bg-card md:grid-cols-[minmax(220px,0.8fr)_1.2fr]">
-      <div className="min-h-56 bg-placeholder-gradient md:min-h-full">
+      <div className="flex min-h-56 items-center justify-center bg-[#f6f8fb] p-4 sm:p-6 md:min-h-[320px]">
         {cover ? (
-          <img src={cover} alt={title} className="h-full w-full object-cover" loading="lazy" />
+          <img
+            src={cover}
+            alt={title}
+            className="max-h-[320px] w-full object-contain"
+            loading="lazy"
+          />
         ) : (
-          <div className="flex h-full min-h-56 items-center justify-center text-white/70">
+          <div className="flex h-full min-h-56 w-full items-center justify-center bg-placeholder-gradient text-white/70">
             <ImageIcon className="h-8 w-8" strokeWidth={1.5} aria-hidden="true" />
           </div>
         )}
