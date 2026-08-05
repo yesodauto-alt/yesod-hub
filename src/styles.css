@@ -170,7 +170,7 @@
   .hero-feature-panel,
   .home-orange-panel {
     background-color: #ff6500;
-    background-image: linear-gradient(135deg, #ff7a00 0%, #ff5a00 58%, #f4510b 100%);
+    background-image: linear-gradient(135deg, #ff7a00 0%, #ff5a00 58%, #f4510b 100%) !important;
   }
 
   .hero-feature-panel {
