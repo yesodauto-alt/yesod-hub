@@ -314,7 +314,7 @@ function Home() {
           </div>
           <div className="mt-10 grid gap-4 sm:grid-cols-2">
             {products.map((product) => (
-              <article key={product.id} className="interactive-card border border-border border-t-2 border-t-[#e86f22] bg-white p-5 shadow-soft">
+              <article key={product.id} className="solution-preview-card interactive-card border border-border border-t-2 border-t-[#e86f22] bg-white p-5 shadow-soft">
                 <div className="flex items-start justify-between gap-4">
                   <h3 className="text-lg">{tm(product.name)}</h3>
                   {product.featured && (
