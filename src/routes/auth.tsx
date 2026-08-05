@@ -2,7 +2,6 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import yesodLogo from "@/assets/yesod-logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -77,8 +76,7 @@ function AuthPage() {
   return (
     <div className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-5xl items-center gap-10 px-5 py-14 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:py-20">
       <section className="hidden lg:block">
-        <img src={yesodLogo} alt="YESOD Automation" className="h-8 w-auto" />
-        <p className="mt-10 text-xs font-semibold uppercase tracking-[0.22em] text-primary">
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">
           {t("brand.tagline")}
         </p>
         <h1 className="mt-5 max-w-md text-4xl leading-tight">{t("brand.hub")}</h1>
@@ -87,8 +85,7 @@ function AuthPage() {
 
       <section className="mx-auto w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-soft sm:p-8">
         <div className="text-center lg:text-left">
-          <img src={yesodLogo} alt="YESOD Automation" className="mx-auto h-7 w-auto lg:hidden" />
-          <h1 className="mt-6 text-2xl lg:mt-0">
+          <h1 className="text-2xl">
             {mode === "cadastro" ? t("auth.signupTitle") : t("auth.loginTitle")}
           </h1>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">{t("auth.subtitle")}</p>
