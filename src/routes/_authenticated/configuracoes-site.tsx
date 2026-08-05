@@ -8,8 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { RichTextEditor } from "@/components/ui/rich-text-editor";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import type { Json } from "@/integrations/supabase/types";
@@ -298,12 +298,14 @@ function SiteSettings() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor={`founder-bio-${language}`}>{labels.bio}</Label>
-                  <Textarea
+                  <RichTextEditor
                     id={`founder-bio-${language}`}
-                    rows={7}
                     value={form.bio[language]}
-                    onChange={(event) => updateMulti("bio", language, event.target.value)}
+                    onChange={(value) => updateMulti("bio", language, value)}
                   />
+                  <p className="text-xs leading-5 text-muted-foreground">
+                    Selecione um trecho para aplicar negrito, itálico, sublinhado, títulos, listas ou cores.
+                  </p>
                 </div>
               </TabsContent>
             ))}
