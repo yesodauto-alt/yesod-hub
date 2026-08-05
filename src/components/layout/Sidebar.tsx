@@ -109,7 +109,7 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
             onClick={onNavigate}
             activeOptions={{ exact: item.to === "/" }}
             className="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition-colors hover:bg-white/10 hover:text-white"
-            activeProps={item.active === false ? undefined : { className: "bg-white/15 text-white" }}
+            activeProps={{ className: item.active === false ? "" : "bg-white/15 text-white" }}
           >
             <item.icon className="h-[17px] w-[17px]" strokeWidth={1.8} aria-hidden="true" />
             {labelFor(item.label)}
