@@ -115,16 +115,34 @@ export function defaultConfigurableProducts(): ConfigurableProduct[] {
 
 export type AiExperienceSettings = {
   enabled: boolean;
-  headline: string;
-  description: string;
-  buttonLabel: string;
+  headline: Multilingual;
+  description: Multilingual;
+  buttonLabel: Multilingual;
+  eyebrow: Multilingual;
   url: string;
 };
 
 export const DEFAULT_AI_EXPERIENCE: AiExperienceSettings = {
   enabled: false,
-  headline: "Experimente a inteligência artificial da YESOD",
-  description: "Converse com nossa IA e veja como uma experiência automatizada pode transformar o atendimento.",
-  buttonLabel: "FALE COM O MARLEY",
+  eyebrow: {
+    pt: "Experiência interativa",
+    en: "Interactive experience",
+    es: "Experiencia interactiva",
+  },
+  headline: {
+    pt: "Experimente a inteligência artificial da YESOD",
+    en: "Experience YESOD artificial intelligence",
+    es: "Experimenta la inteligencia artificial de YESOD",
+  },
+  description: {
+    pt: "Converse com nossa IA e veja como uma experiência automatizada pode transformar o atendimento.",
+    en: "Talk to our AI and see how an automated experience can transform customer service.",
+    es: "Habla con nuestra IA y descubre cómo una experiencia automatizada puede transformar la atención al cliente.",
+  },
+  buttonLabel: {
+    pt: "FALE COM O MARLEY",
+    en: "TALK TO MARLEY",
+    es: "HABLA CON MARLEY",
+  },
   url: "",
 };
