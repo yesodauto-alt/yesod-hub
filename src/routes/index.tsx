@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Layers, Lock, Newspaper, Sparkles, UserRound } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 import {
   Accordion,
@@ -9,7 +10,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { HeroBackdrop } from "@/components/home/HeroBackdrop";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n, useLocalizedMeta, type Lang, type TranslationKey } from "@/lib/i18n";
 import type { FounderSettings } from "@/lib/projects";
@@ -92,6 +92,34 @@ const faqKeys: { q: TranslationKey; a: TranslationKey }[] = [
   { q: "faq.q5", a: "faq.a5" },
 ];
 
+function useHeroParallax() {
+  const [offset, setOffset] = useState(0);
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const smallScreen = window.matchMedia("(max-width: 1023px)");
+    if (reducedMotion.matches || smallScreen.matches) return;
+
+    let frame = 0;
+    const update = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const next = Math.max(-28, Math.min(28, (window.scrollY - 140) * 0.04));
+        setOffset(next);
+      });
+    };
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", update);
+    };
+  }, []);
+
+  return offset;
+}
+
 function SectionHeading({ title, text }: { title: string; text?: string }) {
   return (
     <div className="max-w-2xl">
@@ -119,9 +147,9 @@ function FounderSection() {
   const bio = tm(founder?.bio);
 
   return (
-    <section className="border-y border-primary/15 bg-card py-20 sm:py-24">
+    <section className="home-reveal border-y border-primary/15 bg-card py-20 sm:py-24">
       <div className="mx-auto grid max-w-6xl gap-10 px-6 md:grid-cols-[260px_minmax(0,1fr)] md:items-center">
-        <div className="overflow-hidden rounded-2xl border border-primary/15 bg-placeholder-gradient shadow-soft">
+        <div className="overflow-hidden rounded-md border border-primary/15 bg-placeholder-gradient shadow-soft">
           <div className="aspect-[4/5] w-full">
             {photo ? (
               <img src={photo} alt={name || "YESOD"} className="h-full w-full object-cover" loading="lazy" />
@@ -147,70 +175,78 @@ function FounderSection() {
 function Home() {
   const { t, lang } = useI18n();
   const hero = heroCopy[lang];
+  const parallaxOffset = useHeroParallax();
   useLocalizedMeta("meta.home.title", "meta.home.desc");
 
   return (
-    <div>
-      <section className="relative isolate overflow-hidden bg-hero-gradient">
-        <HeroBackdrop />
-        <div className="relative mx-auto grid max-w-6xl gap-12 px-6 py-24 sm:py-32 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+    <div className="home-fade-in">
+      <section className="border-b border-border bg-card">
+        <div className="mx-auto grid max-w-6xl gap-12 px-6 py-24 sm:py-32 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-deep">
               {t("brand.tagline")}
             </p>
+            <div className="mt-4 h-0.5 w-14 bg-[#e86f22]" aria-hidden="true" />
             <p className="mt-7 text-base font-medium text-slate-600">{hero.welcome}</p>
             <h1 className="mt-1 font-display text-5xl font-bold leading-[0.95] tracking-[-0.045em] text-primary-deep sm:text-6xl lg:text-7xl">
               YESOD <span className="text-brand-gradient">HUB</span>
             </h1>
             <p className="mt-7 max-w-2xl font-display text-xl leading-snug font-semibold text-foreground sm:text-2xl">
-              {hero.titleOne}{" "}
+              <span className="hero-zoom-copy text-[#d75a12]">{hero.titleOne}</span>{" "}
               <span className="text-primary">{hero.titleTwo}</span>
             </p>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700">{hero.text}</p>
 
             <div className="mt-16 flex flex-wrap gap-3 sm:mt-20">
-              <Button asChild size="lg">
+              <Button asChild size="lg" className="bg-[#e86f22] text-white hover:bg-[#cf5c16]">
                 <Link to="/projetos">{hero.projects}</Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="border-primary/25 bg-white/75">
+              <Button asChild size="lg" variant="outline" className="border-border bg-white">
                 <Link to="/produtos">{hero.solutions}</Link>
               </Button>
-              <Button asChild size="lg" variant="ghost" className="text-primary-deep hover:bg-white/45">
+              <Button asChild size="lg" variant="ghost" className="text-primary-deep hover:bg-muted">
                 <Link to="/hub">{hero.news}<ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" /></Link>
               </Button>
             </div>
           </div>
 
-          <div className="hero-feature-panel rounded-2xl border border-white/15 bg-brand-gradient p-5 text-white sm:p-7">
-            <div className="grid gap-3">
+          <div className="hero-panel-float relative">
+            <div
+              aria-hidden="true"
+              className="hero-orange-rail absolute -right-5 top-8 h-[78%] w-12 bg-[#e86f22] will-change-transform"
+              style={{ transform: `translate3d(0, ${parallaxOffset}px, 0)` }}
+            />
+            <div className="relative border border-border bg-white p-5 shadow-soft sm:p-7">
+              <div className="grid">
               {pillars.map((pillar, index) => (
                 <Link
                   key={pillar.titleKey}
                   to={pillar.to}
-                  className="group flex items-start gap-4 rounded-xl border border-transparent p-4 transition-colors hover:border-white/20 hover:bg-white/[0.08]"
+                  className="group flex items-start gap-4 border-b border-border p-4 transition-colors last:border-b-0 hover:bg-muted/60"
                 >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/12 text-white">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-[#fff1e7] text-[#d75a12]">
                     <pillar.icon className="h-4.5 w-4.5" strokeWidth={1.8} aria-hidden="true" />
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-semibold">{t(pillar.titleKey)}</span>
-                    <span className="mt-1 block text-xs leading-5 text-white/72">{t(pillar.textKey)}</span>
+                    <span className="block text-sm font-semibold text-primary-deep">{t(pillar.titleKey)}</span>
+                    <span className="mt-1 block text-xs leading-5 text-muted-foreground">{t(pillar.textKey)}</span>
                   </span>
-                  <span className="mt-1 text-xs text-white/50">0{index + 1}</span>
+                  <span className="mt-1 text-xs font-semibold text-[#d75a12]">0{index + 1}</span>
                 </Link>
               ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="bg-section-gradient">
+      <section className="home-reveal bg-background">
         <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
           <SectionHeading title={t("home.pillarsTitle")} text={t("home.pillarsText")} />
-          <div className="mt-10 grid gap-px overflow-hidden rounded-2xl border border-primary/15 bg-primary/15 shadow-soft sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid gap-px border-y border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
             {pillars.map((pillar) => (
-              <Link key={pillar.titleKey} to={pillar.to} className="group bg-white/92 p-6 hover:bg-white">
-                <pillar.icon className="h-5 w-5 text-primary" strokeWidth={1.7} aria-hidden="true" />
+              <Link key={pillar.titleKey} to={pillar.to} className="interactive-card group bg-white p-6 transition-colors hover:bg-[#fff8f3]">
+                <pillar.icon className="h-5 w-5 text-[#d75a12]" strokeWidth={1.7} aria-hidden="true" />
                 <h3 className="mt-8 text-base group-hover:text-primary">{t(pillar.titleKey)}</h3>
                 <p className="mt-3 text-sm leading-6 text-muted-foreground">{t(pillar.textKey)}</p>
               </Link>
@@ -221,7 +257,7 @@ function Home() {
 
       <FounderSection />
 
-      <section className="bg-section-gradient">
+      <section className="home-reveal bg-background">
         <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <SectionHeading title={t("home.productsTitle")} text={t("home.productsText")} />
@@ -231,7 +267,7 @@ function Home() {
           </div>
           <div className="mt-10 grid gap-4 sm:grid-cols-2">
             {PRODUCTS.map((product) => (
-              <article key={product.id} className="rounded-xl border border-primary/15 bg-white/92 p-6 shadow-soft">
+              <article key={product.id} className="interactive-card border border-border border-t-2 border-t-[#e86f22] bg-white p-6 shadow-soft">
                 <div className="flex items-start justify-between gap-4">
                   <h3 className="text-lg">{t(product.nameKey)}</h3>
                   {product.featured && (
@@ -247,7 +283,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="border-y border-primary/15 bg-card py-20 sm:py-24">
+      <section className="home-reveal border-y border-primary/15 bg-card py-20 sm:py-24">
         <div className="mx-auto max-w-3xl px-6">
           <SectionHeading title={t("home.faqTitle")} />
           <Accordion type="single" collapsible className="mt-8">
@@ -261,13 +297,14 @@ function Home() {
         </div>
       </section>
 
-      <section className="bg-section-gradient">
+      <section className="home-reveal bg-background">
         <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
-          <div className="home-orange-panel rounded-2xl px-7 py-12 text-white shadow-lift sm:px-12 sm:py-14">
+          <div className="relative overflow-hidden bg-navy px-7 py-12 text-white shadow-lift sm:px-12 sm:py-14">
+            <div className="absolute inset-y-0 left-0 w-1 bg-[#e86f22]" />
             <div className="max-w-2xl">
               <h2 className="text-3xl sm:text-4xl">{t("home.finalTitle")}</h2>
               <p className="mt-4 leading-7 text-white/75">{t("home.finalText")}</p>
-              <Button asChild size="lg" variant="secondary" className="mt-8">
+              <Button asChild size="lg" className="mt-8 bg-[#e86f22] text-white hover:bg-[#cf5c16]">
                 <a href={whatsappUrl(t("wa.generic"))} target="_blank" rel="noreferrer">{t("common.talkToYesod")}</a>
               </Button>
             </div>
