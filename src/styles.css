@@ -471,3 +471,34 @@ select,
 ::placeholder {
   color: #77777e !important;
 }
+
+
+.brand-logo-shell {
+  background: #ffffff !important;
+  border: 1px solid rgb(255 255 255 / 82%);
+  border-radius: 1rem !important;
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 14%),
+    0 10px 28px -12px rgb(255 255 255 / 46%),
+    0 14px 36px -18px rgb(0 0 0 / 90%);
+}
+
+.shadow-soft,
+.shadow-lift,
+.interactive-card,
+.card {
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 16%),
+    0 0 30px rgb(255 255 255 / 14%),
+    0 22px 64px -24px rgb(255 255 255 / 34%),
+    0 28px 64px -30px rgb(0 0 0 / 96%),
+    0 0 38px -18px rgb(232 111 34 / 42%) !important;
+}
+
+.interactive-card:hover {
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 24%),
+    0 0 40px rgb(255 255 255 / 20%),
+    0 28px 76px -24px rgb(255 255 255 / 42%),
+    0 0 44px -16px rgb(232 111 34 / 52%) !important;
+}
