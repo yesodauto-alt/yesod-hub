@@ -11,7 +11,7 @@ import { useI18n, useLocalizedMeta } from "@/lib/i18n";
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (search: Record<string, unknown>): { modo?: "cadastro" | "login" } =>
-    search.modo === "cadastro" ? { modo: "cadastro" } : {},
+    search["modo"] === "cadastro" ? { modo: "cadastro" } : {},
   head: () => ({
     meta: [
       { title: "Entrar no Yesod HUB — área de membros" },

@@ -62,13 +62,13 @@ function NotFoundComponent() {
     <div className="flex min-h-screen items-center justify-center bg-background px-5">
       <div className="max-w-md rounded-2xl border border-border bg-card p-10 text-center shadow-soft">
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">404</p>
-        <h1 className="mt-4 text-3xl text-foreground">{copy.notFound}</h1>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{copy.notFoundText}</p>
+        <h1 className="mt-4 text-3xl text-foreground">{copy["notFound"]}</h1>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{copy["notFoundText"]}</p>
         <Link
           to="/"
           className="mt-7 inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary-deep"
         >
-          {copy.backHome}
+          {copy["backHome"]}
         </Link>
       </div>
     </div>
@@ -87,8 +87,8 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-5">
       <div className="max-w-md rounded-2xl border border-border bg-card p-10 text-center shadow-soft">
-        <h1 className="text-2xl text-foreground">{copy.errorTitle}</h1>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{copy.errorText}</p>
+        <h1 className="text-2xl text-foreground">{copy["errorTitle"]}</h1>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{copy["errorText"]}</p>
         <div className="mt-7 flex flex-wrap justify-center gap-2">
           <button
             onClick={() => {
@@ -97,13 +97,13 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
             }}
             className="inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary-deep"
           >
-            {copy.retry}
+            {copy["retry"]}
           </button>
           <a
             href="/"
             className="inline-flex items-center justify-center rounded-lg border border-input bg-card px-4 py-2.5 text-sm font-medium text-foreground hover:bg-muted"
           >
-            {copy.backHome}
+            {copy["backHome"]}
           </a>
         </div>
       </div>
