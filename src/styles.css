@@ -502,3 +502,30 @@ select,
     0 28px 76px -24px rgb(255 255 255 / 42%),
     0 0 44px -16px rgb(232 111 34 / 52%) !important;
 }
+
+
+/* Softer white halo only on the sidebar and home solution cards. */
+.sidebar-float {
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 10%),
+    0 0 18px rgb(255 255 255 / 7%),
+    0 20px 44px -28px rgb(255 255 255 / 18%),
+    0 24px 54px -26px rgb(0 0 0 / 94%) !important;
+}
+
+.solution-preview-card {
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 9%),
+    0 0 18px rgb(255 255 255 / 7%),
+    0 18px 42px -26px rgb(255 255 255 / 15%),
+    0 24px 54px -28px rgb(0 0 0 / 94%),
+    0 0 28px -18px rgb(232 111 34 / 28%) !important;
+}
+
+.solution-preview-card:hover {
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 14%),
+    0 0 24px rgb(255 255 255 / 10%),
+    0 22px 50px -26px rgb(255 255 255 / 22%),
+    0 0 34px -16px rgb(232 111 34 / 38%) !important;
+}
