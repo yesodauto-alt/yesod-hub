@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import logo from "@/assets/yesod-logo.png.asset.json";
+import yesodLogo from "@/assets/yesod-logo";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { Button } from "@/components/ui/button";
 import { useAuth, useIsAdmin } from "@/hooks/use-auth";
@@ -96,9 +96,9 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
       <Link
         to="/"
         onClick={onNavigate}
-        className="mx-5 mt-7 flex items-center rounded-xl bg-white px-3 py-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="mx-5 mt-7 flex items-center justify-center rounded-xl bg-white px-3 py-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
-        <img src={logo.url} alt="YESOD Automation" className="h-7 w-auto" />
+        <img src={yesodLogo} alt="YESOD Automation" className="h-7 w-auto" />
       </Link>
 
       <nav className="mt-10 flex flex-1 flex-col gap-1 px-4" aria-label={t("nav.navigation")}>
@@ -173,7 +173,7 @@ export function Sidebar() {
 
       <header className="sticky top-0 z-40 flex items-center justify-between border-b border-border bg-card/95 px-4 py-3 backdrop-blur lg:hidden">
         <Link to="/" className="flex items-center rounded-md px-1 py-1">
-          <img src={logo.url} alt="YESOD" className="h-5 w-auto" />
+          <img src={yesodLogo} alt="YESOD" className="h-5 w-auto" />
         </Link>
         <div className="flex items-center gap-2">
           <LanguageSwitcher compact />
