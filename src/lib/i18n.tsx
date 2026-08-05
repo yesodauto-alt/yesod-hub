@@ -1082,6 +1082,10 @@ const es: Dictionary = {
 
 const DICTIONARIES: Record<Lang, Dictionary> = { pt, en, es };
 
+export function translateKey(key: TranslationKey, lang: Lang): string {
+  return DICTIONARIES[lang][key] ?? DICTIONARIES.pt[key] ?? key;
+}
+
 type I18nValue = {
   lang: Lang;
   setLang: (lang: Lang) => void;
