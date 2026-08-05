@@ -1,8 +1,8 @@
 import type { TranslationKey } from "@/lib/i18n";
 
-export const WHATSAPP_NUMBER = "5511934136614";
-export const WHATSAPP_DISPLAY = "+55 11 93413-6614";
-export const CONTACT_EMAIL = "yesod.auto@gmail.com";
+export const WHATSAPP_NUMBER = "551153063212";
+export const WHATSAPP_DISPLAY = "+55 11 5306-3212";
+export const CONTACT_EMAIL = "contato@yesodautomation.com.br";
 
 export function whatsappUrl(message: string) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
