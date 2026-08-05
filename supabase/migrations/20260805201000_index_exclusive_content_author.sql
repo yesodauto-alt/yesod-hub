@@ -1,0 +1,1 @@
+create index if not exists exclusive_contents_author_id_idx on public.exclusive_contents (author_id);
