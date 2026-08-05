@@ -181,7 +181,7 @@ function Home() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-white/15 bg-brand-gradient p-5 text-white shadow-lift sm:p-7">
+          <div className="hero-feature-panel rounded-2xl border border-white/15 bg-brand-gradient p-5 text-white sm:p-7">
             <div className="grid gap-3">
               {pillars.map((pillar, index) => (
                 <Link
