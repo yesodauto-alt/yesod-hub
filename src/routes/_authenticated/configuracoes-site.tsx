@@ -4,6 +4,7 @@ import { ImagePlus, Save, Trash2, UserRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
+import { AiExperienceSettingsEditor, ProductSettingsEditor } from "@/components/admin/site-content-settings";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -317,6 +318,9 @@ function SiteSettings() {
           </Button>
         </CardContent>
       </Card>
+
+      <ProductSettingsEditor />
+      <AiExperienceSettingsEditor />
     </main>
   );
 }
