@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap");
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -40,8 +40,8 @@
   --color-surface: var(--surface);
   --color-whatsapp: var(--whatsapp);
   --color-ring-offset-background: var(--background);
-  --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
   --shadow-soft: 0 1px 2px rgb(15 23 42 / 3%), 0 10px 30px -22px rgb(15 23 42 / 18%);
   --shadow-lift: 0 18px 42px -28px rgb(15 23 42 / 30%);
 }
