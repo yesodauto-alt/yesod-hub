@@ -132,6 +132,27 @@ function projectToForm(project: ProjectRow): ProjectForm {
   };
 }
 
+const galleryAdminCopy = {
+  pt: {
+    remove: "Excluir foto",
+    confirm: "Excluir esta foto da galeria? A imagem será removida permanentemente.",
+    removed: "Foto excluída da galeria.",
+    storageWarning: "A foto foi removida do projeto, mas não foi possível apagar o arquivo do armazenamento.",
+  },
+  en: {
+    remove: "Delete photo",
+    confirm: "Delete this photo from the gallery? The image will be permanently removed.",
+    removed: "Photo deleted from the gallery.",
+    storageWarning: "The photo was removed from the project, but the storage file could not be deleted.",
+  },
+  es: {
+    remove: "Eliminar foto",
+    confirm: "¿Eliminar esta foto de la galería? La imagen se borrará permanentemente.",
+    removed: "Foto eliminada de la galería.",
+    storageWarning: "La foto se eliminó del proyecto, pero no fue posible borrar el archivo del almacenamiento.",
+  },
+} as const;
+
 function MeuEspaco() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -408,10 +429,12 @@ function Field({ label, id, children }: { label: string; id: string; children: R
 
 function ProjectAdmin() {
   const queryClient = useQueryClient();
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
+  const galleryLabels = galleryAdminCopy[lang];
   const [form, setForm] = useState<ProjectForm>(blankProject);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [deletingGalleryPath, setDeletingGalleryPath] = useState<string | null>(null);
   const coverUrl = useMediaUrl(PROJECT_BUCKET, form.imageUrl);
 
   const projectsQuery = useQuery({
@@ -444,6 +467,42 @@ function ProjectAdmin() {
       toast.error(error instanceof Error ? error.message : t("common.error"));
     } finally {
       setUploading(false);
+    }
+  }
+
+  async function removeGalleryImage(path: string) {
+    if (!window.confirm(galleryLabels.confirm)) return;
+
+    const nextGalleryUrls = form.galleryUrls.filter((item) => item !== path);
+    setDeletingGalleryPath(path);
+    try {
+      if (form.id) {
+        const { error: updateError } = await supabase
+          .from("projects")
+          .update({ gallery_urls: nextGalleryUrls })
+          .eq("id", form.id);
+        if (updateError) throw updateError;
+      }
+
+      setForm((current) => ({
+        ...current,
+        galleryUrls: current.galleryUrls.filter((item) => item !== path),
+      }));
+
+      const { error: storageError } = await supabase.storage.from(PROJECT_BUCKET).remove([path]);
+      if (storageError) {
+        toast.error(galleryLabels.storageWarning);
+      } else {
+        toast.success(galleryLabels.removed);
+      }
+
+      if (form.id) {
+        await queryClient.invalidateQueries({ queryKey: ["projects"] });
+      }
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : t("common.error"));
+    } finally {
+      setDeletingGalleryPath(null);
     }
   }
 
@@ -590,7 +649,21 @@ function ProjectAdmin() {
             <div className="space-y-3">
               <Label>{t("admin.projects.galleryUpload")}</Label>
               <p className="text-sm text-muted-foreground">{form.galleryUrls.length} arquivo(s)</p>
-              <Button asChild variant="outline" disabled={uploading}>
+              {form.galleryUrls.length > 0 && (
+                <div className="grid grid-cols-2 gap-3">
+                  {form.galleryUrls.map((path, index) => (
+                    <GalleryAdminImage
+                      key={path}
+                      path={path}
+                      index={index}
+                      removeLabel={galleryLabels.remove}
+                      deleting={deletingGalleryPath === path}
+                      onRemove={() => void removeGalleryImage(path)}
+                    />
+                  ))}
+                </div>
+              )}
+              <Button asChild variant="outline" disabled={uploading || Boolean(deletingGalleryPath)}>
                 <label className="cursor-pointer"><FolderKanban className="mr-2 h-4 w-4" />{t("admin.projects.galleryUpload")}<input className="sr-only" type="file" accept="image/*" multiple onChange={(e) => { Array.from(e.target.files ?? []).forEach((f) => void uploadProjectImage(f, true)); e.currentTarget.value = ""; }} /></label>
               </Button>
             </div>
@@ -602,12 +675,52 @@ function ProjectAdmin() {
           </label>
 
           <div className="flex flex-wrap gap-3">
-            <Button onClick={saveProject} disabled={saving || uploading}><Save className="mr-2 h-4 w-4" />{saving ? t("common.saving") : t("common.save")}</Button>
+            <Button onClick={saveProject} disabled={saving || uploading || Boolean(deletingGalleryPath)}><Save className="mr-2 h-4 w-4" />{saving ? t("common.saving") : t("common.save")}</Button>
             {form.id && <Button variant="outline" onClick={() => window.open(`/projetos/${form.slug}`, "_blank")}>{t("common.preview")}</Button>}
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function GalleryAdminImage({
+  path,
+  index,
+  removeLabel,
+  deleting,
+  onRemove,
+}: {
+  path: string;
+  index: number;
+  removeLabel: string;
+  deleting: boolean;
+  onRemove: () => void;
+}) {
+  const url = useMediaUrl(PROJECT_BUCKET, path);
+
+  return (
+    <div className="group relative overflow-hidden rounded-xl border border-border bg-muted">
+      {url ? (
+        <img src={url} alt={`Galeria ${index + 1}`} className="aspect-video h-full w-full object-cover" />
+      ) : (
+        <div className="flex aspect-video items-center justify-center text-muted-foreground">
+          <FolderKanban className="h-6 w-6" aria-hidden="true" />
+        </div>
+      )}
+      <Button
+        type="button"
+        size="icon"
+        variant="destructive"
+        className="absolute right-2 top-2 h-8 w-8 shadow-md"
+        onClick={onRemove}
+        disabled={deleting}
+        aria-label={`${removeLabel} ${index + 1}`}
+        title={removeLabel}
+      >
+        <Trash2 className="h-4 w-4" aria-hidden="true" />
+      </Button>
+    </div>
   );
 }
 
