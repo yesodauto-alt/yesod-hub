@@ -92,11 +92,11 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
   }
 
   return (
-    <div className="flex h-full flex-col bg-card">
+    <div className="flex h-full flex-col bg-navy text-white">
       <Link
         to="/"
         onClick={onNavigate}
-        className="mx-5 mt-7 flex items-center rounded-lg px-2 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="mx-5 mt-7 flex items-center rounded-xl bg-white px-3 py-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <img src={logo.url} alt="YESOD Automation" className="h-7 w-auto" />
       </Link>
@@ -108,8 +108,8 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
             to={item.to}
             onClick={onNavigate}
             activeOptions={{ exact: item.to === "/" }}
-            className="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-            activeProps={item.active === false ? undefined : { className: "bg-accent text-primary" }}
+            className="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+            activeProps={item.active === false ? undefined : { className: "bg-white/15 text-white" }}
           >
             <item.icon className="h-[17px] w-[17px]" strokeWidth={1.8} aria-hidden="true" />
             {labelFor(item.label)}
@@ -117,11 +117,11 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
         ))}
       </nav>
 
-      <div className="space-y-4 border-t border-border p-4">
+      <div className="space-y-4 border-t border-white/10 p-4">
         <LanguageSwitcher />
         {user ? (
           <div className="grid gap-2">
-            <Button asChild className="w-full" variant="outline">
+            <Button asChild className="w-full border-white/25 bg-transparent text-white hover:bg-white/10 hover:text-white" variant="outline">
               <Link to="/meu-espaco" onClick={onNavigate}>
                 {t("nav.mySpace")}
               </Link>
@@ -129,7 +129,7 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
             <Button
               type="button"
               variant="ghost"
-              className="w-full text-muted-foreground hover:text-foreground"
+              className="w-full text-white/70 hover:bg-white/10 hover:text-white"
               onClick={handleSignOut}
               disabled={signingOut}
             >
