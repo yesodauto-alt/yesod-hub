@@ -287,17 +287,17 @@ function Home() {
       <FounderSection />
 
       {aiExperience.enabled && aiExperience.url && (
-        <section className="home-reveal border-y border-purple-200 bg-purple-50">
+        <section className="home-reveal border-y border-[#e86f22]/35 bg-[#111214]">
           <div className="mx-auto grid max-w-6xl gap-6 px-6 py-12 sm:grid-cols-[72px_minmax(0,1fr)_auto] sm:items-center sm:py-14">
-            <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-purple-700 text-white shadow-lg shadow-purple-700/20">
+            <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#e86f22] text-white shadow-lg shadow-[#e86f22]/25">
               <Bot className="h-8 w-8" strokeWidth={1.7} aria-hidden="true" />
             </span>
             <div className="max-w-2xl sm:pl-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-purple-700">Experiência interativa</p>
-              <h2 className="mt-3 text-2xl text-purple-950 sm:text-3xl">{aiExperience.headline}</h2>
-              <p className="mt-3 leading-7 text-purple-950/70">{aiExperience.description}</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e86f22]">Experiência interativa</p>
+              <h2 className="mt-3 text-2xl text-white sm:text-3xl">{aiExperience.headline}</h2>
+              <p className="mt-3 leading-7 text-white/75">{aiExperience.description}</p>
             </div>
-            <Button asChild size="lg" className="shrink-0 bg-purple-700 text-white hover:bg-purple-800">
+            <Button asChild size="lg" className="shrink-0 bg-[#e86f22] text-white hover:bg-[#cf5c16]">
               <a href={aiExperience.url} target="_blank" rel="noreferrer noopener">FALE COM O MARLEY</a>
             </Button>
           </div>
@@ -308,13 +308,13 @@ function Home() {
         <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <SectionHeading title={t("home.productsTitle")} text={t("home.productsText")} />
-            <Button asChild variant="outline" className="bg-white/80">
+            <Button asChild variant="outline" className="border-[#e86f22] bg-[#e86f22] text-white hover:border-[#cf5c16] hover:bg-[#cf5c16] hover:text-white">
               <Link to="/produtos">{t("home.seeProducts")}<ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" /></Link>
             </Button>
           </div>
           <div className="mt-10 grid gap-4 sm:grid-cols-2">
             {products.map((product) => (
-              <article key={product.id} className="interactive-card border border-border border-t-2 border-t-[#e86f22] bg-white p-5 shadow-soft">
+              <article key={product.id} className="solution-preview-card interactive-card border border-border border-t-2 border-t-[#e86f22] bg-white p-5 shadow-soft">
                 <div className="flex items-start justify-between gap-4">
                   <h3 className="text-lg">{tm(product.name)}</h3>
                   {product.featured && (

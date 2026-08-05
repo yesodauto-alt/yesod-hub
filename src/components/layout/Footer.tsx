@@ -24,7 +24,9 @@ export function Footer() {
     <footer className="mt-24 border-t border-border bg-card">
       <div className="mx-auto grid max-w-6xl gap-10 px-6 py-12 lg:grid-cols-[1.4fr_1fr_1fr]">
         <div>
-          <img src={yesodLogo} alt="YESOD" className="h-6 w-auto" />
+          <span className="brand-logo-shell inline-flex items-center rounded-xl bg-white px-3 py-2.5">
+            <img src={yesodLogo} alt="YESOD" className="h-6 w-auto" />
+          </span>
           <p className="mt-4 max-w-md text-sm leading-6 text-muted-foreground">{t("footer.about")}</p>
         </div>
 
