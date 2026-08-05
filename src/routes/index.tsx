@@ -168,7 +168,7 @@ function Home() {
             </p>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700">{hero.text}</p>
 
-            <div className="mt-9 flex flex-wrap gap-3">
+            <div className="mt-16 flex flex-wrap gap-3 sm:mt-20">
               <Button asChild size="lg">
                 <Link to="/projetos">{hero.projects}</Link>
               </Button>
