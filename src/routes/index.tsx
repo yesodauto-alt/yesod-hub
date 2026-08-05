@@ -308,7 +308,7 @@ function Home() {
         <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <SectionHeading title={t("home.productsTitle")} text={t("home.productsText")} />
-            <Button asChild variant="outline" className="bg-white/80">
+            <Button asChild variant="outline" className="border-[#e86f22] bg-[#e86f22] text-white hover:border-[#cf5c16] hover:bg-[#cf5c16] hover:text-white">
               <Link to="/produtos">{t("home.seeProducts")}<ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" /></Link>
             </Button>
           </div>
