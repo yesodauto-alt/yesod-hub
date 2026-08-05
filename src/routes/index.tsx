@@ -43,6 +43,7 @@ const pillars = [
 ];
 
 const heroCopy: Record<Lang, {
+  welcome: string;
   titleOne: string;
   titleTwo: string;
   text: string;
@@ -51,6 +52,7 @@ const heroCopy: Record<Lang, {
   news: string;
 }> = {
   pt: {
+    welcome: "Bem-vindo ao",
     titleOne: "Automatize o que consome seu time. Potencialize o que só o humano faz.",
     titleTwo: "É assim que a IA vira lucro e não custo.",
     text:
@@ -60,6 +62,7 @@ const heroCopy: Record<Lang, {
     news: "Acompanhar novidades",
   },
   en: {
+    welcome: "Welcome to",
     titleOne: "Automate what drains your team. Amplify what only humans can do.",
     titleTwo: "That is how AI becomes profit, not cost.",
     text:
@@ -69,6 +72,7 @@ const heroCopy: Record<Lang, {
     news: "Follow AI updates",
   },
   es: {
+    welcome: "Bienvenido al",
     titleOne: "Automatiza lo que consume a tu equipo. Potencia lo que solo el humano hace.",
     titleTwo: "Así la IA se convierte en ganancia y no en costo.",
     text:
