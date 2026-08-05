@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, Share2 } from "lucide-react";
+import { ArrowLeft, Share2, ZoomIn } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
 import { PROJECT_COLUMNS, type ProjectRow } from "@/lib/projects";
@@ -17,6 +19,7 @@ export const Route = createFileRoute("/projetos/$slug")({
 function ProjectDetail() {
   const { slug } = Route.useParams();
   const { t, tm } = useI18n();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const projectQuery = useQuery({
     queryKey: ["project", slug],
@@ -98,7 +101,22 @@ function ProjectDetail() {
       </header>
 
       {cover && (
-        <img src={cover} alt={title} className="mt-10 aspect-[16/9] w-full rounded-2xl border border-border object-cover" />
+        <button
+          type="button"
+          onClick={() => setSelectedImage(cover)}
+          className="group relative mt-10 flex min-h-64 w-full cursor-zoom-in items-center justify-center overflow-hidden rounded-xl border border-border bg-[#f6f8fb] p-4 sm:min-h-80 sm:p-6"
+          aria-label={`Ampliar imagem de ${title}`}
+        >
+          <img
+            src={cover}
+            alt={title}
+            className="max-h-[620px] w-full object-contain"
+          />
+          <span className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-md bg-navy/90 px-3 py-2 text-xs font-medium text-white opacity-90 shadow-lg transition group-hover:bg-[#e86f22] group-hover:opacity-100">
+            <ZoomIn className="h-4 w-4" aria-hidden="true" />
+            Ampliar
+          </span>
+        </button>
       )}
 
       {gallery.length > 0 && (
@@ -106,23 +124,41 @@ function ProjectDetail() {
           <h2 className="text-xl">{t("projects.gallery")}</h2>
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             {gallery.map((url, index) => (
-              <a
+              <button
                 key={url}
-                href={url}
-                target="_blank"
-                rel="noreferrer"
-                className="group overflow-hidden rounded-2xl border border-border bg-card"
+                type="button"
+                onClick={() => setSelectedImage(url)}
+                className="group relative flex aspect-[16/10] cursor-zoom-in items-center justify-center overflow-hidden rounded-xl border border-border bg-[#f6f8fb] p-3"
+                aria-label={`Ampliar imagem ${index + 1} de ${title}`}
               >
                 <img
                   src={url}
                   alt={`${title} — ${index + 1}`}
-                  className="aspect-[16/10] w-full object-cover transition-transform duration-300 group-hover:scale-[1.015]"
+                  className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-[1.02]"
                 />
-              </a>
+                <span className="absolute bottom-3 right-3 flex h-9 w-9 items-center justify-center rounded-md bg-navy/90 text-white shadow-lg transition group-hover:bg-[#e86f22]">
+                  <ZoomIn className="h-4 w-4" aria-hidden="true" />
+                </span>
+              </button>
             ))}
           </div>
         </section>
       )}
+
+      <Dialog open={Boolean(selectedImage)} onOpenChange={(open) => !open && setSelectedImage(null)}>
+        <DialogContent className="w-[95vw] max-w-7xl border-white/15 bg-black/95 p-3 text-white sm:p-5">
+          <DialogTitle className="sr-only">{`Imagem ampliada de ${title}`}</DialogTitle>
+          {selectedImage && (
+            <div className="flex max-h-[88vh] min-h-[50vh] items-center justify-center">
+              <img
+                src={selectedImage}
+                alt={title}
+                className="max-h-[85vh] max-w-full object-contain"
+              />
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
 
       <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2">
         {sections.map((section) => (
