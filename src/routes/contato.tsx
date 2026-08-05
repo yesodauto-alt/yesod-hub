@@ -16,7 +16,7 @@ export const Route = createFileRoute("/contato")({
       {
         name: "description",
         content:
-          "Fale com a YESOD pelo WhatsApp (+55 11 93413-6614) e conte qual processo você quer automatizar. Atendimento remoto em todo o Brasil.",
+          "Fale com a YESOD pelo WhatsApp (+55 11 5306-3212) e conte qual processo você quer automatizar. Atendimento remoto em todo o Brasil.",
       },
       { property: "og:title", content: "Contato — YESOD" },
       {
@@ -66,7 +66,7 @@ function Contato() {
           <h2 className="mt-7 text-2xl">{t("contact.whatsappTitle")}</h2>
           <p className="mt-3 text-sm leading-6 text-white/70">{t("contact.whatsappText")}</p>
           <p className="mt-7 font-display text-xl font-semibold">{WHATSAPP_DISPLAY}</p>
-          <Button asChild size="lg" variant="secondary" className="mt-7 w-full">
+          <Button asChild size="lg" className="mt-7 w-full bg-[#e86f22] text-white hover:bg-[#cf5c16]">
             <a href={whatsappUrl(t("wa.generic"))} target="_blank" rel="noreferrer">
               {t("contact.openWhatsapp")}
             </a>
