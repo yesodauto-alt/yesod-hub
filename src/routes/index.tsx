@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Layers, Lock, Newspaper, Sparkles, UserRound } from "lucide-react";
+import { ArrowRight, Bot, Layers, Lock, Newspaper, Sparkles, UserRound } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
@@ -221,7 +221,7 @@ function Home() {
               YESOD <span className="text-brand-gradient">HUB</span>
             </h1>
             <p className="mt-7 max-w-2xl font-display text-xl leading-snug font-semibold text-foreground sm:text-2xl">
-              <span className="hero-zoom-copy text-[#d75a12]">{hero.titleOne}</span>{" "}
+              <span className="hero-zoom-copy uppercase text-[#d75a12]">{hero.titleOne}</span>{" "}
               <span className="text-primary">{hero.titleTwo}</span>
             </p>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700">{hero.text}</p>
@@ -288,14 +288,17 @@ function Home() {
 
       {aiExperience.enabled && aiExperience.url && (
         <section className="home-reveal border-y border-purple-200 bg-purple-50">
-          <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-12 sm:flex-row sm:items-center sm:justify-between sm:py-14">
-            <div className="max-w-2xl">
+          <div className="mx-auto grid max-w-6xl gap-6 px-6 py-12 sm:grid-cols-[72px_minmax(0,1fr)_auto] sm:items-center sm:py-14">
+            <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-purple-700 text-white shadow-lg shadow-purple-700/20">
+              <Bot className="h-8 w-8" strokeWidth={1.7} aria-hidden="true" />
+            </span>
+            <div className="max-w-2xl sm:pl-4">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-purple-700">Experiência interativa</p>
               <h2 className="mt-3 text-2xl text-purple-950 sm:text-3xl">{aiExperience.headline}</h2>
               <p className="mt-3 leading-7 text-purple-950/70">{aiExperience.description}</p>
             </div>
             <Button asChild size="lg" className="shrink-0 bg-purple-700 text-white hover:bg-purple-800">
-              <a href={aiExperience.url} target="_blank" rel="noreferrer noopener">{aiExperience.buttonLabel}</a>
+              <a href={aiExperience.url} target="_blank" rel="noreferrer noopener">FALE COM O MARLEY</a>
             </Button>
           </div>
         </section>
