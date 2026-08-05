@@ -179,7 +179,7 @@ function Home() {
   useLocalizedMeta("meta.home.title", "meta.home.desc");
 
   return (
-    <div>
+    <div className="home-fade-in">
       <section className="border-b border-border bg-card">
         <div className="mx-auto grid max-w-6xl gap-12 px-6 py-24 sm:py-32 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
