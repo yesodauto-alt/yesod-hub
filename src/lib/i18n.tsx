@@ -375,7 +375,7 @@ const pt = {
     "Soluções configuráveis da YESOD: diagnóstico de automação, automação sob medida, integrações e APIs e operação em escala.",
   "meta.contact.title": "Contato YESOD — fale com a equipe pelo WhatsApp",
   "meta.contact.desc":
-    "Fale com a YESOD pelo WhatsApp (+55 11 93413-6614) e conte qual processo você quer automatizar. Atendimento remoto em todo o Brasil.",
+    "Fale com a YESOD pelo WhatsApp (+55 11 5306-3212) e conte qual processo você quer automatizar. Atendimento remoto em todo o Brasil.",
   "meta.auth.title": "Entrar no Yesod HUB — área de membros",
   "meta.auth.desc":
     "Acesse sua conta ou cadastre-se para participar do Yesod HUB e ver o conteúdo exclusivo.",
@@ -723,7 +723,7 @@ const en: Dictionary = {
     "Configurable YESOD solutions: automation diagnosis, tailor-made automation, integrations and APIs and operating at scale.",
   "meta.contact.title": "Contact YESOD — talk to the team on WhatsApp",
   "meta.contact.desc":
-    "Talk to YESOD on WhatsApp (+55 11 93413-6614) and tell us which process you want to automate. Remote service across Brazil.",
+    "Talk to YESOD on WhatsApp (+55 11 5306-3212) and tell us which process you want to automate. Remote service across Brazil.",
   "meta.auth.title": "Sign in to Yesod HUB — members area",
   "meta.auth.desc":
     "Sign in or create your account to join Yesod HUB and see the exclusive content.",
@@ -1071,7 +1071,7 @@ const es: Dictionary = {
     "Soluciones configurables de YESOD: diagnóstico de automatización, automatización a medida, integraciones y APIs y operación en escala.",
   "meta.contact.title": "Contacto YESOD — habla con el equipo por WhatsApp",
   "meta.contact.desc":
-    "Habla con YESOD por WhatsApp (+55 11 93413-6614) y cuéntanos qué proceso quieres automatizar. Atención remota en todo Brasil.",
+    "Habla con YESOD por WhatsApp (+55 11 5306-3212) y cuéntanos qué proceso quieres automatizar. Atención remota en todo Brasil.",
   "meta.auth.title": "Entrar en Yesod HUB — área de miembros",
   "meta.auth.desc":
     "Accede a tu cuenta o regístrate para participar en Yesod HUB y ver el contenido exclusivo.",
