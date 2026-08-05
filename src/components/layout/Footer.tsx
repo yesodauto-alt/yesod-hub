@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, MapPin, Phone } from "lucide-react";
 
-import logo from "@/assets/yesod-logo.png.asset.json";
+import yesodLogo from "@/assets/yesod-logo";
 import { useI18n, type TranslationKey } from "@/lib/i18n";
 import { CONTACT_EMAIL, WHATSAPP_DISPLAY, whatsappUrl } from "@/lib/yesod";
 
@@ -24,7 +24,7 @@ export function Footer() {
     <footer className="mt-24 border-t border-border bg-card">
       <div className="mx-auto grid max-w-6xl gap-10 px-6 py-12 lg:grid-cols-[1.4fr_1fr_1fr]">
         <div>
-          <img src={logo.url} alt="YESOD" className="h-6 w-auto" />
+          <img src={yesodLogo} alt="YESOD" className="h-6 w-auto" />
           <p className="mt-4 max-w-md text-sm leading-6 text-muted-foreground">{t("footer.about")}</p>
         </div>
 
