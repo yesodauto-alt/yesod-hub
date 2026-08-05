@@ -167,7 +167,7 @@ function FounderSection() {
           {role && <p className="mt-1 text-sm font-medium text-primary">{role}</p>}
           {bio && (
             <div
-              className="rich-text mt-5 max-w-3xl whitespace-pre-line break-words text-base leading-8 text-muted-foreground"
+              className="rich-text mt-5 max-w-3xl whitespace-pre-line break-words text-base leading-8 text-slate-700"
               dangerouslySetInnerHTML={{ __html: bio }}
             />
           )}
