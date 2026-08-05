@@ -216,11 +216,11 @@ function Home() {
               {t("brand.tagline")}
             </p>
             <div className="mt-4 h-0.5 w-14 bg-[#e86f22]" aria-hidden="true" />
-            <p className="mt-5 text-base font-medium text-slate-600">{hero.welcome}</p>
+            <p className="mt-7 text-base font-medium text-slate-600">{hero.welcome}</p>
             <h1 className="mt-1 font-display text-5xl font-bold leading-[0.95] tracking-[-0.045em] text-primary-deep sm:text-6xl lg:text-7xl">
               YESOD <span className="text-brand-gradient">HUB</span>
             </h1>
-            <p className="mt-5 max-w-2xl font-display text-xl leading-snug font-semibold text-foreground sm:text-2xl">
+            <p className="mt-12 max-w-2xl font-display text-xl leading-snug font-semibold text-foreground sm:mt-16 sm:text-2xl">
               <span className="hero-zoom-copy text-[1.65rem] font-black leading-[1.12] tracking-[-0.025em] uppercase text-[#d75a12] sm:text-[2rem] lg:text-[2.15rem]">{hero.titleOne}</span>{" "}
               <span className="text-primary">{hero.titleTwo}</span>
             </p>
