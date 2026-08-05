@@ -287,17 +287,17 @@ function Home() {
       <FounderSection />
 
       {aiExperience.enabled && aiExperience.url && (
-        <section className="home-reveal border-y border-purple-200 bg-purple-50">
+        <section className="home-reveal border-y border-[#e86f22]/35 bg-[#111214]">
           <div className="mx-auto grid max-w-6xl gap-6 px-6 py-12 sm:grid-cols-[72px_minmax(0,1fr)_auto] sm:items-center sm:py-14">
-            <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-purple-700 text-white shadow-lg shadow-purple-700/20">
+            <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#e86f22] text-white shadow-lg shadow-[#e86f22]/25">
               <Bot className="h-8 w-8" strokeWidth={1.7} aria-hidden="true" />
             </span>
             <div className="max-w-2xl sm:pl-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-purple-700">Experiência interativa</p>
-              <h2 className="mt-3 text-2xl text-purple-950 sm:text-3xl">{aiExperience.headline}</h2>
-              <p className="mt-3 leading-7 text-purple-950/70">{aiExperience.description}</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e86f22]">Experiência interativa</p>
+              <h2 className="mt-3 text-2xl text-white sm:text-3xl">{aiExperience.headline}</h2>
+              <p className="mt-3 leading-7 text-white/75">{aiExperience.description}</p>
             </div>
-            <Button asChild size="lg" className="shrink-0 bg-purple-700 text-white hover:bg-purple-800">
+            <Button asChild size="lg" className="shrink-0 bg-[#e86f22] text-white hover:bg-[#cf5c16]">
               <a href={aiExperience.url} target="_blank" rel="noreferrer noopener">FALE COM O MARLEY</a>
             </Button>
           </div>
