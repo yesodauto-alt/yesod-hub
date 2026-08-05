@@ -57,6 +57,7 @@ const heroCopy: Record<Lang, {
   projects: string;
   solutions: string;
   news: string;
+  hubDescriptor: string;
 }> = {
   pt: {
     welcome: "Bem-vindo ao",
@@ -67,6 +68,7 @@ const heroCopy: Record<Lang, {
     projects: "Conhecer projetos",
     solutions: "Ver soluções",
     news: "Acompanhar novidades",
+    hubDescriptor: "Seu espaço de informação, conteúdo e direção com IA.",
   },
   en: {
     welcome: "Welcome to",
@@ -77,6 +79,7 @@ const heroCopy: Record<Lang, {
     projects: "Explore projects",
     solutions: "See solutions",
     news: "Follow AI updates",
+    hubDescriptor: "Your space for information, content and AI-powered direction.",
   },
   es: {
     welcome: "Bienvenido al",
@@ -87,6 +90,7 @@ const heroCopy: Record<Lang, {
     projects: "Conocer proyectos",
     solutions: "Ver soluciones",
     news: "Seguir novedades",
+    hubDescriptor: "Tu espacio de información, contenido y orientación con IA.",
   },
 };
 
@@ -220,6 +224,9 @@ function Home() {
             <h1 className="mt-1 font-display text-5xl font-bold leading-[0.95] tracking-[-0.045em] text-primary-deep sm:text-6xl lg:text-7xl">
               YESOD <span className="text-brand-gradient">HUB</span>
             </h1>
+            <p className="mt-3 w-fit max-w-full font-sans text-[0.66rem] font-light uppercase leading-none tracking-[0.19em] text-white/70 sm:text-[0.72rem] sm:tracking-[0.225em]">
+              {hero.hubDescriptor}
+            </p>
             <p className="mt-12 max-w-2xl font-display text-xl leading-snug font-semibold text-foreground sm:mt-16 sm:text-2xl">
               <span className="hero-zoom-copy text-[1.65rem] font-black leading-[1.12] tracking-[-0.025em] uppercase text-[#d75a12] sm:text-[2rem] lg:text-[2.15rem]">{hero.titleOne}</span>{" "}
               <span className="text-primary">{hero.titleTwo}</span>
