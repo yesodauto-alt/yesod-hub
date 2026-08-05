@@ -11,6 +11,7 @@ import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { GlobalVisualEditor } from "@/components/admin/global-visual-editor";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFloatingButton } from "@/components/layout/WhatsAppFloatingButton";
@@ -172,11 +173,12 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <I18nProvider>
         <Sidebar />
-        <div className="flex min-h-screen flex-col lg:pl-[17rem]">
+        <div data-editable-site className="flex min-h-screen flex-col lg:pl-[17rem]">
           <main className="flex-1"><Outlet /></main>
           <Footer />
         </div>
         <WhatsAppFloatingButton />
+        <GlobalVisualEditor />
         <Toaster />
       </I18nProvider>
     </QueryClientProvider>
