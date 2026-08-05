@@ -5,11 +5,15 @@ import { supabase } from "@/integrations/supabase/client";
 export const AVATAR_BUCKET = "profile-avatars";
 export const PROJECT_BUCKET = "project-media";
 export const SITE_BUCKET = "site-media";
+export const HUB_MEDIA_BUCKET = "hub-media";
+export const EXCLUSIVE_MEDIA_BUCKET = "exclusive-media";
 
-const PUBLIC_MEDIA_BUCKETS = new Set([PROJECT_BUCKET, SITE_BUCKET]);
+const PUBLIC_MEDIA_BUCKETS = new Set([PROJECT_BUCKET, SITE_BUCKET, HUB_MEDIA_BUCKET]);
 
 export const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 export const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/avif"];
+export const MAX_EDITORIAL_MEDIA_BYTES = 100 * 1024 * 1024;
+export const ACCEPTED_VIDEO_TYPES = ["video/mp4", "video/webm", "video/quicktime"];
 
 /** Turns an arbitrary filename into a safe storage object name. */
 export function safeFileName(name: string) {
@@ -65,4 +69,16 @@ export function validateImage(file: File): ImageValidation {
   if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) return { ok: false, reason: "type" };
   if (file.size > MAX_IMAGE_BYTES) return { ok: false, reason: "size" };
   return { ok: true };
+}
+
+
+export type EditorialMediaValidation =
+  | { ok: true; mediaType: "image" | "video" }
+  | { ok: false; reason: "type" | "size" };
+
+export function validateEditorialMedia(file: File): EditorialMediaValidation {
+  if (file.size > MAX_EDITORIAL_MEDIA_BYTES) return { ok: false, reason: "size" };
+  if (ACCEPTED_IMAGE_TYPES.includes(file.type)) return { ok: true, mediaType: "image" };
+  if (ACCEPTED_VIDEO_TYPES.includes(file.type)) return { ok: true, mediaType: "video" };
+  return { ok: false, reason: "type" };
 }
