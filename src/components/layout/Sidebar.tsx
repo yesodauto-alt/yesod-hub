@@ -96,7 +96,7 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
       <Link
         to="/"
         onClick={onNavigate}
-        className="mx-5 mt-7 flex items-center justify-center rounded-xl bg-white px-3 py-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="brand-logo-shell mx-5 mt-7 flex items-center justify-center rounded-2xl bg-white px-3 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <img src={yesodLogo} alt="YESOD Automation" className="h-7 w-auto" />
       </Link>
@@ -172,7 +172,7 @@ export function Sidebar() {
       </aside>
 
       <header className="sticky top-0 z-40 flex items-center justify-between border-b border-border bg-card/95 px-4 py-3 backdrop-blur lg:hidden">
-        <Link to="/" className="flex items-center rounded-md px-1 py-1">
+        <Link to="/" className="brand-logo-shell flex items-center rounded-xl bg-white px-2 py-1.5">
           <img src={yesodLogo} alt="YESOD" className="h-5 w-auto" />
         </Link>
         <div className="flex items-center gap-2">
