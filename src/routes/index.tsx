@@ -14,7 +14,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { useI18n, useLocalizedMeta, type Lang, type TranslationKey } from "@/lib/i18n";
 import type { FounderSettings } from "@/lib/projects";
 import { SITE_BUCKET, useMediaUrl } from "@/lib/storage";
-import { PRODUCTS, whatsappUrl } from "@/lib/yesod";
+import {
+  DEFAULT_AI_EXPERIENCE,
+  defaultConfigurableProducts,
+  type AiExperienceSettings,
+  type ConfigurableProduct,
+  whatsappUrl,
+} from "@/lib/yesod";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -178,9 +184,27 @@ function FounderSection() {
 }
 
 function Home() {
-  const { t, lang } = useI18n();
+  const { t, tm, lang } = useI18n();
   const hero = heroCopy[lang];
   const parallaxOffset = useHeroParallax();
+  const productsQuery = useQuery({
+    queryKey: ["site-settings", "products"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("site_settings").select("value").eq("key", "products").maybeSingle();
+      if (error) throw error;
+      return Array.isArray(data?.value) ? (data.value as unknown as ConfigurableProduct[]) : null;
+    },
+  });
+  const aiQuery = useQuery({
+    queryKey: ["site-settings", "ai-experience"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("site_settings").select("value").eq("key", "ai_experience").maybeSingle();
+      if (error) throw error;
+      return data?.value ? (data.value as unknown as AiExperienceSettings) : null;
+    },
+  });
+  const products = (productsQuery.data ?? defaultConfigurableProducts()).filter((product) => product.published);
+  const aiExperience = { ...DEFAULT_AI_EXPERIENCE, ...aiQuery.data };
   useLocalizedMeta("meta.home.title", "meta.home.desc");
 
   return (
@@ -262,6 +286,21 @@ function Home() {
 
       <FounderSection />
 
+      {aiExperience.enabled && aiExperience.url && (
+        <section className="home-reveal border-y border-purple-200 bg-purple-50">
+          <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-12 sm:flex-row sm:items-center sm:justify-between sm:py-14">
+            <div className="max-w-2xl">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-purple-700">Experiência interativa</p>
+              <h2 className="mt-3 text-2xl text-purple-950 sm:text-3xl">{aiExperience.headline}</h2>
+              <p className="mt-3 leading-7 text-purple-950/70">{aiExperience.description}</p>
+            </div>
+            <Button asChild size="lg" className="shrink-0 bg-purple-700 text-white hover:bg-purple-800">
+              <a href={aiExperience.url} target="_blank" rel="noreferrer noopener">{aiExperience.buttonLabel}</a>
+            </Button>
+          </div>
+        </section>
+      )}
+
       <section className="home-reveal bg-background">
         <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
@@ -271,17 +310,17 @@ function Home() {
             </Button>
           </div>
           <div className="mt-10 grid gap-4 sm:grid-cols-2">
-            {PRODUCTS.map((product) => (
-              <article key={product.id} className="interactive-card border border-border border-t-2 border-t-[#e86f22] bg-white p-6 shadow-soft">
+            {products.map((product) => (
+              <article key={product.id} className="interactive-card border border-border border-t-2 border-t-[#e86f22] bg-white p-5 shadow-soft">
                 <div className="flex items-start justify-between gap-4">
-                  <h3 className="text-lg">{t(product.nameKey)}</h3>
+                  <h3 className="text-lg">{tm(product.name)}</h3>
                   {product.featured && (
-                    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-accent px-2.5 py-1 text-[11px] font-semibold text-accent-foreground">
+                    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#fff1e7] px-2.5 py-1 text-[11px] font-semibold text-[#d75a12]">
                       <Sparkles className="h-3 w-3" aria-hidden="true" /> {t("products.featured")}
                     </span>
                   )}
                 </div>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">{t(product.descriptionKey)}</p>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">{tm(product.description)}</p>
               </article>
             ))}
           </div>
