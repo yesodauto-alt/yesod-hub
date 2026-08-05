@@ -47,35 +47,41 @@
 
 :root {
   --radius: 0.8rem;
-  --background: #f8f9fb;
+  --background: #edf3fa;
   --foreground: #111827;
   --card: #ffffff;
   --card-foreground: #111827;
   --popover: #ffffff;
   --popover-foreground: #111827;
-  --primary: #244f86;
+  --primary: #245a98;
   --primary-foreground: #ffffff;
-  --primary-deep: #17375e;
-  --navy: #132238;
-  --navy-deep: #0e1a2b;
-  --secondary: #f1f4f8;
+  --primary-deep: #12365f;
+  --navy: #102844;
+  --navy-deep: #091b30;
+  --secondary: #e8f0f9;
   --secondary-foreground: #172033;
-  --muted: #f1f4f8;
-  --muted-foreground: #667085;
-  --accent: #edf3fa;
-  --accent-foreground: #244f86;
+  --muted: #e7eef7;
+  --muted-foreground: #5e6e84;
+  --accent: #dce9f7;
+  --accent-foreground: #184a82;
   --destructive: #c83c4d;
   --destructive-foreground: #ffffff;
-  --border: #e5e9f0;
-  --input: #dfe5ec;
-  --ring: #5b7fae;
-  --graphite: #132238;
+  --border: #d6e1ee;
+  --input: #cedbea;
+  --ring: #4f79aa;
+  --graphite: #102844;
   --graphite-foreground: #f8fafc;
-  --surface: #f2f5f8;
+  --surface: #e4edf7;
   --whatsapp: #28a85a;
-  --gradient-hero: radial-gradient(circle at 76% 10%, rgb(66 103 151 / 14%), transparent 32%), linear-gradient(180deg, #ffffff 0%, #f5f7fa 100%);
-  --gradient-brand: linear-gradient(135deg, #17375e, #244f86);
-  --gradient-placeholder: linear-gradient(145deg, #17375e, #315f96);
+  --gradient-hero:
+    radial-gradient(circle at 82% 12%, rgb(36 90 152 / 34%), transparent 34%),
+    radial-gradient(circle at 12% 4%, rgb(84 128 181 / 24%), transparent 30%),
+    linear-gradient(135deg, #d7e6f7 0%, #edf4fb 48%, #bfd5ee 100%);
+  --gradient-section:
+    radial-gradient(circle at 10% 20%, rgb(36 90 152 / 13%), transparent 30%),
+    linear-gradient(180deg, #edf4fb 0%, #dce8f5 100%);
+  --gradient-brand: linear-gradient(135deg, #0d2d50 0%, #1d4f85 48%, #2d69aa 100%);
+  --gradient-placeholder: linear-gradient(145deg, #12365f, #2d69aa);
 }
 
 .dark {
@@ -139,6 +145,10 @@
 
 @utility bg-hero-gradient {
   background-image: var(--gradient-hero);
+}
+
+@utility bg-section-gradient {
+  background-image: var(--gradient-section);
 }
 
 @utility bg-brand-gradient {

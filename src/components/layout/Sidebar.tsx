@@ -1,9 +1,10 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import {
   Boxes,
   Home,
   Layers,
   Lock,
+  LogOut,
   Mail,
   Menu,
   Settings2,
@@ -18,6 +19,7 @@ import logo from "@/assets/yesod-logo.png.asset.json";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { Button } from "@/components/ui/button";
 import { useAuth, useIsAdmin } from "@/hooks/use-auth";
+import { supabase } from "@/integrations/supabase/client";
 import { useI18n, type TranslationKey } from "@/lib/i18n";
 
 type NavLabel = TranslationKey | "nav.exclusive" | "nav.siteSettings";
@@ -33,6 +35,12 @@ const customLabels = {
     en: "Edit home page",
     es: "Editar página inicial",
   },
+} as const;
+
+const signOutLabels = {
+  pt: "Sair",
+  en: "Sign out",
+  es: "Salir",
 } as const;
 
 const items: Array<{
@@ -62,14 +70,25 @@ const items: Array<{
 ];
 
 function NavList({ onNavigate }: { onNavigate?: () => void }) {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const isAdmin = useIsAdmin(user);
   const { t, lang } = useI18n();
+  const [signingOut, setSigningOut] = useState(false);
   const visibleItems = items.filter((item) => !item.adminOnly || isAdmin);
 
   function labelFor(label: NavLabel) {
     if (label in customLabels) return customLabels[label as keyof typeof customLabels][lang];
     return t(label as TranslationKey);
+  }
+
+  async function handleSignOut() {
+    setSigningOut(true);
+    const { error } = await supabase.auth.signOut();
+    setSigningOut(false);
+    if (error) return;
+    onNavigate?.();
+    navigate({ to: "/", replace: true });
   }
 
   return (
@@ -101,11 +120,23 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
       <div className="space-y-4 border-t border-border p-4">
         <LanguageSwitcher />
         {user ? (
-          <Button asChild className="w-full" variant="outline">
-            <Link to="/meu-espaco" onClick={onNavigate}>
-              {t("nav.mySpace")}
-            </Link>
-          </Button>
+          <div className="grid gap-2">
+            <Button asChild className="w-full" variant="outline">
+              <Link to="/meu-espaco" onClick={onNavigate}>
+                {t("nav.mySpace")}
+              </Link>
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              className="w-full text-muted-foreground hover:text-foreground"
+              onClick={handleSignOut}
+              disabled={signingOut}
+            >
+              <LogOut className="mr-2 h-4 w-4" aria-hidden="true" />
+              {signOutLabels[lang]}
+            </Button>
+          </div>
         ) : (
           <div className="grid gap-2">
             <Button asChild className="w-full">
