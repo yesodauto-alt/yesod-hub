@@ -18,6 +18,7 @@ import { Route as HubRouteImport } from './routes/hub'
 import { Route as ProdutosRouteImport } from './routes/produtos'
 import { Route as ProjetosRouteImport } from './routes/projetos'
 import { Route as ServicosRouteImport } from './routes/servicos'
+import { Route as AuthenticatedConfiguracoesSiteRouteImport } from './routes/_authenticated/configuracoes-site'
 import { Route as AuthenticatedMeuEspacoRouteImport } from './routes/_authenticated/meu-espaco'
 import { Route as ProjetosSlugRouteImport } from './routes/projetos.$slug'
 
@@ -65,6 +66,12 @@ const ServicosRoute = ServicosRouteImport.update({
   path: '/servicos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedConfiguracoesSiteRoute =
+  AuthenticatedConfiguracoesSiteRouteImport.update({
+    id: '/configuracoes-site',
+    path: '/configuracoes-site',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedMeuEspacoRoute = AuthenticatedMeuEspacoRouteImport.update({
   id: '/meu-espaco',
   path: '/meu-espaco',
@@ -85,6 +92,7 @@ export interface FileRoutesByFullPath {
   '/produtos': typeof ProdutosRoute
   '/projetos': typeof ProjetosRouteWithChildren
   '/servicos': typeof ServicosRoute
+  '/configuracoes-site': typeof AuthenticatedConfiguracoesSiteRoute
   '/meu-espaco': typeof AuthenticatedMeuEspacoRoute
   '/projetos/$slug': typeof ProjetosSlugRoute
 }
@@ -97,6 +105,7 @@ export interface FileRoutesByTo {
   '/produtos': typeof ProdutosRoute
   '/projetos': typeof ProjetosRouteWithChildren
   '/servicos': typeof ServicosRoute
+  '/configuracoes-site': typeof AuthenticatedConfiguracoesSiteRoute
   '/meu-espaco': typeof AuthenticatedMeuEspacoRoute
   '/projetos/$slug': typeof ProjetosSlugRoute
 }
@@ -111,6 +120,7 @@ export interface FileRoutesById {
   '/produtos': typeof ProdutosRoute
   '/projetos': typeof ProjetosRouteWithChildren
   '/servicos': typeof ServicosRoute
+  '/_authenticated/configuracoes-site': typeof AuthenticatedConfiguracoesSiteRoute
   '/_authenticated/meu-espaco': typeof AuthenticatedMeuEspacoRoute
   '/projetos/$slug': typeof ProjetosSlugRoute
 }
@@ -125,6 +135,7 @@ export interface FileRouteTypes {
     | '/produtos'
     | '/projetos'
     | '/servicos'
+    | '/configuracoes-site'
     | '/meu-espaco'
     | '/projetos/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -137,6 +148,7 @@ export interface FileRouteTypes {
     | '/produtos'
     | '/projetos'
     | '/servicos'
+    | '/configuracoes-site'
     | '/meu-espaco'
     | '/projetos/$slug'
   id:
@@ -150,6 +162,7 @@ export interface FileRouteTypes {
     | '/produtos'
     | '/projetos'
     | '/servicos'
+    | '/_authenticated/configuracoes-site'
     | '/_authenticated/meu-espaco'
     | '/projetos/$slug'
   fileRoutesById: FileRoutesById
@@ -231,6 +244,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/configuracoes-site': {
+      id: '/_authenticated/configuracoes-site'
+      path: '/configuracoes-site'
+      fullPath: '/configuracoes-site'
+      preLoaderRoute: typeof AuthenticatedConfiguracoesSiteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/meu-espaco': {
       id: '/_authenticated/meu-espaco'
       path: '/meu-espaco'
@@ -249,10 +269,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedConfiguracoesSiteRoute: typeof AuthenticatedConfiguracoesSiteRoute
   AuthenticatedMeuEspacoRoute: typeof AuthenticatedMeuEspacoRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedConfiguracoesSiteRoute: AuthenticatedConfiguracoesSiteRoute,
   AuthenticatedMeuEspacoRoute: AuthenticatedMeuEspacoRoute,
 }
 
@@ -285,13 +307,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

@@ -255,9 +255,9 @@ function MeuEspaco() {
   async function saveProfile() {
     if (!profileQuery.data) return;
     const digits = phone.replace(/\D/g, "");
-    if (phone && digits.length < 10) return toast.error(t("space.phoneInvalid"));
+    if (phone && digits.length < 10) { toast.error(t("space.phoneInvalid")); return; }
     if (accountType === "company" && (!company.trim() || Number(employeeCount) < 1)) {
-      return toast.error(t("space.employeesInvalid"));
+      { toast.error(t("space.employeesInvalid")); return; }
     }
     setSaving(true);
     const { error } = await supabase.from("profiles").upsert({
@@ -272,7 +272,7 @@ function MeuEspaco() {
       avatar_url: avatarPath,
     });
     setSaving(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success(t("space.saved"));
     queryClient.invalidateQueries({ queryKey: ["profile"] });
   }
@@ -453,7 +453,7 @@ function ProjectAdmin() {
 
   async function uploadProjectImage(file: File, gallery = false) {
     const valid = validateImage(file);
-    if (!valid.ok) return toast.error(valid.reason === "size" ? t("space.photoTooLarge") : t("space.photoInvalidType"));
+    if (!valid.ok) { toast.error(valid.reason === "size" ? t("space.photoTooLarge") : t("space.photoInvalidType")); return; }
     setUploading(true);
     try {
       const folder = form.id ?? "drafts";
@@ -508,8 +508,8 @@ function ProjectAdmin() {
 
   async function saveProject() {
     const nextSlug = form.slug || slugify(form.title.pt);
-    if (!SLUG_PATTERN.test(nextSlug)) return toast.error(t("admin.projects.slugRequired"));
-    if (!form.title.pt.trim()) return toast.error(t("common.required"));
+    if (!SLUG_PATTERN.test(nextSlug)) { toast.error(t("admin.projects.slugRequired")); return; }
+    if (!form.title.pt.trim()) { toast.error(t("common.required")); return; }
     setSaving(true);
     const payload = {
       slug: nextSlug,
@@ -533,7 +533,7 @@ function ProjectAdmin() {
       ? await supabase.from("projects").update(payload).eq("id", form.id)
       : await supabase.from("projects").insert(payload);
     setSaving(false);
-    if (response.error) return toast.error(response.error.message);
+    if (response.error) { toast.error(response.error.message); return; }
     toast.success(t("admin.projects.saved"));
     setForm(blankProject());
     queryClient.invalidateQueries({ queryKey: ["projects"] });
@@ -542,7 +542,7 @@ function ProjectAdmin() {
   async function deleteProject(project: ProjectRow) {
     if (!window.confirm(t("admin.projects.confirmDelete"))) return;
     const { error } = await supabase.from("projects").delete().eq("id", project.id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     const paths = [project.image_url, ...(project.gallery_urls ?? [])].filter((p): p is string => Boolean(p));
     if (paths.length) await supabase.storage.from(PROJECT_BUCKET).remove(paths);
     if (form.id === project.id) setForm(blankProject());
