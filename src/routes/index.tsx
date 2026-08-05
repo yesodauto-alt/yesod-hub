@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Layers, Lock, Newspaper, Sparkles, UserRound } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
-import logo from "@/assets/yesod-logo.png.asset.json";
 import {
   Accordion,
   AccordionContent,
