@@ -293,12 +293,12 @@ function Home() {
               <Bot className="h-8 w-8" strokeWidth={1.7} aria-hidden="true" />
             </span>
             <div className="max-w-2xl sm:pl-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e86f22]">Experiência interativa</p>
-              <h2 className="mt-3 text-2xl text-white sm:text-3xl">{aiExperience.headline}</h2>
-              <p className="mt-3 leading-7 text-white/75">{aiExperience.description}</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e86f22]">{tm(aiExperience.eyebrow)}</p>
+              <h2 className="mt-3 text-2xl text-white sm:text-3xl">{tm(aiExperience.headline)}</h2>
+              <p className="mt-3 leading-7 text-white/75">{tm(aiExperience.description)}</p>
             </div>
             <Button asChild size="lg" className="shrink-0 bg-[#e86f22] text-white hover:bg-[#cf5c16]">
-              <a href={aiExperience.url} target="_blank" rel="noreferrer noopener">FALE COM O MARLEY</a>
+              <a href={aiExperience.url} target="_blank" rel="noreferrer noopener">{tm(aiExperience.buttonLabel)}</a>
             </Button>
           </div>
         </section>
