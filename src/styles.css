@@ -164,3 +164,47 @@
   background-clip: text;
   color: transparent;
 }
+
+
+@keyframes yesod-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes yesod-sidebar-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@layer components {
+  .home-fade-in {
+    animation: yesod-fade-in 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .sidebar-float {
+    animation:
+      yesod-fade-in 500ms cubic-bezier(0.22, 1, 0.36, 1) both,
+      yesod-sidebar-float 7s ease-in-out 500ms infinite;
+    box-shadow:
+      0 18px 42px -28px rgb(15 23 42 / 36%),
+      0 8px 24px -18px rgb(15 23 42 / 22%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-fade-in,
+    .sidebar-float {
+      animation: none;
+    }
+  }
+}
