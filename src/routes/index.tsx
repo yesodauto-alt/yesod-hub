@@ -130,22 +130,22 @@ function Home() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-border bg-card/85 p-5 shadow-soft backdrop-blur sm:p-7">
+          <div className="rounded-2xl border border-white/10 bg-brand-gradient p-5 text-white shadow-lift sm:p-7">
             <div className="grid gap-3">
               {pillars.map((pillar, index) => (
                 <Link
                   key={pillar.titleKey}
                   to={pillar.to}
-                  className="group flex items-start gap-4 rounded-xl border border-transparent p-4 hover:border-border hover:bg-background"
+                  className="group flex items-start gap-4 rounded-xl border border-transparent p-4 transition-colors hover:border-white/15 hover:bg-white/[0.06]"
                 >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent text-primary">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/10 text-white">
                     <pillar.icon className="h-4.5 w-4.5" strokeWidth={1.8} aria-hidden="true" />
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block text-sm font-semibold">{t(pillar.titleKey)}</span>
-                    <span className="mt-1 block text-xs leading-5 text-muted-foreground">{t(pillar.textKey)}</span>
+                    <span className="mt-1 block text-xs leading-5 text-white/65">{t(pillar.textKey)}</span>
                   </span>
-                  <span className="mt-1 text-xs text-muted-foreground">0{index + 1}</span>
+                  <span className="mt-1 text-xs text-white/45">0{index + 1}</span>
                 </Link>
               ))}
             </div>

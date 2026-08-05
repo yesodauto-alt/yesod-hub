@@ -3,6 +3,7 @@ import {
   Boxes,
   Home,
   Layers,
+  Lock,
   Mail,
   Menu,
   Sparkles,
@@ -18,23 +19,33 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { useI18n, type TranslationKey } from "@/lib/i18n";
 
+type NavLabel = TranslationKey | "nav.exclusive";
+
+const exclusiveLabels = {
+  pt: "Conteúdos exclusivos",
+  en: "Exclusive content",
+  es: "Contenidos exclusivos",
+} as const;
+
 const items: Array<{
   to: "/" | "/hub" | "/projetos" | "/servicos" | "/produtos" | "/meu-espaco" | "/contato";
-  label: TranslationKey;
+  label: NavLabel;
   icon: typeof Home;
+  active?: boolean;
 }> = [
   { to: "/", label: "nav.home", icon: Home },
   { to: "/hub", label: "nav.hub", icon: Users },
   { to: "/projetos", label: "nav.projects", icon: Layers },
   { to: "/servicos", label: "nav.services", icon: Sparkles },
   { to: "/produtos", label: "nav.products", icon: Boxes },
+  { to: "/meu-espaco", label: "nav.exclusive", icon: Lock, active: false },
   { to: "/meu-espaco", label: "nav.members", icon: UserRound },
   { to: "/contato", label: "nav.contact", icon: Mail },
 ];
 
 function NavList({ onNavigate }: { onNavigate?: () => void }) {
   const { user } = useAuth();
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
 
   return (
     <div className="flex h-full flex-col bg-card">
@@ -49,15 +60,15 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
       <nav className="mt-10 flex flex-1 flex-col gap-1 px-4" aria-label={t("nav.navigation")}>
         {items.map((item) => (
           <Link
-            key={item.to}
+            key={item.label}
             to={item.to}
             onClick={onNavigate}
             activeOptions={{ exact: item.to === "/" }}
             className="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-            activeProps={{ className: "bg-accent text-primary" }}
+            activeProps={item.active === false ? undefined : { className: "bg-accent text-primary" }}
           >
             <item.icon className="h-[17px] w-[17px]" strokeWidth={1.8} aria-hidden="true" />
-            {t(item.label)}
+            {item.label === "nav.exclusive" ? exclusiveLabels[lang] : t(item.label)}
           </Link>
         ))}
       </nav>
