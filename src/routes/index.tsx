@@ -9,6 +9,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { HeroBackdrop } from "@/components/home/HeroBackdrop";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n, useLocalizedMeta, type Lang, type TranslationKey } from "@/lib/i18n";
 import type { FounderSettings } from "@/lib/projects";
@@ -43,6 +44,7 @@ const pillars = [
 ];
 
 const heroCopy: Record<Lang, {
+  welcome: string;
   titleOne: string;
   titleTwo: string;
   text: string;
@@ -51,6 +53,7 @@ const heroCopy: Record<Lang, {
   news: string;
 }> = {
   pt: {
+    welcome: "Bem-vindo ao",
     titleOne: "Automatize o que consome seu time. Potencialize o que só o humano faz.",
     titleTwo: "É assim que a IA vira lucro e não custo.",
     text:
@@ -60,6 +63,7 @@ const heroCopy: Record<Lang, {
     news: "Acompanhar novidades",
   },
   en: {
+    welcome: "Welcome to",
     titleOne: "Automate what drains your team. Amplify what only humans can do.",
     titleTwo: "That is how AI becomes profit, not cost.",
     text:
@@ -69,6 +73,7 @@ const heroCopy: Record<Lang, {
     news: "Follow AI updates",
   },
   es: {
+    welcome: "Bienvenido al",
     titleOne: "Automatiza lo que consume a tu equipo. Potencia lo que solo el humano hace.",
     titleTwo: "Así la IA se convierte en ganancia y no en costo.",
     text:
@@ -146,17 +151,23 @@ function Home() {
 
   return (
     <div>
-      <section className="bg-hero-gradient">
-        <div className="mx-auto grid max-w-6xl gap-12 px-6 py-20 sm:py-28 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+      <section className="relative isolate overflow-hidden bg-hero-gradient">
+        <HeroBackdrop />
+        <div className="relative mx-auto grid max-w-6xl gap-12 px-6 py-24 sm:py-32 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-deep">
               {t("brand.tagline")}
             </p>
-            <h1 className="mt-5 max-w-3xl text-4xl leading-[1.08] text-foreground sm:text-5xl lg:text-[3.55rem]">
-              <span className="block">{hero.titleOne}</span>
-              <span className="mt-2 block text-primary-deep">{hero.titleTwo}</span>
+            <p className="mt-7 text-base font-medium text-slate-600">{hero.welcome}</p>
+            <h1 className="mt-1 font-display text-5xl font-bold leading-[0.95] tracking-[-0.045em] text-primary-deep sm:text-6xl lg:text-7xl">
+              YESOD <span className="text-brand-gradient">HUB</span>
             </h1>
-            <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-700">{hero.text}</p>
+            <p className="mt-7 max-w-2xl font-display text-xl leading-snug font-semibold text-foreground sm:text-2xl">
+              {hero.titleOne}{" "}
+              <span className="text-primary">{hero.titleTwo}</span>
+            </p>
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700">{hero.text}</p>
+
             <div className="mt-9 flex flex-wrap gap-3">
               <Button asChild size="lg">
                 <Link to="/projetos">{hero.projects}</Link>
