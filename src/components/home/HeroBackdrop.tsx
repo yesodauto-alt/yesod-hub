@@ -1,34 +1,4 @@
-const nodes: { x: number; y: number; r: number }[] = [
-  { x: 320, y: 90, r: 3 },
-  { x: 250, y: 250, r: 2 },
-  { x: 300, y: 470, r: 2.5 },
-  { x: 420, y: 40, r: 2 },
-  { x: 380, y: 560, r: 3 },
-  { x: 200, y: 600, r: 2 },
-  { x: 1140, y: 100, r: 3 },
-  { x: 1050, y: 240, r: 2 },
-  { x: 1180, y: 380, r: 2.5 },
-  { x: 960, y: 420, r: 2 },
-  { x: 1090, y: 540, r: 3 },
-  { x: 900, y: 130, r: 2 },
-];
-
-const links: [number, number][] = [
-  [0, 1],
-  [1, 2],
-  [0, 3],
-  [1, 4],
-  [2, 5],
-  [3, 4],
-  [6, 7],
-  [7, 8],
-  [8, 10],
-  [7, 9],
-  [6, 11],
-  [9, 10],
-];
-
-/** Abstract network / data-flow backdrop for the home hero. Decorative only. */
+/** Refined AI transformation backdrop for the home hero. Decorative only. */
 export function HeroBackdrop() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
@@ -39,75 +9,70 @@ export function HeroBackdrop() {
         fill="none"
       >
         <defs>
-          <linearGradient id="yh-line" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#12365f" stopOpacity="0.55" />
-            <stop offset="100%" stopColor="#2d69aa" stopOpacity="0.15" />
-          </linearGradient>
-          <linearGradient id="yh-trail" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#2d69aa" stopOpacity="0" />
-            <stop offset="50%" stopColor="#2d69aa" stopOpacity="0.5" />
-            <stop offset="100%" stopColor="#2d69aa" stopOpacity="0" />
-          </linearGradient>
-          <radialGradient id="yh-glow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#2d69aa" stopOpacity="0.22" />
-            <stop offset="100%" stopColor="#2d69aa" stopOpacity="0" />
+          <radialGradient id="yh-ai-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#2d69aa" stopOpacity="0.28" />
+            <stop offset="55%" stopColor="#245a98" stopOpacity="0.1" />
+            <stop offset="100%" stopColor="#245a98" stopOpacity="0" />
           </radialGradient>
-          <pattern id="yh-grid" width="56" height="56" patternUnits="userSpaceOnUse">
-            <path d="M56 0H0V56" stroke="#12365f" strokeOpacity="0.07" strokeWidth="1" />
-          </pattern>
+          <linearGradient id="yh-flow" x1="180" y1="480" x2="1080" y2="130" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#12365f" stopOpacity="0" />
+            <stop offset="38%" stopColor="#245a98" stopOpacity="0.2" />
+            <stop offset="72%" stopColor="#2d69aa" stopOpacity="0.42" />
+            <stop offset="100%" stopColor="#2d69aa" stopOpacity="0" />
+          </linearGradient>
+          <linearGradient id="yh-pulse" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#12365f" stopOpacity="0" />
+            <stop offset="52%" stopColor="#245a98" stopOpacity="0.48" />
+            <stop offset="100%" stopColor="#2d69aa" stopOpacity="0" />
+          </linearGradient>
+          <filter id="yh-soft-glow" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur stdDeviation="10" />
+          </filter>
         </defs>
 
-        <rect width="1240" height="640" fill="url(#yh-grid)" />
-        <circle cx="90" cy="300" r="300" fill="url(#yh-glow)" />
-        <circle cx="1150" cy="320" r="320" fill="url(#yh-glow)" />
+        {/* A calm field of intelligence, concentrated away from the copy. */}
+        <ellipse cx="1060" cy="250" rx="330" ry="300" fill="url(#yh-ai-glow)" />
+        <ellipse cx="205" cy="540" rx="260" ry="220" fill="url(#yh-ai-glow)" opacity="0.38" />
 
-        {/* soft geometry */}
-        <circle cx="1120" cy="300" r="180" stroke="url(#yh-line)" strokeWidth="1" opacity="0.5" />
-        <circle cx="1120" cy="300" r="118" stroke="url(#yh-line)" strokeWidth="1" opacity="0.35" />
-        <rect
-          x="20"
-          y="200"
-          width="230"
-          height="230"
-          rx="46"
-          stroke="url(#yh-line)"
-          strokeWidth="1"
-          opacity="0.4"
-          transform="rotate(-14 135 315)"
-        />
-
-        {/* data trails */}
-        <path
-          d="M-40 480 C 220 400 320 560 640 470 C 940 385 1040 540 1300 450"
-          stroke="url(#yh-trail)"
-          strokeWidth="1.2"
-        />
-        <path
-          d="M-40 160 C 200 90 340 220 620 150 C 900 80 1060 210 1300 140"
-          stroke="url(#yh-trail)"
-          strokeWidth="1.2"
-        />
-
-        {/* connections */}
-        <g stroke="url(#yh-line)" strokeWidth="1">
-          {links.map(([a, b]) => {
-            const from = nodes[a]!;
-            const to = nodes[b]!;
-            return <line key={`${a}-${b}`} x1={from.x} y1={from.y} x2={to.x} y2={to.y} />;
-          })}
+        {/* Human work becoming a precise, scalable flow. */}
+        <g stroke="url(#yh-flow)" strokeLinecap="round">
+          <path d="M-80 555 C220 520 350 435 515 365 C700 286 846 238 1320 106" strokeWidth="26" opacity="0.08" />
+          <path d="M-70 556 C235 522 358 443 522 373 C706 295 858 245 1310 119" strokeWidth="7" opacity="0.18" />
+          <path d="M-60 558 C240 530 372 456 535 386 C720 307 876 258 1300 135" strokeWidth="1.6" opacity="0.8" />
+          <path d="M35 622 C300 535 430 520 585 438 C760 346 927 310 1285 244" strokeWidth="1" opacity="0.5" />
+          <path d="M660 610 C780 505 850 443 966 388 C1082 334 1162 310 1310 286" strokeWidth="1.2" opacity="0.42" />
         </g>
-        <g fill="#1d4f85" fillOpacity="0.5">
-          {nodes.map((node) => (
-            <circle key={`${node.x}-${node.y}`} cx={node.x} cy={node.y} r={node.r} />
-          ))}
+
+        {/* Structured AI core: deliberate rings, not random connections. */}
+        <g transform="translate(1032 245)">
+          <circle r="154" fill="#2d69aa" fillOpacity="0.035" />
+          <circle r="122" stroke="#245a98" strokeOpacity="0.16" strokeWidth="1" />
+          <circle r="88" stroke="#245a98" strokeOpacity="0.22" strokeWidth="1" strokeDasharray="3 10" />
+          <circle r="57" stroke="#12365f" strokeOpacity="0.2" strokeWidth="1" />
+          <circle r="18" fill="#245a98" fillOpacity="0.1" filter="url(#yh-soft-glow)" />
+          <circle r="5" fill="#245a98" fillOpacity="0.5" />
+          <path d="M-122 0H-57M57 0H122M0-122V-57M0 57V122" stroke="#245a98" strokeOpacity="0.18" />
+          <g fill="#2d69aa" fillOpacity="0.5">
+            <circle cx="-122" cy="0" r="3" />
+            <circle cx="122" cy="0" r="3" />
+            <circle cx="0" cy="-122" r="3" />
+            <circle cx="0" cy="122" r="3" />
+            <circle cx="-62" cy="-62" r="2.5" />
+            <circle cx="62" cy="62" r="2.5" />
+          </g>
         </g>
-        <g fill="none" stroke="#2d69aa" strokeOpacity="0.3" strokeWidth="1">
-          {nodes.filter((_, i) => i % 3 === 0).map((node) => (
-            <circle key={`ring-${node.x}`} cx={node.x} cy={node.y} r={node.r + 8} />
-          ))}
+
+        {/* A single pulse suggests useful automation moving through the system. */}
+        <path d="M430 508 C610 430 720 355 895 302 C1010 267 1115 256 1280 236" stroke="url(#yh-pulse)" strokeWidth="2" />
+        <g fill="#245a98">
+          <circle cx="615" cy="422" r="3" fillOpacity="0.34" />
+          <circle cx="760" cy="341" r="4" fillOpacity="0.42" />
+          <circle cx="895" cy="302" r="3" fillOpacity="0.46" />
         </g>
       </svg>
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(237,244,251,0.6)_0%,rgba(237,244,251,0.08)_60%,transparent_100%)]" />
+
+      {/* Protects legibility while allowing the visual to remain impactful. */}
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(237,244,251,0.58)_0%,rgba(237,244,251,0.28)_43%,transparent_72%)]" />
     </div>
   );
 }
