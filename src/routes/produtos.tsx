@@ -1,9 +1,15 @@
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Check, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
 import { useI18n, useLocalizedMeta } from "@/lib/i18n";
-import { PRODUCTS, whatsappUrl } from "@/lib/yesod";
+import {
+  defaultConfigurableProducts,
+  type ConfigurableProduct,
+  whatsappUrl,
+} from "@/lib/yesod";
 
 export const Route = createFileRoute("/produtos")({
   head: () => ({
@@ -26,8 +32,19 @@ export const Route = createFileRoute("/produtos")({
 });
 
 function Produtos() {
-  const { t } = useI18n();
+  const { t, tm, lang } = useI18n();
   useLocalizedMeta("meta.products.title", "meta.products.desc");
+
+  const productsQuery = useQuery({
+    queryKey: ["site-settings", "products"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("site_settings").select("value").eq("key", "products").maybeSingle();
+      if (error) throw error;
+      return Array.isArray(data?.value) ? (data.value as unknown as ConfigurableProduct[]) : null;
+    },
+  });
+
+  const products = (productsQuery.data ?? defaultConfigurableProducts()).filter((product) => product.published);
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
@@ -37,41 +54,42 @@ function Produtos() {
         <p className="mt-4 leading-7 text-muted-foreground">{t("products.subtitle")}</p>
       </header>
 
-      <div className="mt-12 grid gap-4 sm:grid-cols-2">
-        {PRODUCTS.map((product, index) => {
-          const name = t(product.nameKey);
+      <div className="mt-10 grid gap-3 sm:grid-cols-2">
+        {products.map((product, index) => {
+          const name = tm(product.name);
+          const features = product.features[lang]?.length
+            ? product.features[lang]
+            : product.features.pt ?? [];
           return (
             <article
               key={product.id}
-              className={`flex flex-col rounded-2xl border bg-card p-6 sm:p-7 ${
-                product.featured ? "border-primary/35" : "border-border"
-              }`}
+              className={`flex flex-col border bg-card p-5 ${product.featured ? "border-[#e86f22]/45" : "border-border"}`}
             >
               <div className="flex items-start justify-between gap-4">
-                <span className="text-xs font-semibold tracking-[0.16em] text-muted-foreground">
+                <span className="text-xs font-bold tracking-[0.16em] text-[#d75a12]">
                   0{index + 1}
                 </span>
                 {product.featured && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-accent px-2.5 py-1 text-[11px] font-semibold text-accent-foreground">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#fff1e7] px-2.5 py-1 text-[11px] font-semibold text-[#d75a12]">
                     <Sparkles className="h-3 w-3" aria-hidden="true" />
                     {t("products.featured")}
                   </span>
                 )}
               </div>
 
-              <h2 className="mt-8 text-xl">{name}</h2>
-              <p className="mt-3 text-sm leading-6 text-muted-foreground">{t(product.descriptionKey)}</p>
+              <h2 className="mt-5 text-lg">{name}</h2>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">{tm(product.description)}</p>
 
-              <ul className="mt-7 flex-1 space-y-3 border-t border-border pt-6 text-sm">
-                {product.featureKeys.map((key) => (
-                  <li key={key} className="flex gap-3">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" strokeWidth={1.9} aria-hidden="true" />
-                    <span className="leading-6 text-foreground/80">{t(key)}</span>
+              <ul className="mt-5 flex-1 space-y-2 border-t border-border pt-4 text-sm">
+                {features.map((feature, featureIndex) => (
+                  <li key={`${feature}-${featureIndex}`} className="flex gap-3">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#e86f22]" strokeWidth={2} aria-hidden="true" />
+                    <span className="leading-6 text-foreground/80">{feature}</span>
                   </li>
                 ))}
               </ul>
 
-              <Button asChild className="mt-8 w-full sm:w-fit" variant={product.featured ? "default" : "outline"}>
+              <Button asChild size="sm" className="mt-5 w-full sm:w-fit">
                 <a href={whatsappUrl(t("wa.product", { name }))} target="_blank" rel="noreferrer">
                   {t("products.cta")}
                 </a>
