@@ -6,6 +6,7 @@ import {
   Lock,
   Mail,
   Menu,
+  Settings2,
   Sparkles,
   UserRound,
   Users,
@@ -16,22 +17,38 @@ import { useEffect, useState } from "react";
 import logo from "@/assets/yesod-logo.png.asset.json";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/use-auth";
+import { useAuth, useIsAdmin } from "@/hooks/use-auth";
 import { useI18n, type TranslationKey } from "@/lib/i18n";
 
-type NavLabel = TranslationKey | "nav.exclusive";
+type NavLabel = TranslationKey | "nav.exclusive" | "nav.siteSettings";
 
-const exclusiveLabels = {
-  pt: "Conteúdos exclusivos",
-  en: "Exclusive content",
-  es: "Contenidos exclusivos",
+const customLabels = {
+  "nav.exclusive": {
+    pt: "Conteúdos exclusivos",
+    en: "Exclusive content",
+    es: "Contenidos exclusivos",
+  },
+  "nav.siteSettings": {
+    pt: "Editar página inicial",
+    en: "Edit home page",
+    es: "Editar página inicial",
+  },
 } as const;
 
 const items: Array<{
-  to: "/" | "/hub" | "/projetos" | "/servicos" | "/produtos" | "/meu-espaco" | "/contato";
+  to:
+    | "/"
+    | "/hub"
+    | "/projetos"
+    | "/servicos"
+    | "/produtos"
+    | "/meu-espaco"
+    | "/configuracoes-site"
+    | "/contato";
   label: NavLabel;
   icon: typeof Home;
   active?: boolean;
+  adminOnly?: boolean;
 }> = [
   { to: "/", label: "nav.home", icon: Home },
   { to: "/hub", label: "nav.hub", icon: Users },
@@ -40,12 +57,20 @@ const items: Array<{
   { to: "/produtos", label: "nav.products", icon: Boxes },
   { to: "/meu-espaco", label: "nav.exclusive", icon: Lock, active: false },
   { to: "/meu-espaco", label: "nav.members", icon: UserRound },
+  { to: "/configuracoes-site", label: "nav.siteSettings", icon: Settings2, adminOnly: true },
   { to: "/contato", label: "nav.contact", icon: Mail },
 ];
 
 function NavList({ onNavigate }: { onNavigate?: () => void }) {
   const { user } = useAuth();
+  const isAdmin = useIsAdmin(user);
   const { t, lang } = useI18n();
+  const visibleItems = items.filter((item) => !item.adminOnly || isAdmin);
+
+  function labelFor(label: NavLabel) {
+    if (label in customLabels) return customLabels[label as keyof typeof customLabels][lang];
+    return t(label as TranslationKey);
+  }
 
   return (
     <div className="flex h-full flex-col bg-card">
@@ -58,7 +83,7 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
       </Link>
 
       <nav className="mt-10 flex flex-1 flex-col gap-1 px-4" aria-label={t("nav.navigation")}>
-        {items.map((item) => (
+        {visibleItems.map((item) => (
           <Link
             key={item.label}
             to={item.to}
@@ -68,7 +93,7 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
             activeProps={item.active === false ? undefined : { className: "bg-accent text-primary" }}
           >
             <item.icon className="h-[17px] w-[17px]" strokeWidth={1.8} aria-hidden="true" />
-            {item.label === "nav.exclusive" ? exclusiveLabels[lang] : t(item.label)}
+            {labelFor(item.label)}
           </Link>
         ))}
       </nav>
