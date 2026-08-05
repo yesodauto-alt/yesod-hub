@@ -207,6 +207,47 @@
   }
 }
 
+@layer components {
+  .visual-edit-mode p,
+  .visual-edit-mode h1,
+  .visual-edit-mode h2,
+  .visual-edit-mode h3,
+  .visual-edit-mode h4,
+  .visual-edit-mode h5,
+  .visual-edit-mode h6,
+  .visual-edit-mode a,
+  .visual-edit-mode button,
+  .visual-edit-mode li,
+  .visual-edit-mode label,
+  .visual-edit-mode span {
+    cursor: text;
+  }
+
+  .visual-edit-mode :is(p, h1, h2, h3, h4, h5, h6, a, button, li, label, span):hover {
+    outline: 2px dashed rgb(232 111 34 / 75%);
+    outline-offset: 3px;
+  }
+
+  .visual-tool {
+    display: inline-flex;
+    height: 2.25rem;
+    min-width: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.375rem;
+    border: 1px solid var(--color-border);
+    background: white;
+    color: #475569;
+  }
+
+  .visual-tool:hover,
+  .visual-tool.is-active {
+    border-color: #e86f22;
+    background: #fff1e7;
+    color: #d75a12;
+  }
+}
+
 @keyframes yesod-fade-in {
   from {
     opacity: 0;
