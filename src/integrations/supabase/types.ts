@@ -18,10 +18,13 @@ export type Database = {
         Row: {
           author_id: string
           category: string
+          category_i18n: Json
           content_html: string
+          content_i18n: Json
           cover_image_url: string | null
           created_at: string
           excerpt: string
+          excerpt_i18n: Json
           external_video_url: string | null
           id: string
           media_type: string | null
@@ -29,15 +32,19 @@ export type Database = {
           published: boolean
           sort_order: number
           title: string
+          title_i18n: Json
           updated_at: string
         }
         Insert: {
           author_id: string
           category?: string
+          category_i18n?: Json
           content_html?: string
+          content_i18n?: Json
           cover_image_url?: string | null
           created_at?: string
           excerpt?: string
+          excerpt_i18n?: Json
           external_video_url?: string | null
           id?: string
           media_type?: string | null
@@ -45,15 +52,19 @@ export type Database = {
           published?: boolean
           sort_order?: number
           title: string
+          title_i18n: Json
           updated_at?: string
         }
         Update: {
           author_id?: string
           category?: string
+          category_i18n?: Json
           content_html?: string
+          content_i18n?: Json
           cover_image_url?: string | null
           created_at?: string
           excerpt?: string
+          excerpt_i18n?: Json
           external_video_url?: string | null
           id?: string
           media_type?: string | null
@@ -61,6 +72,7 @@ export type Database = {
           published?: boolean
           sort_order?: number
           title?: string
+          title_i18n?: Json
           updated_at?: string
         }
         Relationships: []
@@ -138,6 +150,7 @@ export type Database = {
           author_name: string
           category: string
           content: string
+          content_i18n: Json
           created_at: string
           external_video_url: string | null
           id: string
@@ -146,6 +159,7 @@ export type Database = {
           media_url: string | null
           published: boolean
           title: string
+          title_i18n: Json
           updated_at: string
         }
         Insert: {
@@ -153,6 +167,7 @@ export type Database = {
           author_name?: string
           category?: string
           content: string
+          content_i18n: Json
           created_at?: string
           external_video_url?: string | null
           id?: string
@@ -161,6 +176,7 @@ export type Database = {
           media_url?: string | null
           published?: boolean
           title: string
+          title_i18n: Json
           updated_at?: string
         }
         Update: {
@@ -168,6 +184,7 @@ export type Database = {
           author_name?: string
           category?: string
           content?: string
+          content_i18n?: Json
           created_at?: string
           external_video_url?: string | null
           id?: string
@@ -176,6 +193,7 @@ export type Database = {
           media_url?: string | null
           published?: boolean
           title?: string
+          title_i18n?: Json
           updated_at?: string
         }
         Relationships: []

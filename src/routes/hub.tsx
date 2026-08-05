@@ -13,7 +13,8 @@ import { RichTextEditor, sanitizeRichText } from "@/components/ui/rich-text-edit
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth, useIsAdmin } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
-import { LOCALES, useI18n, useLocalizedMeta, type TranslationKey } from "@/lib/i18n";
+import { LOCALES, useI18n, useLocalizedMeta, type Multilingual, type TranslationKey } from "@/lib/i18n";
+import { translateContent } from "@/lib/translate-content";
 import { HUB_MEDIA_BUCKET, safeFileName, useMediaUrl, validateEditorialMedia, validateImage } from "@/lib/storage";
 import { CATEGORIES } from "@/lib/yesod";
 
@@ -31,9 +32,11 @@ export const Route = createFileRoute("/hub")({
 type Post = {
   id: string;
   title: string;
+  title_i18n: Multilingual;
   author_name: string;
   category: string;
   content: string;
+  content_i18n: Multilingual;
   image_url: string | null;
   media_url: string | null;
   media_type: string | null;
@@ -89,7 +92,7 @@ function FeedPage() {
     queryFn: async () => {
       let query = supabase
         .from("posts")
-        .select("id,title,author_name,category,content,image_url,media_url,media_type,external_video_url,published,created_at")
+        .select("id,title,title_i18n,author_name,category,content,content_i18n,image_url,media_url,media_type,external_video_url,published,created_at")
         .order("created_at", { ascending: false });
       if (category !== "Todas") query = query.eq("category", category);
       const { data, error } = await query;
@@ -176,11 +179,28 @@ function AdminComposer({ posts }: { posts: Post[] }) {
       const { data: auth } = await supabase.auth.getUser();
       if (!auth.user) throw new Error(t("auth.failed"));
       const { data: profile } = await supabase.from("profiles").select("full_name").eq("id", auth.user.id).maybeSingle();
-      const payload = { author_id: auth.user.id, author_name: profile?.full_name || "YESOD", title: title.trim(), content: sanitizeRichText(content), category, image_url: imageUrl, media_url: mediaUrl, media_type: mediaType, external_video_url: externalVideoUrl.trim() || null, published, updated_at: new Date().toISOString() };
+      const cleanTitle = title.trim();
+      const cleanContent = sanitizeRichText(content);
+      const translations = await translateContent({ title: cleanTitle, content: cleanContent });
+      const payload = {
+        author_id: auth.user.id,
+        author_name: profile?.full_name || "YESOD",
+        title: cleanTitle,
+        title_i18n: { pt: cleanTitle, en: String(translations.en?.title ?? ""), es: String(translations.es?.title ?? "") },
+        content: cleanContent,
+        content_i18n: { pt: cleanContent, en: String(translations.en?.content ?? ""), es: String(translations.es?.content ?? "") },
+        category,
+        image_url: imageUrl,
+        media_url: mediaUrl,
+        media_type: mediaType,
+        external_video_url: externalVideoUrl.trim() || null,
+        published,
+        updated_at: new Date().toISOString(),
+      };
       const result = editId ? await supabase.from("posts").update(payload).eq("id", editId) : await supabase.from("posts").insert(payload);
       if (result.error) throw result.error;
     },
-    onSuccess: () => { toast.success(published ? "Publicação atualizada." : "Rascunho salvo."); reset(); queryClient.invalidateQueries({ queryKey: ["posts"] }); },
+    onSuccess: () => { toast.success(published ? "Publicação atualizada e traduzida." : "Rascunho salvo e traduzido."); reset(); queryClient.invalidateQueries({ queryKey: ["posts"] }); },
     onError: (error: Error) => toast.error(error.message),
   });
 
@@ -198,7 +218,7 @@ function AdminComposer({ posts }: { posts: Post[] }) {
   return (
     <Card id="hub-editor" className="mt-9 border-t-4 border-t-[#e86f22] shadow-none">
       <CardHeader className="border-b border-border">
-        <div className="flex items-center justify-between gap-4"><div><h2 className="font-display text-lg font-semibold">{editId ? "Editar publicação" : "Nova publicação"}</h2><p className="mt-1 text-sm text-muted-foreground">Texto formatado, imagens, vídeos e rascunhos.</p></div>{editId && <Button variant="outline" onClick={reset}><Plus className="mr-2 h-4 w-4" />Nova</Button>}</div>
+        <div className="flex items-center justify-between gap-4"><div><h2 className="font-display text-lg font-semibold">{editId ? "Editar publicação" : "Nova publicação"}</h2><p className="mt-1 text-sm text-muted-foreground">Escreva em português; títulos e textos são traduzidos automaticamente para inglês e espanhol, preservando a formatação.</p></div>{editId && <Button variant="outline" onClick={reset}><Plus className="mr-2 h-4 w-4" />Nova</Button>}</div>
       </CardHeader>
       <CardContent className="grid gap-5 pt-6 sm:grid-cols-2">
         <div className="space-y-2 sm:col-span-2"><Label>Título</Label><Input value={title} onChange={(e) => setTitle(e.target.value)} /></div>
@@ -217,7 +237,7 @@ function AdminComposer({ posts }: { posts: Post[] }) {
 
 function PostCard({ post, userId, locale, isAdmin }: { post: Post; userId: string | null; locale: string; isAdmin: boolean }) {
   const queryClient = useQueryClient();
-  const { t } = useI18n();
+  const { t, tm } = useI18n();
   const [showComments, setShowComments] = useState(false);
   const [comment, setComment] = useState("");
   const likesQuery = useQuery({ queryKey: ["likes", post.id], queryFn: async () => { const { data, error } = await supabase.from("post_likes").select("user_id").eq("post_id", post.id); if (error) throw error; return data ?? []; } });
@@ -231,8 +251,8 @@ function PostCard({ post, userId, locale, isAdmin }: { post: Post; userId: strin
       <HubMedia post={post} />
       <div className="p-5 sm:p-7">
         <div className="flex items-center justify-between gap-3"><span className="text-xs font-semibold uppercase tracking-[0.16em] text-[#d75a12]">{t(categoryKey(post.category))}</span>{isAdmin && !post.published && <span className="text-xs font-semibold text-amber-700">Rascunho</span>}</div>
-        <h2 className="mt-3 text-xl leading-snug">{post.title}</h2><p className="mt-2 text-xs text-muted-foreground">{post.author_name} · {date}</p>
-        <div className="rich-text mt-5 text-sm leading-7 text-foreground/85" dangerouslySetInnerHTML={{ __html: sanitizeRichText(post.content) }} />
+        <h2 className="mt-3 text-xl leading-snug">{tm(post.title_i18n) || post.title}</h2><p className="mt-2 text-xs text-muted-foreground">{post.author_name} · {date}</p>
+        <div className="rich-text mt-5 text-sm leading-7 text-foreground/85" dangerouslySetInnerHTML={{ __html: sanitizeRichText(tm(post.content_i18n) || post.content) }} />
         <div className="mt-6 flex items-center gap-5 border-t border-border pt-4"><button type="button" onClick={() => toggleLike.mutate()} disabled={!userId || toggleLike.isPending} className={`flex items-center gap-2 text-sm font-medium ${liked ? "text-[#d75a12]" : "text-muted-foreground hover:text-foreground"} disabled:opacity-50`}><Heart className={`h-4 w-4 ${liked ? "fill-current" : ""}`} />{likesQuery.data?.length ?? 0}</button><button type="button" onClick={() => setShowComments((value) => !value)} className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground"><MessageSquare className="h-4 w-4" />{commentsQuery.data?.length ?? 0}</button></div>
         {showComments && <div className="mt-5 space-y-3 border-t border-border pt-5">{commentsQuery.data?.map((item) => <div key={item.id} className="bg-muted/70 p-3.5"><p className="text-xs font-semibold">{item.author_name}</p><p className="mt-1 text-sm leading-6">{item.content}</p></div>)}{commentsQuery.data?.length === 0 && <p className="text-sm text-muted-foreground">{t("hub.noComments")}</p>}{userId ? <div className="flex gap-2"><Input value={comment} onChange={(e) => setComment(e.target.value)} placeholder={t("hub.commentPlaceholder")} /><Button size="icon" onClick={() => addComment.mutate()} disabled={!comment.trim() || addComment.isPending} aria-label={t("hub.sendComment")}><Send className="h-4 w-4" /></Button></div> : <p className="text-sm text-muted-foreground"><Link to="/auth" className="font-semibold text-[#d75a12] hover:underline">{t("hub.signIn")}</Link> {t("hub.signInToComment")}</p>}</div>}
       </div>

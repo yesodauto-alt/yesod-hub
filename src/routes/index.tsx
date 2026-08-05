@@ -57,6 +57,7 @@ const heroCopy: Record<Lang, {
   projects: string;
   solutions: string;
   news: string;
+  hubDescriptor: string;
 }> = {
   pt: {
     welcome: "Bem-vindo ao",
@@ -67,6 +68,7 @@ const heroCopy: Record<Lang, {
     projects: "Conhecer projetos",
     solutions: "Ver soluções",
     news: "Acompanhar novidades",
+    hubDescriptor: "Seu espaço de informação, conteúdo e direção com IA.",
   },
   en: {
     welcome: "Welcome to",
@@ -77,6 +79,7 @@ const heroCopy: Record<Lang, {
     projects: "Explore projects",
     solutions: "See solutions",
     news: "Follow AI updates",
+    hubDescriptor: "Your space for information, content and AI-powered direction.",
   },
   es: {
     welcome: "Bienvenido al",
@@ -87,6 +90,7 @@ const heroCopy: Record<Lang, {
     projects: "Conocer proyectos",
     solutions: "Ver soluciones",
     news: "Seguir novedades",
+    hubDescriptor: "Tu espacio de información, contenido y orientación con IA.",
   },
 };
 
@@ -204,7 +208,20 @@ function Home() {
     },
   });
   const products = (productsQuery.data ?? defaultConfigurableProducts()).filter((product) => product.published);
-  const aiExperience = { ...DEFAULT_AI_EXPERIENCE, ...aiQuery.data };
+  const legacyAiExperience = { ...DEFAULT_AI_EXPERIENCE, ...aiQuery.data };
+  const localizeAiField = (
+    value: unknown,
+    fallback: typeof DEFAULT_AI_EXPERIENCE.headline,
+  ) => typeof value === "string"
+    ? { ...fallback, pt: value }
+    : { ...fallback, ...(value && typeof value === "object" ? value : {}) };
+  const aiExperience: AiExperienceSettings = {
+    ...legacyAiExperience,
+    eyebrow: localizeAiField(legacyAiExperience.eyebrow, DEFAULT_AI_EXPERIENCE.eyebrow),
+    headline: localizeAiField(legacyAiExperience.headline, DEFAULT_AI_EXPERIENCE.headline),
+    description: localizeAiField(legacyAiExperience.description, DEFAULT_AI_EXPERIENCE.description),
+    buttonLabel: localizeAiField(legacyAiExperience.buttonLabel, DEFAULT_AI_EXPERIENCE.buttonLabel),
+  };
   useLocalizedMeta("meta.home.title", "meta.home.desc");
 
   return (
@@ -220,6 +237,9 @@ function Home() {
             <h1 className="mt-1 font-display text-5xl font-bold leading-[0.95] tracking-[-0.045em] text-primary-deep sm:text-6xl lg:text-7xl">
               YESOD <span className="text-brand-gradient">HUB</span>
             </h1>
+            <p className="mt-2 w-fit max-w-[31rem] font-sans text-[0.62rem] font-light uppercase leading-tight tracking-[0.15em] text-white/70 sm:whitespace-nowrap sm:text-[0.68rem] sm:tracking-[0.19em]">
+              {hero.hubDescriptor}
+            </p>
             <p className="mt-12 max-w-2xl font-display text-xl leading-snug font-semibold text-foreground sm:mt-16 sm:text-2xl">
               <span className="hero-zoom-copy text-[1.65rem] font-black leading-[1.12] tracking-[-0.025em] uppercase text-[#d75a12] sm:text-[2rem] lg:text-[2.15rem]">{hero.titleOne}</span>{" "}
               <span className="text-primary">{hero.titleTwo}</span>
@@ -293,12 +313,12 @@ function Home() {
               <Bot className="h-8 w-8" strokeWidth={1.7} aria-hidden="true" />
             </span>
             <div className="max-w-2xl sm:pl-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e86f22]">Experiência interativa</p>
-              <h2 className="mt-3 text-2xl text-white sm:text-3xl">{aiExperience.headline}</h2>
-              <p className="mt-3 leading-7 text-white/75">{aiExperience.description}</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e86f22]">{tm(aiExperience.eyebrow)}</p>
+              <h2 className="mt-3 text-2xl text-white sm:text-3xl">{tm(aiExperience.headline)}</h2>
+              <p className="mt-3 leading-7 text-white/75">{tm(aiExperience.description)}</p>
             </div>
             <Button asChild size="lg" className="shrink-0 bg-[#e86f22] text-white hover:bg-[#cf5c16]">
-              <a href={aiExperience.url} target="_blank" rel="noreferrer noopener">FALE COM O MARLEY</a>
+              <a href={aiExperience.url} target="_blank" rel="noreferrer noopener">{tm(aiExperience.buttonLabel)}</a>
             </Button>
           </div>
         </section>
