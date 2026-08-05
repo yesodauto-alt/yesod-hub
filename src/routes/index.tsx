@@ -263,7 +263,7 @@ function Home() {
 
       <section className="bg-section-gradient">
         <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
-          <div className="rounded-2xl bg-brand-gradient px-7 py-12 text-white shadow-lift sm:px-12 sm:py-14">
+          <div className="home-orange-panel rounded-2xl px-7 py-12 text-white shadow-lift sm:px-12 sm:py-14">
             <div className="max-w-2xl">
               <h2 className="text-3xl sm:text-4xl">{t("home.finalTitle")}</h2>
               <p className="mt-4 leading-7 text-white/75">{t("home.finalText")}</p>

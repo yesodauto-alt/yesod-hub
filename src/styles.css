@@ -167,10 +167,14 @@
 
 
 @layer components {
-  .hero-feature-panel {
-    position: relative;
+  .hero-feature-panel,
+  .home-orange-panel {
     background-color: #ff6500;
     background-image: linear-gradient(135deg, #ff7a00 0%, #ff5a00 58%, #f4510b 100%) !important;
+  }
+
+  .hero-feature-panel {
+    position: relative;
     box-shadow:
       0 22px 48px -28px rgb(15 23 42 / 46%),
       0 0 2px rgb(255 122 0 / 48%),
