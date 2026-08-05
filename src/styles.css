@@ -54,9 +54,9 @@
   --card-foreground: #f5f5f6;
   --popover: #161619;
   --popover-foreground: #f5f5f6;
-  --primary: #242428;
+  --primary: #e86f22;
   --primary-foreground: #ffffff;
-  --primary-deep: #0b0b0d;
+  --primary-deep: #f5f5f6;
   --navy: #111214;
   --navy-deep: #050506;
   --secondary: #1c1c1f;
@@ -69,7 +69,7 @@
   --destructive-foreground: #ffffff;
   --border: #323238;
   --input: #3a3a40;
-  --ring: #6d6d73;
+  --ring: #e86f22;
   --graphite: #111214;
   --graphite-foreground: #f8fafc;
   --surface: #0d0d0f;
@@ -81,7 +81,7 @@
   --gradient-section:
     radial-gradient(circle at 10% 20%, rgb(17 18 20 / 10%), transparent 30%),
     linear-gradient(180deg, #080809 0%, #111214 100%);
-  --gradient-brand: linear-gradient(135deg, #050506 0%, #17171a 42%, #3a3a3f 72%, #0a0a0b 100%);
+  --gradient-brand: linear-gradient(135deg, #e86f22 0%, #d75a12 58%, #a8440e 100%);
   --gradient-placeholder: linear-gradient(145deg, #080809 0%, #36363b 55%, #0c0c0e 100%);
 }
 
@@ -390,4 +390,84 @@
       transform: none;
     }
   }
+}
+
+
+/* Experimental black + orange preview. Intentionally isolated from production. */
+body {
+  background:
+    radial-gradient(circle at 78% 8%, rgb(232 111 34 / 10%), transparent 28rem),
+    linear-gradient(145deg, #050506 0%, #111214 52%, #070708 100%);
+  background-attachment: fixed;
+}
+
+.bg-white,
+.bg-slate-50,
+.bg-slate-100,
+.bg-\[\#fff8f3\],
+.bg-\[\#fff1e7\],
+.bg-purple-50 {
+  background-color: #111214 !important;
+}
+
+.text-slate-950,
+.text-slate-900,
+.text-slate-800,
+.text-slate-700,
+.text-slate-600,
+.text-slate-500,
+.text-purple-950,
+.text-purple-900 {
+  color: #d8d8dc !important;
+}
+
+.text-purple-700,
+.text-purple-600,
+.text-blue-700,
+.text-blue-600 {
+  color: #e86f22 !important;
+}
+
+.bg-purple-800,
+.bg-purple-700,
+.bg-purple-600,
+.bg-blue-700,
+.bg-blue-600 {
+  background-color: #e86f22 !important;
+  color: #ffffff !important;
+}
+
+.border-purple-200,
+.border-purple-300,
+.border-blue-200,
+.border-blue-300 {
+  border-color: rgb(232 111 34 / 42%) !important;
+}
+
+.hover\:bg-purple-800:hover,
+.hover\:bg-purple-700:hover,
+.hover\:bg-blue-700:hover {
+  background-color: #cf5c16 !important;
+}
+
+.shadow-soft,
+.shadow-lift,
+.interactive-card,
+.card {
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 7%) inset,
+    0 22px 46px -28px rgb(0 0 0 / 92%),
+    0 0 28px -20px rgb(232 111 34 / 32%) !important;
+}
+
+input,
+textarea,
+select,
+[contenteditable="true"] {
+  background-color: #0c0c0e !important;
+  color: #f5f5f6 !important;
+}
+
+::placeholder {
+  color: #77777e !important;
 }
