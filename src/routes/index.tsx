@@ -192,7 +192,7 @@ function Home() {
               YESOD <span className="text-brand-gradient">HUB</span>
             </h1>
             <p className="mt-7 max-w-2xl font-display text-xl leading-snug font-semibold text-foreground sm:text-2xl">
-              {hero.titleOne}{" "}
+              <span className="hero-zoom-copy text-[#d75a12]">{hero.titleOne}</span>{" "}
               <span className="text-primary">{hero.titleTwo}</span>
             </p>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700">{hero.text}</p>
