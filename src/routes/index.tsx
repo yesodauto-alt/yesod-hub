@@ -9,7 +9,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { HeroBackdrop } from "@/components/home/HeroBackdrop";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n, useLocalizedMeta, type Lang, type TranslationKey } from "@/lib/i18n";
 import type { FounderSettings } from "@/lib/projects";
@@ -151,9 +150,8 @@ function Home() {
 
   return (
     <div>
-      <section className="relative isolate overflow-hidden bg-hero-gradient">
-        <HeroBackdrop />
-        <div className="relative mx-auto grid max-w-6xl gap-12 px-6 py-24 sm:py-32 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+      <section className="border-b border-border bg-card">
+        <div className="mx-auto grid max-w-6xl gap-12 px-6 py-24 sm:py-32 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-deep">
               {t("brand.tagline")}
@@ -172,31 +170,32 @@ function Home() {
               <Button asChild size="lg">
                 <Link to="/projetos">{hero.projects}</Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="border-primary/25 bg-white/75">
+              <Button asChild size="lg" variant="outline" className="border-border bg-white">
                 <Link to="/produtos">{hero.solutions}</Link>
               </Button>
-              <Button asChild size="lg" variant="ghost" className="text-primary-deep hover:bg-white/45">
+              <Button asChild size="lg" variant="ghost" className="text-primary-deep hover:bg-muted">
                 <Link to="/hub">{hero.news}<ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" /></Link>
               </Button>
             </div>
           </div>
 
-          <div className="hero-feature-panel rounded-2xl border border-white/15 bg-brand-gradient p-5 text-white sm:p-7">
-            <div className="grid gap-3">
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-white p-5 shadow-soft sm:p-7">
+            <div className="absolute inset-x-0 top-0 h-1 bg-[#e86f22]" />
+            <div className="grid gap-2">
               {pillars.map((pillar, index) => (
                 <Link
                   key={pillar.titleKey}
                   to={pillar.to}
-                  className="group flex items-start gap-4 rounded-xl border border-transparent p-4 transition-colors hover:border-white/20 hover:bg-white/[0.08]"
+                  className="group flex items-start gap-4 rounded-xl border border-transparent p-4 transition-colors hover:border-border hover:bg-muted/60"
                 >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/12 text-white">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#fff1e7] text-[#d75a12]">
                     <pillar.icon className="h-4.5 w-4.5" strokeWidth={1.8} aria-hidden="true" />
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-semibold">{t(pillar.titleKey)}</span>
-                    <span className="mt-1 block text-xs leading-5 text-white/72">{t(pillar.textKey)}</span>
+                    <span className="block text-sm font-semibold text-primary-deep">{t(pillar.titleKey)}</span>
+                    <span className="mt-1 block text-xs leading-5 text-muted-foreground">{t(pillar.textKey)}</span>
                   </span>
-                  <span className="mt-1 text-xs text-white/50">0{index + 1}</span>
+                  <span className="mt-1 text-xs text-muted-foreground">0{index + 1}</span>
                 </Link>
               ))}
             </div>
@@ -204,12 +203,12 @@ function Home() {
         </div>
       </section>
 
-      <section className="bg-section-gradient">
+      <section className="bg-background">
         <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
           <SectionHeading title={t("home.pillarsTitle")} text={t("home.pillarsText")} />
-          <div className="mt-10 grid gap-px overflow-hidden rounded-2xl border border-primary/15 bg-primary/15 shadow-soft sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {pillars.map((pillar) => (
-              <Link key={pillar.titleKey} to={pillar.to} className="group bg-white/92 p-6 hover:bg-white">
+              <Link key={pillar.titleKey} to={pillar.to} className="group rounded-xl border border-border bg-white p-6 shadow-soft hover:border-primary/25">
                 <pillar.icon className="h-5 w-5 text-primary" strokeWidth={1.7} aria-hidden="true" />
                 <h3 className="mt-8 text-base group-hover:text-primary">{t(pillar.titleKey)}</h3>
                 <p className="mt-3 text-sm leading-6 text-muted-foreground">{t(pillar.textKey)}</p>
@@ -221,7 +220,7 @@ function Home() {
 
       <FounderSection />
 
-      <section className="bg-section-gradient">
+      <section className="bg-background">
         <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <SectionHeading title={t("home.productsTitle")} text={t("home.productsText")} />
@@ -231,7 +230,7 @@ function Home() {
           </div>
           <div className="mt-10 grid gap-4 sm:grid-cols-2">
             {PRODUCTS.map((product) => (
-              <article key={product.id} className="rounded-xl border border-primary/15 bg-white/92 p-6 shadow-soft">
+              <article key={product.id} className="rounded-xl border border-border bg-white p-6 shadow-soft">
                 <div className="flex items-start justify-between gap-4">
                   <h3 className="text-lg">{t(product.nameKey)}</h3>
                   {product.featured && (
@@ -261,9 +260,10 @@ function Home() {
         </div>
       </section>
 
-      <section className="bg-section-gradient">
+      <section className="bg-background">
         <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
-          <div className="home-orange-panel rounded-2xl px-7 py-12 text-white shadow-lift sm:px-12 sm:py-14">
+          <div className="relative overflow-hidden rounded-2xl bg-navy px-7 py-12 text-white shadow-lift sm:px-12 sm:py-14">
+            <div className="absolute inset-y-0 left-0 w-1 bg-[#e86f22]" />
             <div className="max-w-2xl">
               <h2 className="text-3xl sm:text-4xl">{t("home.finalTitle")}</h2>
               <p className="mt-4 leading-7 text-white/75">{t("home.finalText")}</p>
