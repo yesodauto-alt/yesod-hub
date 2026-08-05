@@ -40,19 +40,19 @@ function ProjectCard({ project, index }: { project: ProjectRow; index: number })
   );
 
   const action = project.interaction_type === "external_demo" && project.interaction_url ? (
-    <Button asChild variant="outline" size="sm" className="mt-6 w-full sm:w-fit">
+    <Button asChild size="sm" className="mt-6 w-full sm:w-fit">
       <a href={project.interaction_url} target="_blank" rel="noreferrer noopener">
         {buttonLabel}<ArrowUpRight className="ml-1.5 h-3.5 w-3.5" aria-hidden="true" />
       </a>
     </Button>
   ) : project.interaction_type === "whatsapp" ? (
-    <Button asChild variant="outline" size="sm" className="mt-6 w-full sm:w-fit">
+    <Button asChild size="sm" className="mt-6 w-full sm:w-fit">
       <a href={whatsappUrl(t("wa.project", { name: title }))} target="_blank" rel="noreferrer">
         {buttonLabel}
       </a>
     </Button>
   ) : (
-    <Button asChild variant="outline" size="sm" className="mt-6 w-full sm:w-fit">
+    <Button asChild size="sm" className="mt-6 w-full sm:w-fit">
       <Link to="/projetos/$slug" params={{ slug: project.slug }}>{buttonLabel}</Link>
     </Button>
   );
