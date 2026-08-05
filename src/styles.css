@@ -48,39 +48,39 @@
 
 :root {
   --radius: 0.8rem;
-  --background: #edf3fa;
-  --foreground: #111827;
-  --card: #ffffff;
-  --card-foreground: #111827;
-  --popover: #ffffff;
-  --popover-foreground: #111827;
+  --background: #070708;
+  --foreground: #f5f5f6;
+  --card: #111214;
+  --card-foreground: #f5f5f6;
+  --popover: #161619;
+  --popover-foreground: #f5f5f6;
   --primary: #242428;
   --primary-foreground: #ffffff;
   --primary-deep: #0b0b0d;
   --navy: #111214;
   --navy-deep: #050506;
-  --secondary: #ececee;
-  --secondary-foreground: #18181b;
-  --muted: #e9eaec;
-  --muted-foreground: #626268;
-  --accent: #e4e4e6;
-  --accent-foreground: #151517;
+  --secondary: #1c1c1f;
+  --secondary-foreground: #f5f5f6;
+  --muted: #1b1b1e;
+  --muted-foreground: #a9a9b0;
+  --accent: #242428;
+  --accent-foreground: #fafafa;
   --destructive: #c83c4d;
   --destructive-foreground: #ffffff;
-  --border: #d5d5d8;
-  --input: #cacacf;
+  --border: #323238;
+  --input: #3a3a40;
   --ring: #6d6d73;
   --graphite: #111214;
   --graphite-foreground: #f8fafc;
-  --surface: #e7e7e9;
+  --surface: #0d0d0f;
   --whatsapp: #28a85a;
   --gradient-hero:
     radial-gradient(circle at 82% 12%, rgb(17 18 20 / 24%), transparent 34%),
     radial-gradient(circle at 12% 4%, rgb(78 78 84 / 14%), transparent 30%),
-    linear-gradient(135deg, #dedee1 0%, #f4f4f5 48%, #cfcfd3 100%);
+    linear-gradient(135deg, #050506 0%, #141416 48%, #080809 100%);
   --gradient-section:
     radial-gradient(circle at 10% 20%, rgb(17 18 20 / 10%), transparent 30%),
-    linear-gradient(180deg, #f4f4f5 0%, #e2e2e5 100%);
+    linear-gradient(180deg, #080809 0%, #111214 100%);
   --gradient-brand: linear-gradient(135deg, #050506 0%, #17171a 42%, #3a3a3f 72%, #0a0a0b 100%);
   --gradient-placeholder: linear-gradient(145deg, #080809 0%, #36363b 55%, #0c0c0e 100%);
 }
