@@ -208,7 +208,20 @@ function Home() {
     },
   });
   const products = (productsQuery.data ?? defaultConfigurableProducts()).filter((product) => product.published);
-  const aiExperience = { ...DEFAULT_AI_EXPERIENCE, ...aiQuery.data };
+  const legacyAiExperience = { ...DEFAULT_AI_EXPERIENCE, ...aiQuery.data };
+  const localizeAiField = (
+    value: unknown,
+    fallback: typeof DEFAULT_AI_EXPERIENCE.headline,
+  ) => typeof value === "string"
+    ? { ...fallback, pt: value }
+    : { ...fallback, ...(value && typeof value === "object" ? value : {}) };
+  const aiExperience: AiExperienceSettings = {
+    ...legacyAiExperience,
+    eyebrow: localizeAiField(legacyAiExperience.eyebrow, DEFAULT_AI_EXPERIENCE.eyebrow),
+    headline: localizeAiField(legacyAiExperience.headline, DEFAULT_AI_EXPERIENCE.headline),
+    description: localizeAiField(legacyAiExperience.description, DEFAULT_AI_EXPERIENCE.description),
+    buttonLabel: localizeAiField(legacyAiExperience.buttonLabel, DEFAULT_AI_EXPERIENCE.buttonLabel),
+  };
   useLocalizedMeta("meta.home.title", "meta.home.desc");
 
   return (
@@ -224,7 +237,7 @@ function Home() {
             <h1 className="mt-1 font-display text-5xl font-bold leading-[0.95] tracking-[-0.045em] text-primary-deep sm:text-6xl lg:text-7xl">
               YESOD <span className="text-brand-gradient">HUB</span>
             </h1>
-            <p className="mt-3 w-fit max-w-full font-sans text-[0.66rem] font-light uppercase leading-none tracking-[0.19em] text-white/70 sm:text-[0.72rem] sm:tracking-[0.225em]">
+            <p className="mt-2 w-fit max-w-[31rem] font-sans text-[0.62rem] font-light uppercase leading-tight tracking-[0.15em] text-white/70 sm:whitespace-nowrap sm:text-[0.68rem] sm:tracking-[0.19em]">
               {hero.hubDescriptor}
             </p>
             <p className="mt-12 max-w-2xl font-display text-xl leading-snug font-semibold text-foreground sm:mt-16 sm:text-2xl">
