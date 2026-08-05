@@ -5,10 +5,10 @@ import { cn } from "@/lib/utils";
 
 const palette = [
   { color: "#111827", label: "Preto" },
-  { color: "#12365f", label: "Azul-marinho" },
-  { color: "#245a98", label: "Azul YESOD" },
+  { color: "#0b0b0d", label: "Preto profundo" },
+  { color: "#3a3a3f", label: "Grafite brilhante" },
   { color: "#d75a12", label: "Laranja YESOD" },
-  { color: "#5e6e84", label: "Cinza" },
+  { color: "#626268", label: "Cinza" },
 ];
 
 const allowedTags = new Set(["P", "BR", "STRONG", "B", "EM", "I", "U", "UL", "OL", "LI", "H2", "H3", "SPAN", "FONT"]);
