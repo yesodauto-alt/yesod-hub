@@ -1,4 +1,4 @@
-const CACHE_NAME = "yesod-hub-shell-v1";
+const CACHE_NAME = "yesod-hub-shell-v2";
 const CORE_ASSETS = [
   "/offline.html",
   "/manifest.webmanifest",
