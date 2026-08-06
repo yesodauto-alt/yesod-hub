@@ -212,7 +212,7 @@ export function ExclusiveContentCenter({ isAdmin }: { isAdmin: boolean }) {
   const items = contentsQuery.data ?? [];
 
   return (
-    <section className={isAdmin ? "mt-12" : "member-reading-surface mt-12 rounded-[1.5rem] p-5 sm:p-8"}>
+    <section className="mt-12">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold">Conteúdo exclusivo</h2>
