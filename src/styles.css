@@ -702,3 +702,133 @@ select,
     display: block;
   }
 }
+
+
+/* Revision: the brand animation is part of the composition, never a framed window. */
+.hero-brand-film-wrap {
+  width: min(100%, 20rem);
+  padding: 0;
+  align-self: center;
+}
+
+.hero-brand-film-glow {
+  inset: 18% 4% 14%;
+  background: radial-gradient(circle, rgb(232 111 34 / 20%), transparent 66%);
+  filter: blur(32px);
+  opacity: 0.58;
+}
+
+.hero-brand-film {
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  -webkit-mask-image: radial-gradient(ellipse 72% 72% at 50% 50%, #000 54%, transparent 100%);
+  mask-image: radial-gradient(ellipse 72% 72% at 50% 50%, #000 54%, transparent 100%);
+}
+
+.hero-brand-film video,
+.hero-brand-film-poster {
+  object-fit: contain;
+  mix-blend-mode: screen;
+}
+
+@media (max-width: 1023px) {
+  .hero-brand-film-wrap {
+    width: min(72vw, 17rem);
+  }
+}
+
+/* Full calm canvas for authenticated HUB and member sessions. */
+.authenticated-reading-shell {
+  --background: #edf3f9;
+  --foreground: #152033;
+  --card: #ffffff;
+  --card-foreground: #152033;
+  --popover: #ffffff;
+  --popover-foreground: #152033;
+  --primary-deep: #152033;
+  --secondary: #e7eef6;
+  --secondary-foreground: #152033;
+  --muted: #e7eef6;
+  --muted-foreground: #64748b;
+  --accent: #fff2e8;
+  --accent-foreground: #9d3f0d;
+  --border: #d2deea;
+  --input: #c7d4e2;
+  color-scheme: light;
+  color: #152033;
+  background:
+    radial-gradient(circle at 82% 7%, rgb(255 255 255 / 95%), transparent 28rem),
+    linear-gradient(145deg, #edf3f9 0%, #e8f0f8 54%, #f4f7fb 100%);
+  background-attachment: fixed;
+}
+
+.authenticated-reading-shell main {
+  background: transparent !important;
+  color: #152033;
+}
+
+.authenticated-reading-shell footer {
+  background: rgb(255 255 255 / 58%) !important;
+  color: #334155;
+  border-color: #d2deea !important;
+}
+
+.authenticated-reading-shell .bg-background,
+.authenticated-reading-shell .bg-card,
+.authenticated-reading-shell .bg-white,
+.authenticated-reading-shell .bg-slate-50,
+.authenticated-reading-shell .bg-slate-100,
+.authenticated-reading-shell .bg-\[\#fff8f3\],
+.authenticated-reading-shell .bg-\[\#fff1e7\] {
+  background-color: #ffffff !important;
+}
+
+.authenticated-reading-shell .text-slate-950,
+.authenticated-reading-shell .text-slate-900,
+.authenticated-reading-shell .text-slate-800,
+.authenticated-reading-shell .text-slate-700,
+.authenticated-reading-shell .text-slate-600,
+.authenticated-reading-shell .text-slate-500 {
+  color: #334155 !important;
+}
+
+.authenticated-reading-shell .text-white\/75,
+.authenticated-reading-shell .text-white\/70 {
+  color: #64748b !important;
+}
+
+.authenticated-reading-shell input,
+.authenticated-reading-shell textarea,
+.authenticated-reading-shell select,
+.authenticated-reading-shell [contenteditable="true"] {
+  background-color: #ffffff !important;
+  color: #152033 !important;
+  border-color: #c7d4e2 !important;
+}
+
+.authenticated-reading-shell input::placeholder,
+.authenticated-reading-shell textarea::placeholder {
+  color: #8290a3 !important;
+}
+
+.authenticated-reading-shell .shadow-soft,
+.authenticated-reading-shell .shadow-lift,
+.authenticated-reading-shell .interactive-card,
+.authenticated-reading-shell .card {
+  box-shadow:
+    0 1px 2px rgb(15 36 62 / 5%),
+    0 18px 44px -32px rgb(15 36 62 / 30%) !important;
+}
+
+.authenticated-reading-shell .rich-text {
+  color: #334155 !important;
+}
+
+.authenticated-reading-shell .rich-text p,
+.authenticated-reading-shell .rich-text li {
+  max-width: 74ch;
+}
