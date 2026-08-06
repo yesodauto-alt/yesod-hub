@@ -237,12 +237,12 @@ function Home() {
             <h1 className="mt-1 font-display text-5xl font-bold leading-[0.95] tracking-[-0.045em] text-primary-deep sm:text-6xl lg:text-7xl">
               YESOD <span className="text-brand-gradient">HUB</span>
             </h1>
-            <p className="mt-2 w-fit max-w-[31rem] font-sans text-[0.62rem] font-light uppercase leading-tight tracking-[0.15em] text-white/70 sm:whitespace-nowrap sm:text-[0.68rem] sm:tracking-[0.19em]">
+            <p data-edit-id="home.hero.descriptor" className="mt-2 w-fit max-w-[31rem] font-sans text-[0.62rem] font-light uppercase leading-tight tracking-[0.15em] text-white/70 sm:whitespace-nowrap sm:text-[0.68rem] sm:tracking-[0.19em]">
               {hero.hubDescriptor}
             </p>
             <p className="mt-12 max-w-2xl font-display text-xl leading-snug font-semibold text-foreground sm:mt-16 sm:text-2xl">
-              <span className="hero-zoom-copy text-[1.65rem] font-black leading-[1.12] tracking-[-0.025em] uppercase text-[#d75a12] sm:text-[2rem] lg:text-[2.15rem]">{hero.titleOne}</span>{" "}
-              <span className="text-primary">{hero.titleTwo}</span>
+              <span data-edit-id="home.hero.title-one" className="hero-zoom-copy text-[1.65rem] font-black leading-[1.12] tracking-[-0.025em] uppercase text-[#d75a12] sm:text-[2rem] lg:text-[2.15rem]">{hero.titleOne}</span>{" "}
+              <span data-edit-id="home.hero.title-two" className="text-primary">{hero.titleTwo}</span>
             </p>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700">{hero.text}</p>
 
