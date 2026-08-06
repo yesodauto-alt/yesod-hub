@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Bot, Layers, Lock, Newspaper, Sparkles, UserRound } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 
 import {
   Accordion,
@@ -102,34 +101,6 @@ const faqKeys: { q: TranslationKey; a: TranslationKey }[] = [
   { q: "faq.q5", a: "faq.a5" },
 ];
 
-function useHeroParallax() {
-  const [offset, setOffset] = useState(0);
-
-  useEffect(() => {
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const smallScreen = window.matchMedia("(max-width: 1023px)");
-    if (reducedMotion.matches || smallScreen.matches) return;
-
-    let frame = 0;
-    const update = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const next = Math.max(-28, Math.min(28, (window.scrollY - 140) * 0.04));
-        setOffset(next);
-      });
-    };
-
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", update);
-    };
-  }, []);
-
-  return offset;
-}
-
 function SectionHeading({ title, text }: { title: string; text?: string }) {
   return (
     <div className="max-w-2xl">
@@ -190,7 +161,6 @@ function FounderSection() {
 function Home() {
   const { t, tm, lang } = useI18n();
   const hero = heroCopy[lang];
-  const parallaxOffset = useHeroParallax();
   const productsQuery = useQuery({
     queryKey: ["site-settings", "products"],
     queryFn: async () => {
@@ -259,31 +229,21 @@ function Home() {
             </div>
           </div>
 
-          <div className="hero-panel-float relative">
-            <div
-              aria-hidden="true"
-              className="hero-orange-rail absolute -right-5 top-8 h-[78%] w-12 bg-[#e86f22] will-change-transform"
-              style={{ transform: `translate3d(0, ${parallaxOffset}px, 0)` }}
-            />
-            <div className="relative border border-border bg-white p-5 shadow-soft sm:p-7">
-              <div className="grid">
-              {pillars.map((pillar, index) => (
-                <Link
-                  key={pillar.titleKey}
-                  to={pillar.to}
-                  className="group flex items-start gap-4 border-b border-border p-4 transition-colors last:border-b-0 hover:bg-muted/60"
-                >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-[#fff1e7] text-[#d75a12]">
-                    <pillar.icon className="h-4.5 w-4.5" strokeWidth={1.8} aria-hidden="true" />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-semibold text-primary-deep">{t(pillar.titleKey)}</span>
-                    <span className="mt-1 block text-xs leading-5 text-muted-foreground">{t(pillar.textKey)}</span>
-                  </span>
-                  <span className="mt-1 text-xs font-semibold text-[#d75a12]">0{index + 1}</span>
-                </Link>
-              ))}
-              </div>
+          <div className="hero-brand-film-wrap" aria-label="Animação da marca YESOD">
+            <div className="hero-brand-film-glow" aria-hidden="true" />
+            <div className="hero-brand-film">
+              <video
+                className="h-full w-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster="/yesod-brand-reveal-poster.jpg"
+                aria-label="Símbolo da YESOD unindo inteligência humana e tecnologia"
+              >
+                <source src="/yesod-brand-reveal.mp4" type="video/mp4" />
+              </video>
             </div>
           </div>
         </div>
