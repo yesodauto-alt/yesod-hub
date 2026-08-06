@@ -1,4 +1,4 @@
-import { Bold, CaseUpper, Edit3, Eye, Italic, RotateCcw, Save, Underline, X } from "lucide-react";
+import { ArrowDown, ArrowUp, Bold, CaseUpper, Edit3, Eye, Italic, RotateCcw, Save, Underline, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouterState } from "@tanstack/react-router";
@@ -100,7 +100,7 @@ function applyPageOverrides(root: HTMLElement, pageKey: string, overrides: Recor
     if (value.fontStyle && element.style.fontStyle !== value.fontStyle) element.style.fontStyle = value.fontStyle;
     if (value.textDecoration && element.style.textDecoration !== value.textDecoration) element.style.textDecoration = value.textDecoration;
     if (value.textTransform && element.style.textTransform !== value.textTransform) element.style.textTransform = value.textTransform;
-    if (value.fontSize !== undefined) element.style.fontSize = `${value.fontSize}px`;
+    if (value.fontSize !== undefined) element.style.setProperty("font-size", `${value.fontSize}px`, "important");
     if (value.letterSpacing !== undefined) element.style.letterSpacing = `${value.letterSpacing}px`;
     if (value.wordSpacing !== undefined) element.style.wordSpacing = `${value.wordSpacing}px`;
     if (value.lineHeight !== undefined) element.style.lineHeight = `${value.lineHeight}px`;
@@ -193,7 +193,7 @@ export function GlobalVisualEditor() {
     if (value.fontStyle) selected.element.style.fontStyle = value.fontStyle;
     if (value.textDecoration) selected.element.style.textDecoration = value.textDecoration;
     if (value.textTransform) selected.element.style.textTransform = value.textTransform;
-    if (value.fontSize !== undefined) selected.element.style.fontSize = `${value.fontSize}px`;
+    if (value.fontSize !== undefined) selected.element.style.setProperty("font-size", `${value.fontSize}px`, "important");
     if (value.letterSpacing !== undefined) selected.element.style.letterSpacing = `${value.letterSpacing}px`;
     if (value.wordSpacing !== undefined) selected.element.style.wordSpacing = `${value.wordSpacing}px`;
     if (value.lineHeight !== undefined) selected.element.style.lineHeight = `${value.lineHeight}px`;
@@ -305,7 +305,29 @@ export function GlobalVisualEditor() {
             <div className="mt-3 grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
                 <Label htmlFor="visual-font-size" className="text-xs">Tamanho da fonte (px)</Label>
-                <Input id="visual-font-size" type="number" min={8} max={160} step={1} value={draft.fontSize ?? ""} onChange={(event) => setDraft((current) => ({ ...current, fontSize: Number(event.target.value) }))} />
+                <div className="flex">
+                  <Input
+                    id="visual-font-size"
+                    type="number"
+                    min={8}
+                    max={160}
+                    step={1}
+                    value={draft.fontSize ?? ""}
+                    onChange={(event) => {
+                      const value = Number(event.target.value);
+                      setDraft((current) => ({ ...current, fontSize: Math.min(160, Math.max(8, value)) }));
+                    }}
+                    className="rounded-r-none"
+                  />
+                  <div className="flex w-10 shrink-0 flex-col overflow-hidden rounded-r-md border border-l-0 border-input">
+                    <button type="button" className="flex flex-1 items-center justify-center border-b border-input bg-white text-slate-700 hover:bg-muted" onClick={() => setDraft((current) => ({ ...current, fontSize: Math.min(160, Math.round((current.fontSize ?? 16) + 1)) }))} aria-label="Aumentar tamanho da fonte" title="Aumentar 1 px">
+                      <ArrowUp className="h-3.5 w-3.5" />
+                    </button>
+                    <button type="button" className="flex flex-1 items-center justify-center bg-white text-slate-700 hover:bg-muted" onClick={() => setDraft((current) => ({ ...current, fontSize: Math.max(8, Math.round((current.fontSize ?? 16) - 1)) }))} aria-label="Diminuir tamanho da fonte" title="Diminuir 1 px">
+                      <ArrowDown className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                </div>
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="visual-line-height" className="text-xs">Espaço entre linhas (px)</Label>
