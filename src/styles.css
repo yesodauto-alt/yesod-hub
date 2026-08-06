@@ -529,3 +529,44 @@ select,
     0 22px 50px -26px rgb(255 255 255 / 22%),
     0 0 34px -16px rgb(232 111 34 / 38%) !important;
 }
+
+
+/* Subtle bidirectional light sweep on the hero payoff. */
+.hero-shimmer-copy {
+  display: inline;
+  background-image: linear-gradient(
+    110deg,
+    #467ffb 0%,
+    #467ffb 38%,
+    #a9c5ff 46%,
+    #ffffff 50%,
+    #a9c5ff 54%,
+    #467ffb 62%,
+    #467ffb 100%
+  );
+  background-size: 250% 100%;
+  background-position: 110% 0;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: hero-light-sweep 4.8s ease-in-out infinite alternate;
+  will-change: background-position;
+}
+
+@keyframes hero-light-sweep {
+  0%,
+  16% {
+    background-position: 110% 0;
+  }
+  84%,
+  100% {
+    background-position: -10% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-shimmer-copy {
+    animation: none;
+    background-position: 50% 0;
+  }
+}
