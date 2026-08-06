@@ -171,7 +171,7 @@ export function Sidebar() {
         <NavList />
       </aside>
 
-      <header className="sticky top-0 z-40 flex items-center justify-between border-b border-border bg-card/95 px-4 py-3 backdrop-blur lg:hidden">
+      <header className="sticky top-0 z-40 flex items-center justify-between border-b border-border bg-card/95 pt-[max(0.75rem,env(safe-area-inset-top))] pr-[max(1rem,env(safe-area-inset-right))] pb-3 pl-[max(1rem,env(safe-area-inset-left))] backdrop-blur lg:hidden">
         <Link to="/" className="brand-logo-shell flex items-center rounded-xl bg-white px-2 py-1.5">
           <img src={yesodLogo} alt="YESOD" className="h-5 w-auto" />
         </Link>
@@ -182,7 +182,7 @@ export function Sidebar() {
             aria-label={t("nav.openMenu")}
             aria-expanded={open}
             onClick={() => setOpen(true)}
-            className="rounded-lg border border-border p-2 text-foreground hover:bg-muted"
+            className="flex h-11 w-11 touch-manipulation items-center justify-center rounded-lg border border-border text-foreground hover:bg-muted"
           >
             <Menu className="h-5 w-5" aria-hidden="true" />
           </button>
@@ -197,16 +197,16 @@ export function Sidebar() {
             onClick={() => setOpen(false)}
             className="absolute inset-0 bg-navy-deep/35 backdrop-blur-sm"
           />
-          <div className="animate-in slide-in-from-left absolute inset-y-0 left-0 w-[19rem] border-r border-border bg-card shadow-lift duration-200">
+          <div className="animate-in slide-in-from-left absolute inset-y-0 left-0 flex w-[min(19rem,calc(100vw-env(safe-area-inset-right)))] border-r border-border bg-card pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] shadow-lift duration-200">
             <button
               type="button"
               aria-label={t("nav.closeMenu")}
               onClick={() => setOpen(false)}
-              className="absolute right-3 top-3 rounded-lg p-2 text-muted-foreground hover:bg-muted hover:text-foreground"
+              className="absolute top-[calc(env(safe-area-inset-top)+0.75rem)] right-[max(0.75rem,env(safe-area-inset-right))] z-10 flex h-11 w-11 touch-manipulation items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
             >
               <X className="h-5 w-5" aria-hidden="true" />
             </button>
-            <NavList onNavigate={() => setOpen(false)} />
+            <div className="min-h-0 flex-1"><NavList onNavigate={() => setOpen(false)} /></div>
           </div>
         </div>
       )}
