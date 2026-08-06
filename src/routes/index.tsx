@@ -242,7 +242,7 @@ function Home() {
             </p>
             <p className="mt-12 max-w-2xl font-display text-xl leading-snug font-semibold text-foreground sm:mt-16 sm:text-2xl">
               <span data-edit-id="home.hero.title-one" className="hero-zoom-copy text-[1.65rem] font-black leading-[1.12] tracking-[-0.025em] uppercase text-[#d75a12] sm:text-[2rem] lg:text-[2.15rem]">{hero.titleOne}</span>{" "}
-              <span data-edit-id="home.hero.title-two" className="text-primary">{hero.titleTwo}</span>
+              <span data-edit-id="home.hero.title-two" className="hero-shimmer-copy text-primary">{hero.titleTwo}</span>
             </p>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700">{hero.text}</p>
 
