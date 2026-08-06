@@ -26,18 +26,44 @@ type VisualOverrides = Record<string, Record<string, VisualStyle>>;
 
 const EDITABLE_TAGS = new Set(["P", "H1", "H2", "H3", "H4", "H5", "H6", "SPAN", "A", "BUTTON", "LI", "LABEL"]);
 
-function selectorFor(element: HTMLElement, root: HTMLElement) {
-  const parts: string[] = [];
-  let current: HTMLElement | null = element;
-  while (current && current !== root) {
-    const parent: HTMLElement | null = current.parentElement;
-    if (!parent) break;
-    const siblings = Array.from(parent.children).filter((child) => child.tagName === current!.tagName);
-    const index = siblings.indexOf(current) + 1;
-    parts.unshift(`${current.tagName.toLowerCase()}:nth-of-type(${index})`);
-    current = parent;
+function hashText(value: string) {
+  let hash = 2166136261;
+  for (let index = 0; index < value.length; index += 1) {
+    hash ^= value.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
   }
-  return parts.join(" > ");
+  return (hash >>> 0).toString(36);
+}
+
+function stableSelectorFor(element: HTMLElement, pageKey: string) {
+  const explicitId = element.dataset.editId;
+  if (explicitId) return `[data-edit-id="${CSS.escape(explicitId)}"]`;
+
+  const existingKey = element.dataset.visualKey;
+  if (existingKey) return `[data-visual-key="${CSS.escape(existingKey)}"]`;
+
+  const text = element.textContent?.replace(/\s+/g, " ").trim() ?? "";
+  const section = element.closest<HTMLElement>("[data-edit-section], section[id], [id]");
+  const sectionKey = section?.dataset.editSection ?? section?.id ?? "page";
+  const stableClasses = Array.from(element.classList)
+    .filter((name) => !name.startsWith("hover:") && !name.startsWith("group-"))
+    .sort()
+    .join(".");
+  const key = hashText(`${pageKey}|${sectionKey}|${element.tagName}|${stableClasses}|${text}`);
+  element.dataset.visualKey = key;
+  return `[data-visual-key="${key}"]`;
+}
+
+function prepareStableSelectors(root: HTMLElement, pageKey: string) {
+  root.querySelectorAll<HTMLElement>(Array.from(EDITABLE_TAGS).map((tag) => tag.toLowerCase()).join(","))
+    .forEach((element) => {
+      if (
+        element.closest("[data-visual-editor-ui]") ||
+        element.closest(".rich-text") ||
+        !element.textContent?.trim()
+      ) return;
+      stableSelectorFor(element, pageKey);
+    });
 }
 
 function findEditable(target: EventTarget | null, root: HTMLElement) {
@@ -57,7 +83,8 @@ function findEditable(target: EventTarget | null, root: HTMLElement) {
   return null;
 }
 
-function applyPageOverrides(root: HTMLElement, overrides: Record<string, VisualStyle> | undefined) {
+function applyPageOverrides(root: HTMLElement, pageKey: string, overrides: Record<string, VisualStyle> | undefined) {
+  prepareStableSelectors(root, pageKey);
   if (!overrides) return;
   Object.entries(overrides).forEach(([selector, value]) => {
     const element = root.querySelector<HTMLElement>(selector);
@@ -100,7 +127,7 @@ export function GlobalVisualEditor() {
     let frame = 0;
     const apply = () => {
       cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => applyPageOverrides(root, overrides[pageKey]));
+      frame = requestAnimationFrame(() => applyPageOverrides(root, pageKey, overrides[pageKey]));
     };
     apply();
     const observer = new MutationObserver(apply);
@@ -121,7 +148,7 @@ export function GlobalVisualEditor() {
       if (!element) return;
       event.preventDefault();
       event.stopPropagation();
-      const selector = selectorFor(element, root);
+      const selector = stableSelectorFor(element, pageKey);
       const current = overrides[pageKey]?.[selector];
       const computed = window.getComputedStyle(element);
       setSelected({ element, selector });
@@ -157,10 +184,17 @@ export function GlobalVisualEditor() {
     if (!selected) return;
     setSaving(true);
     try {
+      const { data: latestRow, error: latestError } = await supabase
+        .from("site_settings")
+        .select("value")
+        .eq("key", "visual_editor")
+        .maybeSingle();
+      if (latestError) throw latestError;
+      const latest = (latestRow?.value ?? {}) as unknown as VisualOverrides;
       const next: VisualOverrides = {
-        ...overrides,
+        ...latest,
         [pageKey]: {
-          ...(overrides[pageKey] ?? {}),
+          ...(latest[pageKey] ?? {}),
           [selected.selector]: draft,
         },
       };
@@ -180,9 +214,19 @@ export function GlobalVisualEditor() {
 
   async function reset() {
     if (!selected) return;
-    const page = { ...(overrides[pageKey] ?? {}) };
+    const { data: latestRow, error: latestError } = await supabase
+      .from("site_settings")
+      .select("value")
+      .eq("key", "visual_editor")
+      .maybeSingle();
+    if (latestError) {
+      toast.error(latestError.message);
+      return;
+    }
+    const latest = (latestRow?.value ?? {}) as unknown as VisualOverrides;
+    const page = { ...(latest[pageKey] ?? {}) };
     delete page[selected.selector];
-    const next = { ...overrides, [pageKey]: page };
+    const next = { ...latest, [pageKey]: page };
     const { error } = await supabase
       .from("site_settings")
       .upsert({ key: "visual_editor", value: next as unknown as Json }, { onConflict: "key" });
