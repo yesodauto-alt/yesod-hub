@@ -244,6 +244,11 @@ function Home() {
               >
                 <source src="/yesod-brand-reveal.mp4" type="video/mp4" />
               </video>
+              <img
+                className="hero-brand-film-poster"
+                src="/yesod-brand-reveal-poster.jpg"
+                alt="Símbolo da YESOD unindo inteligência humana e tecnologia"
+              />
             </div>
           </div>
         </div>
