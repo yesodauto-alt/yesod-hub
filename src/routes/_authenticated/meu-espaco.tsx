@@ -284,6 +284,7 @@ function MeuEspaco() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
+      <section className="member-reading-surface rounded-[1.5rem] p-5 sm:p-8">
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div className="min-w-0">
           <h1 className="text-3xl font-bold">{t("space.title")}</h1>
@@ -385,6 +386,7 @@ function MeuEspaco() {
           </Button>
         </CardContent>
       </Card>
+      </section>
 
       {isAdmin && <ProjectAdmin />}
 
