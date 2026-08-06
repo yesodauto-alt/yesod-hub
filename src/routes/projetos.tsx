@@ -58,19 +58,21 @@ function ProjectCard({ project, index }: { project: ProjectRow; index: number })
   );
 
   return (
-    <article className="grid overflow-hidden rounded-2xl border border-border bg-card md:grid-cols-[minmax(220px,0.8fr)_1.2fr]">
-      <div className="flex min-h-56 items-stretch bg-gradient-to-br from-[#ff8a3d] via-[#e86f22] to-[#b9470d] p-2.5 sm:p-3 md:min-h-[320px]">
+    <article className="grid overflow-hidden rounded-2xl border border-border bg-card md:grid-cols-[minmax(260px,0.95fr)_1.15fr]">
+      <div className="flex min-h-56 items-center justify-center bg-card p-5 sm:p-6 md:min-h-[320px]">
         {cover ? (
-          <div className="flex min-h-full w-full items-center justify-center bg-white p-2 sm:p-3">
-            <img
-              src={cover}
-              alt={title}
-              className="h-full max-h-[340px] w-full object-contain"
-              loading="lazy"
-            />
-          </div>
+          <figure className="w-full bg-gradient-to-br from-[#ff8a3d] via-[#e86f22] to-[#b9470d] p-[2px] shadow-[0_14px_34px_rgba(232,111,34,0.12)]">
+            <div className="flex w-full items-center justify-center bg-[#101114] p-2">
+              <img
+                src={cover}
+                alt={title}
+                className="max-h-[310px] w-full object-contain"
+                loading="lazy"
+              />
+            </div>
+          </figure>
         ) : (
-          <div className="flex h-full min-h-56 w-full items-center justify-center bg-gradient-to-br from-[#e86f22] to-[#b9470d] text-white/80">
+          <div className="flex h-full min-h-56 w-full items-center justify-center border border-[#e86f22]/45 bg-[#101114] text-[#e86f22]">
             <ImageIcon className="h-8 w-8" strokeWidth={1.5} aria-hidden="true" />
           </div>
         )}
