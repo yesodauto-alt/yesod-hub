@@ -58,15 +58,15 @@ function ProjectCard({ project, index }: { project: ProjectRow; index: number })
   );
 
   return (
-    <article className="grid overflow-hidden rounded-2xl border border-border bg-card md:grid-cols-[minmax(260px,0.95fr)_1.15fr]">
-      <div className="flex min-h-56 items-center justify-center bg-card p-5 sm:p-6 md:min-h-[320px]">
+    <article className="grid overflow-hidden rounded-2xl border border-border bg-card md:grid-cols-[minmax(240px,0.92fr)_1.08fr]">
+      <div className="flex min-h-48 items-center justify-center bg-card p-4 sm:p-5 md:min-h-[260px]">
         {cover ? (
           <figure className="w-full bg-gradient-to-br from-[#ff8a3d] via-[#e86f22] to-[#b9470d] p-[2px] shadow-[0_14px_34px_rgba(232,111,34,0.12)]">
             <div className="flex w-full items-center justify-center bg-[#101114] p-2">
               <img
                 src={cover}
                 alt={title}
-                className="max-h-[310px] w-full object-contain"
+                className="max-h-[250px] w-full object-contain"
                 loading="lazy"
               />
             </div>
@@ -77,7 +77,7 @@ function ProjectCard({ project, index }: { project: ProjectRow; index: number })
           </div>
         )}
       </div>
-      <div className="flex flex-col p-6 sm:p-8">
+      <div className="flex flex-col p-5 sm:p-6">
         <div className="flex items-start justify-between gap-4">
           <span className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
             {tm(project.category)}
@@ -86,8 +86,8 @@ function ProjectCard({ project, index }: { project: ProjectRow; index: number })
             {String(index + 1).padStart(2, "0")}
           </span>
         </div>
-        <h2 className="mt-7 text-xl leading-snug sm:text-2xl">{title}</h2>
-        <p className="mt-4 flex-1 text-sm leading-7 text-muted-foreground">{tm(project.summary)}</p>
+        <h2 className="mt-5 text-xl leading-snug sm:text-[1.35rem]">{title}</h2>
+        <p className="mt-3 flex-1 text-sm leading-6 text-muted-foreground">{tm(project.summary)}</p>
         {action}
       </div>
     </article>
@@ -133,7 +133,7 @@ function Projetos() {
       )}
 
       {projectsQuery.data && projectsQuery.data.length > 0 && (
-        <div className="mt-12 space-y-5">
+        <div className="mx-auto mt-12 max-w-5xl space-y-4">
           {projectsQuery.data.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
