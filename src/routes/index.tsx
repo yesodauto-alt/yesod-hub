@@ -239,14 +239,14 @@ function Home() {
                 loop
                 playsInline
                 preload="metadata"
-                poster="/yesod-brand-reveal-poster.jpg"
+                poster="/yesod-brand-reveal-poster.png"
                 aria-label="Símbolo da YESOD unindo inteligência humana e tecnologia"
               >
                 <source src="/yesod-brand-reveal.mp4" type="video/mp4" />
               </video>
               <img
                 className="hero-brand-film-poster"
-                src="/yesod-brand-reveal-poster.jpg"
+                src="/yesod-brand-reveal-poster.png"
                 alt="Símbolo da YESOD unindo inteligência humana e tecnologia"
               />
             </div>
