@@ -570,3 +570,135 @@ select,
     background-position: 50% 0;
   }
 }
+
+
+/* Editorial brand film: the light animation is framed as part of the black hero. */
+.hero-brand-film-wrap {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 28rem);
+  justify-self: center;
+  padding: 0.65rem;
+}
+
+.hero-brand-film-glow {
+  position: absolute;
+  inset: 9% -5% 7%;
+  z-index: -1;
+  border-radius: 2rem;
+  background:
+    radial-gradient(circle at 50% 48%, rgb(232 111 34 / 20%), transparent 58%),
+    radial-gradient(circle at 50% 88%, rgb(255 255 255 / 10%), transparent 42%);
+  filter: blur(26px);
+  opacity: 0.8;
+}
+
+.hero-brand-film {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 1.35rem;
+  background: #ededec;
+  box-shadow:
+    0 0 0 1px rgb(232 111 34 / 12%),
+    0 26px 70px -34px rgb(0 0 0 / 96%),
+    0 18px 46px -30px rgb(232 111 34 / 45%);
+}
+
+.hero-brand-film video,
+.hero-brand-film-poster {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-brand-film-poster {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .hero-brand-film-wrap {
+    width: min(100%, 23rem);
+    margin-inline: auto;
+  }
+}
+
+/* Light, calm reading canvas restricted to authenticated member content. */
+.member-reading-surface {
+  --background: #edf3f9;
+  --foreground: #152033;
+  --card: #ffffff;
+  --card-foreground: #152033;
+  --popover: #ffffff;
+  --popover-foreground: #152033;
+  --primary-deep: #152033;
+  --secondary: #e7eef6;
+  --secondary-foreground: #152033;
+  --muted: #e8eff7;
+  --muted-foreground: #64748b;
+  --accent: #fff3e9;
+  --accent-foreground: #9d3f0d;
+  --border: #d3deea;
+  --input: #c8d5e3;
+  color-scheme: light;
+  color: #152033;
+  background:
+    radial-gradient(circle at 82% 8%, rgb(255 255 255 / 92%), transparent 24rem),
+    linear-gradient(145deg, #eef4fa 0%, #e8f0f8 52%, #f4f7fb 100%);
+  border: 1px solid #d4e0ec;
+  box-shadow: 0 24px 70px -48px rgb(15 36 62 / 45%);
+}
+
+.member-reading-surface .bg-white,
+.member-reading-surface .bg-card,
+.member-reading-surface .card {
+  background-color: #ffffff !important;
+}
+
+.member-reading-surface .text-slate-950,
+.member-reading-surface .text-slate-900,
+.member-reading-surface .text-slate-800,
+.member-reading-surface .text-slate-700,
+.member-reading-surface .text-slate-600,
+.member-reading-surface .text-slate-500 {
+  color: #334155 !important;
+}
+
+.member-reading-surface input,
+.member-reading-surface textarea,
+.member-reading-surface select,
+.member-reading-surface [contenteditable="true"] {
+  background-color: #ffffff !important;
+  color: #152033 !important;
+}
+
+.member-reading-surface input::placeholder,
+.member-reading-surface textarea::placeholder {
+  color: #8290a3 !important;
+}
+
+.member-reading-surface .shadow-soft,
+.member-reading-surface .shadow-lift,
+.member-reading-surface .interactive-card,
+.member-reading-surface .card {
+  box-shadow:
+    0 1px 2px rgb(15 36 62 / 5%),
+    0 18px 42px -30px rgb(15 36 62 / 28%) !important;
+}
+
+.member-reading-surface .rich-text {
+  max-width: 72ch;
+  color: #334155 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-brand-film video {
+    display: none;
+  }
+
+  .hero-brand-film-poster {
+    display: block;
+  }
+}
