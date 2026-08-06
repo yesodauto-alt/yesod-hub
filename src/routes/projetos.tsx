@@ -1,13 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { ArrowUpRight, ImageIcon } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight, ImageIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { useI18n, useLocalizedMeta } from "@/lib/i18n";
+import { useI18n, useLocalizedMeta, type Lang } from "@/lib/i18n";
 import { PROJECT_COLUMNS, type ProjectRow } from "@/lib/projects";
 import { PROJECT_BUCKET, useMediaUrl } from "@/lib/storage";
 import { whatsappUrl } from "@/lib/yesod";
+
+const PROJECTS_PER_PAGE = 4;
+
+const paginationCopy: Record<Lang, { page: string; of: string; previous: string; next: string }> = {
+  pt: { page: "Página", of: "de", previous: "Página anterior", next: "Próxima página" },
+  en: { page: "Page", of: "of", previous: "Previous page", next: "Next page" },
+  es: { page: "Página", of: "de", previous: "Página anterior", next: "Página siguiente" },
+};
 
 export const Route = createFileRoute("/projetos")({
   head: () => ({
@@ -95,7 +104,8 @@ function ProjectCard({ project, index }: { project: ProjectRow; index: number })
 }
 
 function Projetos() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
+  const [page, setPage] = useState(1);
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   useLocalizedMeta("meta.projects.title", "meta.projects.desc");
 
@@ -111,6 +121,25 @@ function Projetos() {
       return (data ?? []) as unknown as ProjectRow[];
     },
   });
+
+  const projects = projectsQuery.data ?? [];
+  const totalPages = Math.max(1, Math.ceil(projects.length / PROJECTS_PER_PAGE));
+  const safePage = Math.min(page, totalPages);
+  const firstProjectIndex = (safePage - 1) * PROJECTS_PER_PAGE;
+  const visibleProjects = projects.slice(firstProjectIndex, firstProjectIndex + PROJECTS_PER_PAGE);
+  const pagination = paginationCopy[lang];
+
+  useEffect(() => {
+    if (page > totalPages) setPage(totalPages);
+  }, [page, totalPages]);
+
+  function changePage(nextPage: number) {
+    const normalizedPage = Math.max(1, Math.min(totalPages, nextPage));
+    setPage(normalizedPage);
+    window.requestAnimationFrame(() => {
+      document.getElementById("projects-list")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
 
   if (pathname.startsWith("/projetos/")) {
     return <Outlet />;
@@ -132,12 +161,51 @@ function Projetos() {
         </p>
       )}
 
-      {projectsQuery.data && projectsQuery.data.length > 0 && (
-        <div className="mx-auto mt-12 max-w-5xl space-y-4">
-          {projectsQuery.data.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
-          ))}
-        </div>
+      {projects.length > 0 && (
+        <>
+          <div id="projects-list" className="mx-auto mt-12 max-w-5xl scroll-mt-8 space-y-4">
+            {visibleProjects.map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={firstProjectIndex + index} />
+            ))}
+          </div>
+
+          <nav className="mx-auto mt-8 flex max-w-5xl flex-wrap items-center justify-between gap-4 border-t border-[#e86f22]/30 pt-5" aria-label={pagination.page}>
+            <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+              <span className="text-[#e86f22]">{pagination.page} {safePage}</span> {pagination.of} {totalPages}
+            </p>
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={() => changePage(safePage - 1)}
+                disabled={safePage === 1}
+                className="flex h-8 w-8 items-center justify-center border border-[#e86f22]/35 text-[#e86f22] transition-colors hover:bg-[#e86f22] hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
+                aria-label={pagination.previous}
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+              {Array.from({ length: totalPages }, (_, index) => index + 1).map((pageNumber) => (
+                <button
+                  key={pageNumber}
+                  type="button"
+                  onClick={() => changePage(pageNumber)}
+                  aria-current={pageNumber === safePage ? "page" : undefined}
+                  className={`flex h-8 min-w-8 items-center justify-center border px-2 text-sm font-semibold transition-colors ${pageNumber === safePage ? "border-[#e86f22] bg-[#e86f22] text-white" : "border-[#e86f22]/35 text-[#e86f22] hover:bg-[#e86f22]/10"}`}
+                >
+                  {pageNumber}
+                </button>
+              ))}
+              <button
+                type="button"
+                onClick={() => changePage(safePage + 1)}
+                disabled={safePage === totalPages}
+                className="flex h-8 w-8 items-center justify-center border border-[#e86f22]/35 text-[#e86f22] transition-colors hover:bg-[#e86f22] hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
+                aria-label={pagination.next}
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
+          </nav>
+        </>
       )}
 
       <div className="mt-12 border-t border-border pt-8">
