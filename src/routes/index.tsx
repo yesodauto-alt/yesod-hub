@@ -251,20 +251,15 @@ function Home() {
       >
         <div className="yesod-neural-ambient" aria-hidden="true" />
         <svg className="yesod-neural-network" viewBox="0 0 1440 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <g className="yesod-neural-ribbons">
+            <path d="M42 525 C210 410 292 565 452 408 S704 198 880 316 1115 523 1392 342" />
+            <path d="M88 174 C286 292 348 118 530 235 S807 542 1020 392 1248 132 1412 210" />
+          </g>
           <g className="yesod-neural-lines">
             <path d="M42 525 C210 410 292 565 452 408 S704 198 880 316 1115 523 1392 342" />
             <path d="M88 174 C286 292 348 118 530 235 S807 542 1020 392 1248 132 1412 210" />
             <path d="M320 712 C418 548 620 640 720 468 S842 116 1086 118" />
             <path d="M8 342 C172 312 220 210 386 270 S584 448 758 390 1002 212 1216 272 1340 464 1440 448" />
-          </g>
-          <g className="yesod-neural-pulses">
-            <circle cx="42" cy="525" r="4" />
-            <circle cx="452" cy="408" r="5" />
-            <circle cx="880" cy="316" r="4" />
-            <circle cx="1392" cy="342" r="5" />
-            <circle cx="320" cy="712" r="4" />
-            <circle cx="720" cy="468" r="5" />
-            <circle cx="1086" cy="118" r="4" />
           </g>
         </svg>
 
@@ -327,8 +322,8 @@ function Home() {
                   to={pillar.to}
                   className="group flex items-start gap-4 border-b border-white/10 p-4 transition-colors last:border-b-0 hover:bg-white/[0.045]"
                 >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-[#e86f22]/25 bg-[#e86f22]/10 text-[#ff8a3d]">
-                    <pillar.icon className="h-4.5 w-4.5" strokeWidth={1.8} aria-hidden="true" />
+                  <span className="yesod-tech-icon flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-[#e86f22]/25 bg-[#e86f22]/10 text-[#ff8a3d]">
+                    <pillar.icon className="relative z-10 h-4.5 w-4.5" strokeWidth={1.8} aria-hidden="true" />
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block text-sm font-semibold text-white">{t(pillar.titleKey)}</span>
