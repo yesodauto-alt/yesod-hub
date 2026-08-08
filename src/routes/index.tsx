@@ -226,25 +226,59 @@ function Home() {
 
   return (
     <div className="home-fade-in">
-      <section className="border-b border-border bg-card">
-        <div className="mx-auto grid max-w-6xl gap-12 px-6 pb-24 pt-12 sm:pb-28 sm:pt-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-deep">
+      <section
+        className="yesod-neural-hero relative isolate overflow-hidden border-b border-border"
+        onPointerMove={(event) => {
+          const bounds = event.currentTarget.getBoundingClientRect();
+          event.currentTarget.style.setProperty("--pointer-x", `${event.clientX - bounds.left}px`);
+          event.currentTarget.style.setProperty("--pointer-y", `${event.clientY - bounds.top}px`);
+        }}
+      >
+        <div className="yesod-neural-ambient" aria-hidden="true" />
+        <svg className="yesod-neural-network" viewBox="0 0 1440 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <g className="yesod-neural-lines">
+            <path d="M42 525 C210 410 292 565 452 408 S704 198 880 316 1115 523 1392 342" />
+            <path d="M88 174 C286 292 348 118 530 235 S807 542 1020 392 1248 132 1412 210" />
+            <path d="M320 712 C418 548 620 640 720 468 S842 116 1086 118" />
+            <path d="M8 342 C172 312 220 210 386 270 S584 448 758 390 1002 212 1216 272 1340 464 1440 448" />
+          </g>
+          <g className="yesod-neural-pulses">
+            <circle cx="42" cy="525" r="4" />
+            <circle cx="452" cy="408" r="5" />
+            <circle cx="880" cy="316" r="4" />
+            <circle cx="1392" cy="342" r="5" />
+            <circle cx="320" cy="712" r="4" />
+            <circle cx="720" cy="468" r="5" />
+            <circle cx="1086" cy="118" r="4" />
+          </g>
+        </svg>
+
+        <div className="relative z-10 mx-auto grid max-w-6xl gap-12 px-6 pb-24 pt-12 sm:pb-28 sm:pt-16 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
+          <div className="yesod-hero-copy">
+            <p data-edit-id="home.hero.eyebrow" className="text-xs font-semibold uppercase tracking-[0.24em] text-white/78">
               {t("brand.tagline")}
             </p>
-            <div className="mt-4 h-0.5 w-14 bg-[#e86f22]" aria-hidden="true" />
-            <p className="mt-7 text-base font-medium text-slate-600">{hero.welcome}</p>
-            <h1 className="mt-1 font-display text-5xl font-bold leading-[0.95] tracking-[-0.045em] text-primary-deep sm:text-6xl lg:text-7xl">
-              YESOD <span className="text-brand-gradient">HUB</span>
-            </h1>
-            <p data-edit-id="home.hero.descriptor" className="mt-2 w-fit max-w-[31rem] font-sans text-[0.62rem] font-light uppercase leading-tight tracking-[0.15em] text-white/70 sm:whitespace-nowrap sm:text-[0.68rem] sm:tracking-[0.19em]">
+            <div className="mt-4 flex items-center gap-2" aria-hidden="true">
+              <span className="h-px w-14 bg-[#e86f22]" />
+              <span className="yesod-signal-dot h-1.5 w-1.5 rounded-full bg-[#ff8a3d]" />
+            </div>
+            <p data-edit-id="home.hero.welcome" className="mt-7 text-base font-medium text-white/70">{hero.welcome}</p>
+            <div className="mt-1 flex flex-wrap items-end gap-x-4 gap-y-2">
+              <h1 className="font-display text-5xl font-bold leading-[0.95] tracking-[-0.055em] text-white sm:text-6xl lg:text-7xl">
+                <span data-edit-id="home.hero.brand">YESOD</span>
+              </h1>
+              <span data-edit-id="home.hero.hub-label" className="mb-1.5 inline-flex items-center gap-2 border-l border-[#e86f22]/65 pl-3 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-[#ff8a3d] sm:mb-2 sm:text-[0.82rem]">
+                HUB
+              </span>
+            </div>
+            <p data-edit-id="home.hero.descriptor" className="mt-3 w-fit max-w-[31rem] font-sans text-[0.62rem] font-light uppercase leading-tight tracking-[0.15em] text-white/62 sm:whitespace-nowrap sm:text-[0.68rem] sm:tracking-[0.19em]">
               {hero.hubDescriptor}
             </p>
             <p className="mt-12 max-w-2xl font-display text-xl leading-snug font-semibold text-foreground sm:mt-16 sm:text-2xl">
               <span data-edit-id="home.hero.title-one" className="hero-zoom-copy text-[1.65rem] font-black leading-[1.12] tracking-[-0.025em] uppercase text-[#d75a12] sm:text-[2rem] lg:text-[2.15rem]">{hero.titleOne}</span>{" "}
               <span data-edit-id="home.hero.title-two" className="hero-shimmer-copy text-primary">{hero.titleTwo}</span>
             </p>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700">{hero.text}</p>
+            <p data-edit-id="home.hero.body" className="mt-6 max-w-2xl text-lg leading-8 text-white/72">{hero.text}</p>
 
             <div className="mt-16 flex flex-wrap gap-3 sm:mt-20">
               <Button asChild size="lg" className="bg-[#e86f22] text-white hover:bg-[#cf5c16]">
@@ -259,28 +293,33 @@ function Home() {
             </div>
           </div>
 
-          <div className="hero-panel-float relative">
+          <div className="hero-panel-float yesod-intelligence-panel relative">
             <div
               aria-hidden="true"
-              className="hero-orange-rail absolute -right-5 top-8 h-[78%] w-12 bg-[#e86f22] will-change-transform"
+              className="hero-orange-rail absolute -right-5 top-8 h-[78%] w-12 bg-brand-gradient will-change-transform"
               style={{ transform: `translate3d(0, ${parallaxOffset}px, 0)` }}
             />
-            <div className="relative border border-border bg-white p-5 shadow-soft sm:p-7">
-              <div className="grid">
+            <div className="yesod-brain-orbit" aria-hidden="true">
+              <span className="yesod-brain-ring yesod-brain-ring-one" />
+              <span className="yesod-brain-ring yesod-brain-ring-two" />
+              <img src="/yesod-brain-mark.png" alt="" className="yesod-brain-mark" />
+            </div>
+            <div className="yesod-panel-scan relative overflow-hidden border border-white/12 bg-[#0d0e10]/92 p-5 shadow-2xl shadow-black/45 backdrop-blur-xl sm:p-7">
+              <div className="grid pt-14 sm:pt-16">
               {pillars.map((pillar, index) => (
                 <Link
                   key={pillar.titleKey}
                   to={pillar.to}
-                  className="group flex items-start gap-4 border-b border-border p-4 transition-colors last:border-b-0 hover:bg-muted/60"
+                  className="group flex items-start gap-4 border-b border-white/10 p-4 transition-colors last:border-b-0 hover:bg-white/[0.045]"
                 >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-[#fff1e7] text-[#d75a12]">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-[#e86f22]/25 bg-[#e86f22]/10 text-[#ff8a3d]">
                     <pillar.icon className="h-4.5 w-4.5" strokeWidth={1.8} aria-hidden="true" />
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-semibold text-primary-deep">{t(pillar.titleKey)}</span>
-                    <span className="mt-1 block text-xs leading-5 text-muted-foreground">{t(pillar.textKey)}</span>
+                    <span className="block text-sm font-semibold text-white">{t(pillar.titleKey)}</span>
+                    <span className="mt-1 block text-xs leading-5 text-white/58">{t(pillar.textKey)}</span>
                   </span>
-                  <span className="mt-1 text-xs font-semibold text-[#d75a12]">0{index + 1}</span>
+                  <span className="mt-1 text-xs font-semibold text-[#ff8a3d]">0{index + 1}</span>
                 </Link>
               ))}
               </div>
