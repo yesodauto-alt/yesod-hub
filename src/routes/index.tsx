@@ -257,12 +257,16 @@ function Home() {
             <p data-edit-id="home.hero.eyebrow" className="text-xs font-semibold uppercase tracking-[0.24em] text-white/78">
               {editedHeroText("home.hero.eyebrow", t("brand.tagline"))}
             </p>
+            <div className="mt-4 flex items-center gap-2" aria-hidden="true">
+              <span className="h-px w-14 bg-[#e86f22]" />
+              <span className="yesod-signal-dot h-1.5 w-1.5 rounded-full bg-[#ff8a3d]" />
+            </div>
             <p data-edit-id="home.hero.welcome" className="mt-7 text-base font-medium text-white/70">{editedHeroText("home.hero.welcome", hero.welcome)}</p>
             <div className="mt-1 flex flex-wrap items-end gap-x-4 gap-y-2">
               <h1 className="font-display text-5xl font-bold leading-[0.95] tracking-[-0.055em] text-white sm:text-6xl lg:text-7xl">
                 <span data-edit-id="home.hero.brand">{editedHeroText("home.hero.brand", "YESOD")}</span>
               </h1>
-              <span data-edit-id="home.hero.hub-label" className="mb-1.5 inline-flex items-center gap-2 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-[#ff8a3d] sm:mb-2 sm:text-[0.82rem]">
+              <span data-edit-id="home.hero.hub-label" className="mb-1.5 inline-flex items-center gap-2 border-l border-[#e86f22]/65 pl-3 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-[#ff8a3d] sm:mb-2 sm:text-[0.82rem]">
                 {editedHeroText("home.hero.hub-label", "HUB")}
               </span>
             </div>
