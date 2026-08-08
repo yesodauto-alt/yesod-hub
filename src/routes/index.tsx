@@ -191,6 +191,21 @@ function Home() {
   const { t, tm, lang } = useI18n();
   const hero = heroCopy[lang];
   const parallaxOffset = useHeroParallax();
+  const visualQuery = useQuery({
+    queryKey: ["site-settings", "visual-editor"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("site_settings")
+        .select("value")
+        .eq("key", "visual_editor")
+        .maybeSingle();
+      if (error) throw error;
+      return (data?.value ?? {}) as Record<string, Record<string, { text?: string }>>;
+    },
+  });
+  const heroPageOverrides = visualQuery.data?.[`/::${lang}`] ?? {};
+  const editedHeroText = (editId: string, fallback: string) =>
+    heroPageOverrides[`[data-edit-id="${editId}"]`]?.text ?? fallback;
   const productsQuery = useQuery({
     queryKey: ["site-settings", "products"],
     queryFn: async () => {
@@ -256,29 +271,29 @@ function Home() {
         <div className="relative z-10 mx-auto grid max-w-6xl gap-12 px-6 pb-24 pt-12 sm:pb-28 sm:pt-16 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
           <div className="yesod-hero-copy">
             <p data-edit-id="home.hero.eyebrow" className="text-xs font-semibold uppercase tracking-[0.24em] text-white/78">
-              {t("brand.tagline")}
+              {editedHeroText("home.hero.eyebrow", t("brand.tagline"))}
             </p>
             <div className="mt-4 flex items-center gap-2" aria-hidden="true">
               <span className="h-px w-14 bg-[#e86f22]" />
               <span className="yesod-signal-dot h-1.5 w-1.5 rounded-full bg-[#ff8a3d]" />
             </div>
-            <p data-edit-id="home.hero.welcome" className="mt-7 text-base font-medium text-white/70">{hero.welcome}</p>
+            <p data-edit-id="home.hero.welcome" className="mt-7 text-base font-medium text-white/70">{editedHeroText("home.hero.welcome", hero.welcome)}</p>
             <div className="mt-1 flex flex-wrap items-end gap-x-4 gap-y-2">
               <h1 className="font-display text-5xl font-bold leading-[0.95] tracking-[-0.055em] text-white sm:text-6xl lg:text-7xl">
-                <span data-edit-id="home.hero.brand">YESOD</span>
+                <span data-edit-id="home.hero.brand">{editedHeroText("home.hero.brand", "YESOD")}</span>
               </h1>
               <span data-edit-id="home.hero.hub-label" className="mb-1.5 inline-flex items-center gap-2 border-l border-[#e86f22]/65 pl-3 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-[#ff8a3d] sm:mb-2 sm:text-[0.82rem]">
-                HUB
+                {editedHeroText("home.hero.hub-label", "HUB")}
               </span>
             </div>
             <p data-edit-id="home.hero.descriptor" className="mt-3 w-fit max-w-[31rem] font-sans text-[0.62rem] font-light uppercase leading-tight tracking-[0.15em] text-white/62 sm:whitespace-nowrap sm:text-[0.68rem] sm:tracking-[0.19em]">
-              {hero.hubDescriptor}
+              {editedHeroText("home.hero.descriptor", hero.hubDescriptor)}
             </p>
             <p className="mt-12 max-w-2xl font-display text-xl leading-snug font-semibold text-foreground sm:mt-16 sm:text-2xl">
-              <span data-edit-id="home.hero.title-one" className="hero-zoom-copy text-[1.65rem] font-black leading-[1.12] tracking-[-0.025em] uppercase text-[#d75a12] sm:text-[2rem] lg:text-[2.15rem]">{hero.titleOne}</span>{" "}
-              <span data-edit-id="home.hero.title-two" className="hero-shimmer-copy text-primary">{hero.titleTwo}</span>
+              <span data-edit-id="home.hero.title-one" className="hero-zoom-copy text-[1.65rem] font-black leading-[1.12] tracking-[-0.025em] uppercase text-[#d75a12] sm:text-[2rem] lg:text-[2.15rem]">{editedHeroText("home.hero.title-one", hero.titleOne)}</span>{" "}
+              <span data-edit-id="home.hero.title-two" className="hero-shimmer-copy text-primary">{editedHeroText("home.hero.title-two", hero.titleTwo)}</span>
             </p>
-            <p data-edit-id="home.hero.body" className="mt-6 max-w-2xl text-lg leading-8 text-white/72">{hero.text}</p>
+            <p data-edit-id="home.hero.body" className="mt-6 max-w-2xl text-lg leading-8 text-white/72">{editedHeroText("home.hero.body", hero.text)}</p>
 
             <div className="mt-16 flex flex-wrap gap-3 sm:mt-20">
               <Button asChild size="lg" className="bg-[#e86f22] text-white hover:bg-[#cf5c16]">
