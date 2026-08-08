@@ -578,7 +578,7 @@ select,
   --pointer-y: 34%;
   min-height: min(760px, calc(100svh - 2rem));
   background:
-    radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgb(232 111 34 / 10%), transparent 19rem),
+    radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgb(232 111 34 / 11%), transparent 8rem),
     radial-gradient(ellipse at 78% 16%, rgb(255 119 34 / 9%), transparent 31rem),
     linear-gradient(132deg, #070708 0%, #0d0d0f 54%, #090706 100%);
 }
@@ -600,8 +600,8 @@ select,
   inset: 0;
   content: "";
   pointer-events: none;
-  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), transparent 0, transparent 7rem, rgb(232 111 34 / 7%) 10rem, transparent 17rem);
-  opacity: 0.9;
+  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), transparent 0, transparent 2.5rem, rgb(232 111 34 / 5%) 4.5rem, transparent 8rem);
+  opacity: 0.52;
   transition: background-position 220ms ease;
 }
 
@@ -625,29 +625,34 @@ select,
   filter: drop-shadow(0 0 12px rgb(232 111 34 / 9%));
 }
 
+.yesod-neural-ribbons {
+  fill: none;
+  stroke: rgb(232 111 34 / 10%);
+  stroke-width: 18;
+  stroke-linecap: round;
+  filter: blur(15px);
+  animation: yesod-ribbon-drift 16s ease-in-out infinite alternate;
+}
+
+.yesod-neural-ribbons path:nth-child(2) {
+  stroke: rgb(255 255 255 / 4%);
+  stroke-width: 11;
+  animation-delay: -7s;
+}
+
 .yesod-neural-lines {
   fill: none;
-  stroke: rgb(232 111 34 / 23%);
-  stroke-width: 1;
-  stroke-dasharray: 5 13;
-  animation: yesod-data-flow 28s linear infinite;
+  stroke: rgb(232 111 34 / 27%);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  animation: yesod-solid-flow 13s ease-in-out infinite alternate;
 }
 
 .yesod-neural-lines path:nth-child(even) {
-  stroke: rgb(255 255 255 / 8%);
-  animation: yesod-data-flow-reverse 34s linear infinite;
+  stroke: rgb(255 255 255 / 10%);
+  stroke-width: 1;
+  animation-delay: -5s;
 }
-
-.yesod-neural-pulses circle {
-  fill: #ff8a3d;
-  opacity: 0.42;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: yesod-node-pulse 4.8s ease-in-out infinite;
-}
-
-.yesod-neural-pulses circle:nth-child(2n) { animation-delay: -1.8s; }
-.yesod-neural-pulses circle:nth-child(3n) { animation-delay: -3.1s; }
 
 .yesod-hero-copy {
   animation: yesod-copy-enter 1.25s cubic-bezier(.2,.72,.22,1) both;
@@ -731,17 +736,14 @@ select,
   to { transform: translate3d(3%, 2%, 0) rotate(3deg) scale(1.08); }
 }
 
-@keyframes yesod-data-flow {
-  to { stroke-dashoffset: -320; }
+@keyframes yesod-ribbon-drift {
+  from { opacity: 0.52; transform: translate3d(-1.5%, -1%, 0) scale(1.01); }
+  to { opacity: 0.9; transform: translate3d(1.8%, 1.3%, 0) scale(1.035); }
 }
 
-@keyframes yesod-data-flow-reverse {
-  to { stroke-dashoffset: 280; }
-}
-
-@keyframes yesod-node-pulse {
-  0%, 100% { opacity: 0.24; transform: scale(.7); }
-  50% { opacity: 0.85; transform: scale(1.55); }
+@keyframes yesod-solid-flow {
+  from { opacity: 0.46; transform: translate3d(-0.7%, 0, 0); }
+  to { opacity: 0.82; transform: translate3d(0.9%, -0.6%, 0); }
 }
 
 @keyframes yesod-copy-enter {
@@ -787,8 +789,8 @@ select,
 
 @media (prefers-reduced-motion: reduce) {
   .yesod-neural-ambient,
+  .yesod-neural-ribbons,
   .yesod-neural-lines,
-  .yesod-neural-pulses circle,
   .yesod-hero-copy,
   .yesod-intelligence-panel,
   .yesod-panel-scan::after,
@@ -797,4 +799,86 @@ select,
   .yesod-signal-dot {
     animation: none !important;
   }
+}
+
+
+/* Compact interactive circuitry for YESOD navigation icons */
+.yesod-tech-icon {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition: transform 420ms cubic-bezier(.2,.72,.22,1), border-color 420ms ease, box-shadow 420ms ease;
+}
+
+.yesod-tech-icon::before {
+  position: absolute;
+  inset: -55%;
+  z-index: -2;
+  content: "";
+  background: conic-gradient(from 0deg, transparent 0 36%, rgb(255 138 61 / 72%) 45%, transparent 54% 100%);
+  animation: yesod-icon-orbit 7s linear infinite;
+}
+
+.yesod-tech-icon::after {
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  content: "";
+  border-radius: 2px;
+  background: #131416;
+}
+
+.group:hover .yesod-tech-icon {
+  transform: translateY(-2px) scale(1.045);
+  border-color: rgb(255 138 61 / 64%);
+  box-shadow: 0 0 0 1px rgb(232 111 34 / 10%), 0 8px 24px -8px rgb(232 111 34 / 48%);
+}
+
+.group:hover .yesod-tech-icon svg {
+  filter: drop-shadow(0 0 5px rgb(255 138 61 / 55%));
+}
+
+@keyframes yesod-icon-orbit {
+  to { transform: rotate(360deg); }
+}
+
+/* Calm authenticated reading environment */
+.member-reading-shell {
+  --background: #edf4fb;
+  --foreground: #10213a;
+  --card: #ffffff;
+  --card-foreground: #10213a;
+  --popover: #ffffff;
+  --popover-foreground: #10213a;
+  --secondary: #e1ecf7;
+  --secondary-foreground: #17304f;
+  --muted: #e6eff8;
+  --muted-foreground: #61738b;
+  --accent: #dbe9f6;
+  --accent-foreground: #17304f;
+  --border: #cfdeed;
+  --input: #c8d8e8;
+  --surface: #f7fbff;
+  background:
+    radial-gradient(circle at 82% 4%, rgb(180 207 235 / 24%), transparent 28rem),
+    linear-gradient(180deg, #edf4fb 0%, #e8f1fa 100%);
+  color: var(--foreground);
+}
+
+.member-reading-shell main {
+  background: transparent;
+}
+
+.member-reading-shell .text-white {
+  color: #10213a;
+}
+
+.member-reading-shell .text-white\/70,
+.member-reading-shell .text-white\/75,
+.member-reading-shell .text-white\/60 {
+  color: #61738b;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yesod-tech-icon::before { animation: none !important; }
 }
