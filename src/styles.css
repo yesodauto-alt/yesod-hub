@@ -882,3 +882,69 @@ select,
 @media (prefers-reduced-motion: reduce) {
   .yesod-tech-icon::before { animation: none !important; }
 }
+
+
+/* Premium chromatic treatment: copper intelligence + electric blue */
+.yesod-neural-hero .hero-zoom-copy {
+  color: transparent;
+  background-image:
+    linear-gradient(
+      104deg,
+      #9f3509 0%,
+      #d85411 17%,
+      #ff8b43 34%,
+      #ffc09a 43%,
+      #e96f22 52%,
+      #b9430d 72%,
+      #ff7d32 88%,
+      #c64a0d 100%
+    );
+  background-size: 220% 100%;
+  background-position: 0% 50%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter:
+    drop-shadow(0 1px 0 rgb(255 190 145 / 16%))
+    drop-shadow(0 8px 20px rgb(232 111 34 / 10%));
+  animation:
+    yesod-copy-zoom 1.9s cubic-bezier(0.16, 1, 0.3, 1) 260ms both,
+    yesod-copper-sheen 9s ease-in-out 2.2s infinite alternate;
+}
+
+.yesod-neural-hero .hero-shimmer-copy {
+  background-image:
+    linear-gradient(
+      108deg,
+      #244fc0 0%,
+      #3c73ef 24%,
+      #6c9dff 40%,
+      #d8e7ff 48%,
+      #7fa9ff 55%,
+      #3567df 72%,
+      #1e46b0 100%
+    );
+  background-size: 260% 100%;
+  filter:
+    drop-shadow(0 1px 0 rgb(210 228 255 / 12%))
+    drop-shadow(0 7px 18px rgb(52 103 223 / 13%));
+  animation: yesod-electric-sheen 6.8s cubic-bezier(.45,0,.2,1) infinite alternate;
+}
+
+@keyframes yesod-copper-sheen {
+  0%, 18% { background-position: 0% 50%; filter: drop-shadow(0 8px 20px rgb(232 111 34 / 9%)); }
+  74%, 100% { background-position: 100% 50%; filter: drop-shadow(0 8px 24px rgb(232 111 34 / 16%)); }
+}
+
+@keyframes yesod-electric-sheen {
+  0%, 14% { background-position: 110% 50%; }
+  86%, 100% { background-position: -8% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yesod-neural-hero .hero-zoom-copy,
+  .yesod-neural-hero .hero-shimmer-copy {
+    animation: none !important;
+    background-position: 50% 50%;
+  }
+}
