@@ -570,3 +570,402 @@ select,
     background-position: 50% 0;
   }
 }
+
+
+/* YESOD Neural Horizon — brand-specific hero system */
+.yesod-neural-hero {
+  --pointer-x: 72%;
+  --pointer-y: 34%;
+  min-height: min(760px, calc(100svh - 2rem));
+  background:
+    radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgb(232 111 34 / 11%), transparent 8rem),
+    radial-gradient(ellipse at 78% 16%, rgb(255 119 34 / 9%), transparent 31rem),
+    linear-gradient(132deg, #070708 0%, #0d0d0f 54%, #090706 100%);
+}
+
+.yesod-neural-hero::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgb(255 255 255 / 2.4%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 2.4%) 1px, transparent 1px);
+  background-size: 76px 76px;
+  mask-image: linear-gradient(to bottom, rgb(0 0 0 / 65%), transparent 92%);
+}
+
+.yesod-neural-hero::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), transparent 0, transparent 2.5rem, rgb(232 111 34 / 5%) 4.5rem, transparent 8rem);
+  opacity: 0.52;
+  transition: background-position 220ms ease;
+}
+
+.yesod-neural-ambient {
+  position: absolute;
+  inset: -28%;
+  pointer-events: none;
+  background:
+    conic-gradient(from 80deg at 68% 42%, transparent 0 18%, rgb(232 111 34 / 8%) 24%, transparent 31% 68%, rgb(255 255 255 / 3%) 74%, transparent 80%);
+  filter: blur(44px);
+  animation: yesod-ambient-drift 18s ease-in-out infinite alternate;
+}
+
+.yesod-neural-network {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.64;
+  filter: drop-shadow(0 0 12px rgb(232 111 34 / 9%));
+}
+
+.yesod-neural-ribbons {
+  fill: none;
+  stroke: rgb(232 111 34 / 10%);
+  stroke-width: 18;
+  stroke-linecap: round;
+  filter: blur(15px);
+  animation: yesod-ribbon-drift 16s ease-in-out infinite alternate;
+}
+
+.yesod-neural-ribbons path:nth-child(2) {
+  stroke: rgb(255 255 255 / 4%);
+  stroke-width: 11;
+  animation-delay: -7s;
+}
+
+.yesod-neural-lines {
+  fill: none;
+  stroke: rgb(232 111 34 / 27%);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  animation: yesod-solid-flow 13s ease-in-out infinite alternate;
+}
+
+.yesod-neural-lines path:nth-child(even) {
+  stroke: rgb(255 255 255 / 10%);
+  stroke-width: 1;
+  animation-delay: -5s;
+}
+
+.yesod-hero-copy {
+  animation: yesod-copy-enter 1.25s cubic-bezier(.2,.72,.22,1) both;
+}
+
+.yesod-signal-dot {
+  box-shadow: 0 0 0 0 rgb(232 111 34 / 40%);
+  animation: yesod-signal 2.8s ease-out infinite;
+}
+
+.yesod-intelligence-panel {
+  isolation: isolate;
+  animation: yesod-panel-enter 1.5s .14s cubic-bezier(.2,.72,.22,1) both;
+}
+
+.yesod-intelligence-panel::before {
+  position: absolute;
+  inset: -2.5rem;
+  z-index: -1;
+  content: "";
+  pointer-events: none;
+  background: radial-gradient(circle at 70% 26%, rgb(232 111 34 / 15%), transparent 46%);
+  filter: blur(24px);
+}
+
+.yesod-panel-scan::after {
+  position: absolute;
+  top: -35%;
+  bottom: -35%;
+  left: -24%;
+  width: 19%;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 7%), transparent);
+  transform: skewX(-16deg);
+  animation: yesod-panel-scan 8s ease-in-out infinite;
+}
+
+.yesod-brain-orbit {
+  position: absolute;
+  top: -2.1rem;
+  right: 1.3rem;
+  z-index: 5;
+  display: grid;
+  width: 7.4rem;
+  height: 7.4rem;
+  place-items: center;
+  pointer-events: none;
+}
+
+.yesod-brain-mark {
+  position: relative;
+  z-index: 2;
+  width: 5rem;
+  height: 5rem;
+  object-fit: contain;
+  filter: drop-shadow(0 0 12px rgb(232 111 34 / 36%));
+  animation: yesod-brain-breathe 5.6s ease-in-out infinite;
+}
+
+.yesod-brain-ring {
+  position: absolute;
+  inset: 0.72rem;
+  border: 1px solid rgb(232 111 34 / 34%);
+  border-right-color: rgb(255 138 61 / 78%);
+  border-radius: 50%;
+  box-shadow: inset 0 0 20px rgb(232 111 34 / 5%), 0 0 18px rgb(232 111 34 / 7%);
+  animation: yesod-orbit-spin 14s linear infinite;
+}
+
+@keyframes yesod-ambient-drift {
+  from { transform: translate3d(-2%, -1%, 0) rotate(-2deg) scale(1); }
+  to { transform: translate3d(3%, 2%, 0) rotate(3deg) scale(1.08); }
+}
+
+@keyframes yesod-ribbon-drift {
+  from { opacity: 0.52; transform: translate3d(-1.5%, -1%, 0) scale(1.01); }
+  to { opacity: 0.9; transform: translate3d(1.8%, 1.3%, 0) scale(1.035); }
+}
+
+@keyframes yesod-solid-flow {
+  from { opacity: 0.46; transform: translate3d(-0.7%, 0, 0); }
+  to { opacity: 0.82; transform: translate3d(0.9%, -0.6%, 0); }
+}
+
+@keyframes yesod-copy-enter {
+  from { opacity: 0; transform: translate3d(-18px, 20px, 0); filter: blur(7px); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); filter: blur(0); }
+}
+
+@keyframes yesod-panel-enter {
+  from { opacity: 0; transform: translate3d(28px, 18px, 0) scale(.975); filter: blur(8px); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: blur(0); }
+}
+
+@keyframes yesod-signal {
+  0% { box-shadow: 0 0 0 0 rgb(232 111 34 / 42%); }
+  75%, 100% { box-shadow: 0 0 0 9px rgb(232 111 34 / 0%); }
+}
+
+@keyframes yesod-panel-scan {
+  0%, 20% { transform: translateX(-40%) skewX(-16deg); opacity: 0; }
+  35% { opacity: 1; }
+  62%, 100% { transform: translateX(760%) skewX(-16deg); opacity: 0; }
+}
+
+@keyframes yesod-orbit-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes yesod-brain-breathe {
+  0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 10px rgb(232 111 34 / 28%)); }
+  50% { transform: translateY(-4px) scale(1.035); filter: drop-shadow(0 0 18px rgb(232 111 34 / 45%)); }
+}
+
+@media (max-width: 1023px) {
+  .yesod-neural-hero { min-height: auto; }
+  .yesod-neural-network { opacity: 0.42; }
+}
+
+@media (max-width: 639px) {
+  .yesod-neural-hero::before { background-size: 52px 52px; }
+  .yesod-brain-orbit { top: -1.65rem; right: 0.5rem; transform: scale(.82); }
+  .yesod-panel-scan .grid { padding-top: 3.2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yesod-neural-ambient,
+  .yesod-neural-ribbons,
+  .yesod-neural-lines,
+  .yesod-hero-copy,
+  .yesod-intelligence-panel,
+  .yesod-panel-scan::after,
+  .yesod-brain-mark,
+  .yesod-brain-ring,
+  .yesod-signal-dot {
+    animation: none !important;
+  }
+}
+
+
+/* Compact interactive circuitry for YESOD navigation icons */
+.yesod-tech-icon {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition: transform 420ms cubic-bezier(.2,.72,.22,1), border-color 420ms ease, box-shadow 420ms ease;
+}
+
+.yesod-tech-icon::before {
+  position: absolute;
+  inset: -55%;
+  z-index: -2;
+  content: "";
+  background: conic-gradient(from 0deg, transparent 0 36%, rgb(255 138 61 / 72%) 45%, transparent 54% 100%);
+  animation: yesod-icon-orbit 7s linear infinite;
+}
+
+.yesod-tech-icon::after {
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  content: "";
+  border-radius: 2px;
+  background: #131416;
+}
+
+.group:hover .yesod-tech-icon {
+  transform: translateY(-2px) scale(1.045);
+  border-color: rgb(255 138 61 / 64%);
+  box-shadow: 0 0 0 1px rgb(232 111 34 / 10%), 0 8px 24px -8px rgb(232 111 34 / 48%);
+}
+
+.group:hover .yesod-tech-icon svg {
+  filter: drop-shadow(0 0 5px rgb(255 138 61 / 55%));
+}
+
+@keyframes yesod-icon-orbit {
+  to { transform: rotate(360deg); }
+}
+
+/* Calm authenticated reading environment */
+.member-reading-shell {
+  --background: #edf4fb;
+  --foreground: #10213a;
+  --card: #ffffff;
+  --card-foreground: #10213a;
+  --popover: #ffffff;
+  --popover-foreground: #10213a;
+  --secondary: #e1ecf7;
+  --secondary-foreground: #17304f;
+  --muted: #e6eff8;
+  --muted-foreground: #61738b;
+  --accent: #dbe9f6;
+  --accent-foreground: #17304f;
+  --border: #cfdeed;
+  --input: #c8d8e8;
+  --surface: #f7fbff;
+  background:
+    radial-gradient(circle at 82% 4%, rgb(180 207 235 / 24%), transparent 28rem),
+    linear-gradient(180deg, #edf4fb 0%, #e8f1fa 100%);
+  color: var(--foreground);
+}
+
+.member-reading-shell main {
+  background: transparent;
+}
+
+.member-reading-shell .text-white {
+  color: #10213a;
+}
+
+.member-reading-shell .text-white\/70,
+.member-reading-shell .text-white\/75,
+.member-reading-shell .text-white\/60 {
+  color: #61738b;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yesod-tech-icon::before { animation: none !important; }
+}
+
+
+/* Premium chromatic treatment: copper intelligence + electric blue */
+.yesod-neural-hero .hero-zoom-copy {
+  color: transparent;
+  background-image:
+    linear-gradient(
+      104deg,
+      #9f3509 0%,
+      #d85411 17%,
+      #ff8b43 34%,
+      #ffc09a 43%,
+      #e96f22 52%,
+      #b9430d 72%,
+      #ff7d32 88%,
+      #c64a0d 100%
+    );
+  background-size: 220% 100%;
+  background-position: 0% 50%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter:
+    drop-shadow(0 1px 0 rgb(255 190 145 / 16%))
+    drop-shadow(0 8px 20px rgb(232 111 34 / 10%));
+  animation:
+    yesod-copy-zoom 1.9s cubic-bezier(0.16, 1, 0.3, 1) 260ms both,
+    yesod-copper-sheen 9s ease-in-out 2.2s infinite alternate;
+}
+
+.yesod-neural-hero .hero-shimmer-copy {
+  background-image:
+    linear-gradient(
+      108deg,
+      #244fc0 0%,
+      #3c73ef 24%,
+      #6c9dff 40%,
+      #d8e7ff 48%,
+      #7fa9ff 55%,
+      #3567df 72%,
+      #1e46b0 100%
+    );
+  background-size: 260% 100%;
+  filter:
+    drop-shadow(0 1px 0 rgb(210 228 255 / 12%))
+    drop-shadow(0 7px 18px rgb(52 103 223 / 13%));
+  animation: yesod-electric-sheen 6.8s cubic-bezier(.45,0,.2,1) infinite alternate;
+}
+
+@keyframes yesod-copper-sheen {
+  0%, 18% { background-position: 0% 50%; filter: drop-shadow(0 8px 20px rgb(232 111 34 / 9%)); }
+  74%, 100% { background-position: 100% 50%; filter: drop-shadow(0 8px 24px rgb(232 111 34 / 16%)); }
+}
+
+@keyframes yesod-electric-sheen {
+  0%, 14% { background-position: 110% 50%; }
+  86%, 100% { background-position: -8% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yesod-neural-hero .hero-zoom-copy,
+  .yesod-neural-hero .hero-shimmer-copy {
+    animation: none !important;
+    background-position: 50% 50%;
+  }
+}
+
+
+.yesod-tech-icon-feature::after {
+  border-radius: calc(1rem - 1px);
+  background:
+    radial-gradient(circle at 32% 24%, rgb(255 179 128 / 24%), transparent 48%),
+    linear-gradient(145deg, #ef792c 0%, #d85a13 100%);
+}
+
+.group:hover .yesod-tech-icon-feature,
+.yesod-tech-icon-feature:hover {
+  border-color: rgb(255 179 128 / 72%);
+  box-shadow: 0 0 0 1px rgb(232 111 34 / 12%), 0 10px 30px -8px rgb(232 111 34 / 52%);
+}
+
+.yesod-featured-spark {
+  transform-origin: center;
+  animation: yesod-featured-spark 3.6s ease-in-out infinite;
+}
+
+@keyframes yesod-featured-spark {
+  0%, 100% { transform: rotate(0deg) scale(1); filter: drop-shadow(0 0 0 rgb(232 111 34 / 0%)); }
+  45% { transform: rotate(12deg) scale(1.16); filter: drop-shadow(0 0 4px rgb(232 111 34 / 48%)); }
+  65% { transform: rotate(-5deg) scale(1.05); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yesod-featured-spark { animation: none !important; }
+}
