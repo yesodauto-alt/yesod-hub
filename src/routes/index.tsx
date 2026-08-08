@@ -302,7 +302,7 @@ function Home() {
             <div className="yesod-brain-orbit" aria-hidden="true">
               <span className="yesod-brain-ring yesod-brain-ring-one" />
               <span className="yesod-brain-ring yesod-brain-ring-two" />
-              <img src="/yesod-brain-mark.png" alt="" className="yesod-brain-mark" />
+              <img src="/yesod-brain-mark.svg" alt="" className="yesod-brain-mark" />
             </div>
             <div className="yesod-panel-scan relative overflow-hidden border border-white/12 bg-[#0d0e10]/92 p-5 shadow-2xl shadow-black/45 backdrop-blur-xl sm:p-7">
               <div className="grid pt-14 sm:pt-16">
