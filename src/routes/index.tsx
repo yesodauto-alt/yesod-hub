@@ -250,34 +250,19 @@ function Home() {
         }}
       >
         <div className="yesod-neural-ambient" aria-hidden="true" />
-        <svg className="yesod-neural-network" viewBox="0 0 1440 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-          <g className="yesod-neural-ribbons">
-            <path d="M42 525 C210 410 292 565 452 408 S704 198 880 316 1115 523 1392 342" />
-            <path d="M88 174 C286 292 348 118 530 235 S807 542 1020 392 1248 132 1412 210" />
-          </g>
-          <g className="yesod-neural-lines">
-            <path d="M42 525 C210 410 292 565 452 408 S704 198 880 316 1115 523 1392 342" />
-            <path d="M88 174 C286 292 348 118 530 235 S807 542 1020 392 1248 132 1412 210" />
-            <path d="M320 712 C418 548 620 640 720 468 S842 116 1086 118" />
-            <path d="M8 342 C172 312 220 210 386 270 S584 448 758 390 1002 212 1216 272 1340 464 1440 448" />
-          </g>
-        </svg>
+
 
         <div className="relative z-10 mx-auto grid max-w-6xl gap-12 px-6 pb-24 pt-12 sm:pb-28 sm:pt-16 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
           <div className="yesod-hero-copy">
             <p data-edit-id="home.hero.eyebrow" className="text-xs font-semibold uppercase tracking-[0.24em] text-white/78">
               {editedHeroText("home.hero.eyebrow", t("brand.tagline"))}
             </p>
-            <div className="mt-4 flex items-center gap-2" aria-hidden="true">
-              <span className="h-px w-14 bg-[#e86f22]" />
-              <span className="yesod-signal-dot h-1.5 w-1.5 rounded-full bg-[#ff8a3d]" />
-            </div>
             <p data-edit-id="home.hero.welcome" className="mt-7 text-base font-medium text-white/70">{editedHeroText("home.hero.welcome", hero.welcome)}</p>
             <div className="mt-1 flex flex-wrap items-end gap-x-4 gap-y-2">
               <h1 className="font-display text-5xl font-bold leading-[0.95] tracking-[-0.055em] text-white sm:text-6xl lg:text-7xl">
                 <span data-edit-id="home.hero.brand">{editedHeroText("home.hero.brand", "YESOD")}</span>
               </h1>
-              <span data-edit-id="home.hero.hub-label" className="mb-1.5 inline-flex items-center gap-2 border-l border-[#e86f22]/65 pl-3 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-[#ff8a3d] sm:mb-2 sm:text-[0.82rem]">
+              <span data-edit-id="home.hero.hub-label" className="mb-1.5 inline-flex items-center gap-2 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-[#ff8a3d] sm:mb-2 sm:text-[0.82rem]">
                 {editedHeroText("home.hero.hub-label", "HUB")}
               </span>
             </div>
