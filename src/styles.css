@@ -969,3 +969,59 @@ select,
 @media (prefers-reduced-motion: reduce) {
   .yesod-featured-spark { animation: none !important; }
 }
+
+
+/* Hero atmosphere v2 — depth and motion without geometric shapes */
+.yesod-neural-hero {
+  background:
+    radial-gradient(ellipse 58% 52% at 82% 28%, rgb(232 111 34 / 11%), transparent 72%),
+    radial-gradient(ellipse 46% 48% at 14% 84%, rgb(54 92 190 / 5%), transparent 76%),
+    linear-gradient(128deg, #060607 0%, #0c0c0e 55%, #0a0807 100%);
+}
+
+.yesod-neural-hero::before {
+  inset: -18%;
+  background:
+    radial-gradient(ellipse 38% 32% at 72% 36%, rgb(255 132 61 / 9%), transparent 76%),
+    radial-gradient(ellipse 32% 28% at 48% 78%, rgb(255 255 255 / 2.5%), transparent 78%);
+  background-size: auto;
+  filter: blur(54px);
+  mask-image: none;
+  opacity: .9;
+  animation: yesod-light-breathe 14s ease-in-out infinite alternate;
+}
+
+.yesod-neural-hero::after {
+  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgb(255 137 69 / 8%) 0, rgb(232 111 34 / 3%) 2.4rem, transparent 5.2rem);
+  filter: blur(13px);
+  opacity: .68;
+}
+
+.yesod-neural-ambient {
+  inset: -20%;
+  background:
+    radial-gradient(ellipse 42% 34% at 76% 34%, rgb(232 111 34 / 8%), transparent 74%),
+    radial-gradient(ellipse 30% 26% at 38% 72%, rgb(255 255 255 / 2.2%), transparent 76%);
+  filter: blur(64px);
+  animation: yesod-ambient-breathe 17s ease-in-out infinite alternate;
+}
+
+.yesod-neural-network,
+.yesod-neural-ribbons,
+.yesod-neural-lines {
+  display: none !important;
+}
+
+@keyframes yesod-light-breathe {
+  from { transform: translate3d(-1.5%, 0, 0) scale(1); opacity: .62; }
+  to { transform: translate3d(2%, -1%, 0) scale(1.06); opacity: .92; }
+}
+
+@keyframes yesod-ambient-breathe {
+  from { transform: translate3d(-1%, 1%, 0) scale(1); opacity: .68; }
+  to { transform: translate3d(2%, -1.5%, 0) scale(1.07); opacity: .94; }
+}
+
+@media (max-width: 639px) {
+  .yesod-neural-hero::before { background-size: auto; }
+}
