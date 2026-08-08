@@ -12,6 +12,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { GlobalVisualEditor } from "@/components/admin/global-visual-editor";
+import { useAuth } from "@/hooks/use-auth";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFloatingButton } from "@/components/layout/WhatsAppFloatingButton";
@@ -167,6 +168,12 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const router = useRouter();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const { user, loading } = useAuth();
+  const calmReadingMode =
+    !loading &&
+    Boolean(user) &&
+    (pathname === "/hub" || pathname === "/meu-espaco");
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((event) => {
@@ -181,7 +188,10 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <I18nProvider>
         <Sidebar />
-        <div data-editable-site className="flex min-h-screen flex-col lg:pl-[17rem]">
+        <div
+          data-editable-site
+          className={`flex min-h-screen flex-col lg:pl-[17rem] ${calmReadingMode ? "member-reading-shell" : ""}`}
+        >
           <main className="flex-1"><Outlet /></main>
           <Footer />
         </div>
