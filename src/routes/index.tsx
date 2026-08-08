@@ -311,7 +311,6 @@ function Home() {
             />
             <div className="yesod-brain-orbit" aria-hidden="true">
               <span className="yesod-brain-ring yesod-brain-ring-one" />
-              <span className="yesod-brain-ring yesod-brain-ring-two" />
               <img src="/yesod-brain-mark.svg" alt="" className="yesod-brain-mark" />
             </div>
             <div className="yesod-panel-scan relative overflow-hidden border border-white/12 bg-[#0d0e10]/92 p-5 shadow-2xl shadow-black/45 backdrop-blur-xl sm:p-7">
@@ -344,7 +343,9 @@ function Home() {
           <div className="mt-10 grid gap-px border-y border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
             {pillars.map((pillar) => (
               <Link key={pillar.titleKey} to={pillar.to} className="interactive-card group bg-white p-6 transition-colors hover:bg-[#fff8f3]">
-                <pillar.icon className="h-5 w-5 text-[#d75a12]" strokeWidth={1.7} aria-hidden="true" />
+                <span className="yesod-tech-icon flex h-10 w-10 items-center justify-center rounded-sm border border-[#e86f22]/25 bg-[#e86f22]/10 text-[#ff8a3d]">
+                  <pillar.icon className="relative z-10 h-5 w-5" strokeWidth={1.7} aria-hidden="true" />
+                </span>
                 <h3 className="mt-8 text-base group-hover:text-primary">{t(pillar.titleKey)}</h3>
                 <p className="mt-3 text-sm leading-6 text-muted-foreground">{t(pillar.textKey)}</p>
               </Link>
@@ -358,8 +359,8 @@ function Home() {
       {aiExperience.enabled && aiExperience.url && (
         <section className="home-reveal border-y border-[#e86f22]/35 bg-[#111214]">
           <div className="mx-auto grid max-w-6xl gap-6 px-6 py-12 sm:grid-cols-[72px_minmax(0,1fr)_auto] sm:items-center sm:py-14">
-            <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#e86f22] text-white shadow-lg shadow-[#e86f22]/25">
-              <Bot className="h-8 w-8" strokeWidth={1.7} aria-hidden="true" />
+            <span className="yesod-tech-icon yesod-tech-icon-feature flex h-16 w-16 items-center justify-center rounded-2xl border border-[#ff9a5e]/45 bg-[#e86f22] text-white shadow-lg shadow-[#e86f22]/25">
+              <Bot className="relative z-10 h-8 w-8" strokeWidth={1.7} aria-hidden="true" />
             </span>
             <div className="max-w-2xl sm:pl-4">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e86f22]">{tm(aiExperience.eyebrow)}</p>
@@ -388,7 +389,7 @@ function Home() {
                   <h3 className="text-lg">{tm(product.name)}</h3>
                   {product.featured && (
                     <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#fff1e7] px-2.5 py-1 text-[11px] font-semibold text-[#d75a12]">
-                      <Sparkles className="h-3 w-3" aria-hidden="true" /> {t("products.featured")}
+                      <Sparkles className="yesod-featured-spark h-3 w-3" aria-hidden="true" /> {t("products.featured")}
                     </span>
                   )}
                 </div>
