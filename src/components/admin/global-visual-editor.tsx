@@ -20,10 +20,6 @@ type VisualStyle = {
   fontStyle?: "normal" | "italic";
   textDecoration?: "none" | "underline";
   textTransform?: "none" | "uppercase";
-  fontSize?: string;
-  letterSpacing?: string;
-  lineHeight?: string;
-  marginTop?: string;
 };
 
 type VisualOverrides = Record<string, Record<string, VisualStyle>>;
@@ -99,10 +95,6 @@ function applyPageOverrides(root: HTMLElement, pageKey: string, overrides: Recor
     if (value.fontStyle && element.style.fontStyle !== value.fontStyle) element.style.fontStyle = value.fontStyle;
     if (value.textDecoration && element.style.textDecoration !== value.textDecoration) element.style.textDecoration = value.textDecoration;
     if (value.textTransform && element.style.textTransform !== value.textTransform) element.style.textTransform = value.textTransform;
-    if (value.fontSize && element.style.fontSize !== value.fontSize) element.style.fontSize = value.fontSize;
-    if (value.letterSpacing && element.style.letterSpacing !== value.letterSpacing) element.style.letterSpacing = value.letterSpacing;
-    if (value.lineHeight && element.style.lineHeight !== value.lineHeight) element.style.lineHeight = value.lineHeight;
-    if (value.marginTop && element.style.marginTop !== value.marginTop) element.style.marginTop = value.marginTop;
   });
 }
 
@@ -139,7 +131,7 @@ export function GlobalVisualEditor() {
     };
     apply();
     const observer = new MutationObserver(apply);
-    observer.observe(root, { childList: true, characterData: true, subtree: true });
+    observer.observe(root, { childList: true, subtree: true });
     return () => {
       cancelAnimationFrame(frame);
       observer.disconnect();
@@ -167,10 +159,6 @@ export function GlobalVisualEditor() {
         fontStyle: current?.fontStyle ?? (computed.fontStyle === "italic" ? "italic" : "normal"),
         textDecoration: current?.textDecoration ?? (computed.textDecorationLine.includes("underline") ? "underline" : "none"),
         textTransform: current?.textTransform ?? (computed.textTransform === "uppercase" ? "uppercase" : "none"),
-        fontSize: current?.fontSize ?? computed.fontSize,
-        letterSpacing: current?.letterSpacing ?? computed.letterSpacing,
-        lineHeight: current?.lineHeight ?? computed.lineHeight,
-        marginTop: current?.marginTop ?? computed.marginTop,
       });
     };
 
@@ -190,10 +178,6 @@ export function GlobalVisualEditor() {
     if (value.fontStyle) selected.element.style.fontStyle = value.fontStyle;
     if (value.textDecoration) selected.element.style.textDecoration = value.textDecoration;
     if (value.textTransform) selected.element.style.textTransform = value.textTransform;
-    if (value.fontSize) selected.element.style.fontSize = value.fontSize;
-    if (value.letterSpacing) selected.element.style.letterSpacing = value.letterSpacing;
-    if (value.lineHeight) selected.element.style.lineHeight = value.lineHeight;
-    if (value.marginTop) selected.element.style.marginTop = value.marginTop;
   }, [draft, selected]);
 
   async function save() {
@@ -214,33 +198,12 @@ export function GlobalVisualEditor() {
           [selected.selector]: draft,
         },
       };
-      const { data: savedRow, error } = await supabase
+      const { error } = await supabase
         .from("site_settings")
-        .upsert({ key: "visual_editor", value: next as unknown as Json }, { onConflict: "key" })
-        .select("value, updated_at")
-        .single();
+        .upsert({ key: "visual_editor", value: next as unknown as Json }, { onConflict: "key" });
       if (error) throw error;
-      if (!savedRow?.value) throw new Error("O Supabase não confirmou a gravação.");
-      queryClient.setQueryData(["site-settings", "visual-editor"], savedRow.value as unknown as VisualOverrides);
-      const verification = await queryClient.fetchQuery({
-        queryKey: ["site-settings", "visual-editor", "verify", Date.now()],
-        queryFn: async () => {
-          const { data, error: verifyError } = await supabase
-            .from("site_settings")
-            .select("value")
-            .eq("key", "visual_editor")
-            .single();
-          if (verifyError) throw verifyError;
-          return data.value as unknown as VisualOverrides;
-        },
-        staleTime: 0,
-      });
-      const persisted = verification[pageKey]?.[selected.selector];
-      if (!persisted || JSON.stringify(persisted) !== JSON.stringify(draft)) {
-        throw new Error("A alteração não permaneceu no banco. Verifique as permissões de administrador.");
-      }
       await queryClient.invalidateQueries({ queryKey: ["site-settings", "visual-editor"] });
-      toast.success("Alteração salva e confirmada no Supabase.");
+      toast.success("Alteração visual salva.");
       setSelected(null);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : String(error));
@@ -314,57 +277,6 @@ export function GlobalVisualEditor() {
             <div className="ml-auto flex items-center gap-2">
               <Label htmlFor="visual-color" className="text-xs">Cor</Label>
               <Input id="visual-color" type="color" value={draft.color?.startsWith("#") ? draft.color : "#111827"} onChange={(event) => setDraft((current) => ({ ...current, color: event.target.value }))} className="h-9 w-12 cursor-pointer p-1" />
-            </div>
-          </div>
-
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            <div className="space-y-1.5">
-              <Label htmlFor="visual-font-size" className="text-xs">Tamanho (px)</Label>
-              <Input
-                id="visual-font-size"
-                type="number"
-                min="8"
-                max="160"
-                step="1"
-                value={Number.parseFloat(draft.fontSize ?? "16")}
-                onChange={(event) => setDraft((current) => ({ ...current, fontSize: `${event.target.value}px` }))}
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="visual-line-height" className="text-xs">Entrelinhas</Label>
-              <Input
-                id="visual-line-height"
-                type="number"
-                min="0.7"
-                max="3"
-                step="0.05"
-                value={Number.parseFloat(draft.lineHeight ?? "1.5")}
-                onChange={(event) => setDraft((current) => ({ ...current, lineHeight: event.target.value }))}
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="visual-letter-spacing" className="text-xs">Espaço entre letras (px)</Label>
-              <Input
-                id="visual-letter-spacing"
-                type="number"
-                min="-5"
-                max="30"
-                step="0.25"
-                value={Number.parseFloat(draft.letterSpacing ?? "0")}
-                onChange={(event) => setDraft((current) => ({ ...current, letterSpacing: `${event.target.value}px` }))}
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="visual-margin-top" className="text-xs">Espaço acima (px)</Label>
-              <Input
-                id="visual-margin-top"
-                type="number"
-                min="-80"
-                max="240"
-                step="1"
-                value={Number.parseFloat(draft.marginTop ?? "0")}
-                onChange={(event) => setDraft((current) => ({ ...current, marginTop: `${event.target.value}px` }))}
-              />
             </div>
           </div>
 
