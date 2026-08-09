@@ -61,10 +61,10 @@ const heroCopy: Record<Lang, {
 }> = {
   pt: {
     welcome: "Bem-vindo ao",
-    titleOne: "Recupere o tempo que seu time perde em tarefas repetitivas.",
+    titleOne: "Recupere o tempo que seu time perde em tarefas repetitivas — e transforme isso em resultado.",
     titleTwo: "IA não é custo. É tempo devolvido.",
     text:
-      "A YESOD usa inteligência artificial para tirar o trabalho braçal do seu time — e devolver as horas para o que realmente importa: decisão, criação e crescimento.",
+      "Seu time passa horas em trabalho braçal que uma máquina faz em segundos. A YESOD usa IA para devolver essas horas — e o que era custo vira investimento que gera eficiência, tempo e crescimento.",
     projects: "Conhecer projetos",
     solutions: "Ver soluções",
     news: "Explorar a Central de Conteúdo",
@@ -99,9 +99,9 @@ const homeNarrative = {
     simpleTitle: "O que é automação com IA, afinal?",
     simpleLead: "Em linguagem simples: é tirar o trabalho braçal do time e deixar a máquina cuidar do repetitivo.",
     simpleItems: [
-      "Tarefas que hoje seu time digita, copia, cola e confere manualmente.",
-      "Fluxos onde a IA lê, organiza e responde por você — sem erro, sem cansaço, sem hora extra.",
-      "O resultado: seu time para de ser máquina e volta a pensar.",
+      "Tarefas que hoje seu time digita, copia, cola e confere manualmente — horas perdidas todos os dias.",
+      "A YESOD cria fluxos onde a IA lê, organiza e responde por você — sem erro, sem cansaço, sem hora extra.",
+      "O resultado: seu time para de ser máquina e volta a pensar. E pensar é o que gera dinheiro.",
     ],
     investTitle: "IA é investimento, não custo",
     investRows: [
@@ -110,15 +110,20 @@ const homeNarrative = {
       ["IA como promessa complicada", "IA como ferramenta que já funciona"],
       ["Hora extra e retrabalho", "Investimento que devolve tempo"],
     ],
-    investMessage: "Não é sobre ter IA. É usar a IA certa, do jeito certo, para o seu problema. A YESOD não vende promessa — entrega automação funcionando.",
+    investMessage: "Não é sobre ter IA. É sobre usar a IA certa, do jeito certo, para o seu problema. Quem paga por IA sem saber usar, paga caro. Quem usa a YESOD, transforma custo em retorno.",
     bridgeTitle: "IA não resolve tudo sozinha. E é exatamente por isso que a YESOD existe.",
     bridgeItems: [
-      "A IA precisa de alguém que entenda o seu negócio para saber o que automatizar primeiro.",
-      "A IA precisa de configuração, integração e acompanhamento para funcionar de verdade.",
-      "A YESOD é esse meio-termo: expertise aplicada ao seu caso.",
+      "A IA precisa de alguém que entenda o seu negócio para saber o que automatizar primeiro — senão você automatiza o que não importa.",
+      "A IA precisa de configuração, integração e acompanhamento para funcionar de verdade — senão é só uma promessa cara.",
+      "A YESOD é esse meio-termo: a expertise de quem já construiu automações reais, aplicada ao seu caso. Resultado, não hype.",
     ],
-    proofTitle: "Resultados que devolvem tempo",
-    proofItems: ["Reduzimos em 70% o tempo de emissão de relatórios.", "Liberamos o time comercial de horas de digitação manual por semana.", "Automação que antes parecia impossível, funcionando em dias."],
+    proofTitle: "Resultados reais, não promessas.",
+    proofItems: ["Reduzimos em 70% o tempo de emissão de relatórios. — [Nome, cargo]", "Liberamos o time comercial de horas de digitação manual por semana. — [Nome, cargo]", "Automação que antes parecia impossível, funcionando em dias. — [Nome, cargo]"],
+    qualifyTitle: "A YESOD não é para você se:",
+    qualifyItems: ["Você quer IA só por hype, sem pensar em resultado.","Você espera que a IA resolva tudo sozinha, sem estratégia.","Você prefere continuar perdendo horas em tarefas manuais.","Você está satisfeito com o tempo que seu time desperdiça.","Você não quer investir para recuperar tempo e eficiência."],
+    qualifyCta: "Se você quer resultado de verdade, vamos conversar.",
+    guaranteeTitle: "Comece com um diagnóstico. Sem compromisso.",
+    guaranteeText: "A YESOD começa mapeando a sua operação para mostrar, na prática, o que pode ser automatizado primeiro. Você entende o valor antes de investir.",
     faqTitle: "Perguntas que todo cliente faz",
     faq: [
       ["Isso vai substituir meu time?", "Não. Libera seu time para decisão, criação e atendimento."],
@@ -340,6 +345,7 @@ function Home() {
               <span data-edit-id="home.hero.title-two-v2" className="hero-shimmer-copy text-primary">{editedHeroText("home.hero.title-two-v2", hero.titleTwo)}</span>
             </p>
             <p data-edit-id="home.hero.body-v2" className="mt-6 max-w-2xl text-lg leading-8 text-white/72">{editedHeroText("home.hero.body-v2", hero.text)}</p>
+            <div className="mt-5 inline-flex items-center gap-2 border border-[#e86f22]/40 bg-[#e86f22]/10 px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#ff9a5e]"><span className="h-1.5 w-1.5 rounded-full bg-[#ff8a3d] shadow-[0_0_12px_#ff8a3d]" />Automações reais em operação — IA que já funciona, não promessa.</div>
 
             <div className="mt-16 flex flex-wrap gap-3 sm:mt-20">
               <Button asChild size="lg" className="bg-[#e86f22] text-white hover:bg-[#cf5c16]">
@@ -421,15 +427,12 @@ function Home() {
       <section className="home-reveal border-y border-primary/15 bg-card py-20 sm:py-24">
         <div className="mx-auto max-w-6xl px-6">
           <SectionHeading title={narrativeFor(lang).investTitle} />
-          <div className="mt-10 overflow-hidden border border-border bg-white">
-            <div className="grid grid-cols-2 border-b border-border bg-[#fff4ec] text-xs font-bold uppercase tracking-[0.12em] text-[#c65313]">
-              <div className="p-4">Sem a YESOD</div><div className="border-l border-border p-4">Com a YESOD</div>
-            </div>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2">
             {narrativeFor(lang).investRows.map(([without, withYesod]) => (
-              <div key={without} className="grid grid-cols-2 border-b border-border last:border-0">
-                <div className="p-4 text-sm leading-6 text-muted-foreground">{without}</div>
-                <div className="border-l border-border p-4 text-sm font-medium leading-6 text-foreground">{withYesod}</div>
-              </div>
+              <article key={without} className="border border-border border-l-2 border-l-[#e86f22] bg-card p-5 shadow-soft">
+                <p className="text-sm leading-6 text-muted-foreground"><span className="font-semibold text-[#d75a12]">Hoje:</span> {without}</p>
+                <p className="mt-3 text-sm font-semibold leading-6 text-foreground"><span className="text-[#d75a12]">Com a YESOD:</span> {withYesod}</p>
+              </article>
             ))}
           </div>
           <p className="mt-6 max-w-3xl text-base font-medium leading-7 text-[#c65313]">{narrativeFor(lang).investMessage}</p>
@@ -514,8 +517,8 @@ function Home() {
           <div className="relative overflow-hidden bg-navy px-7 py-12 text-white shadow-lift sm:px-12 sm:py-14">
             <div className="absolute inset-y-0 left-0 w-1 bg-[#e86f22]" />
             <div className="max-w-2xl">
-              <h2 className="text-3xl sm:text-4xl">{t("home.finalTitle")}</h2>
-              <p className="mt-4 leading-7 text-white/75">{t("home.finalText")}</p>
+              <h2 className="text-3xl sm:text-4xl">Pronto para parar de perder tempo e começar a ganhar eficiência?</h2>
+              <p className="mt-4 leading-7 text-white/75">Conte qual rotina consome mais tempo do seu time e a gente mostra por onde começar.</p>
               <Button asChild size="lg" className="mt-8 bg-[#e86f22] text-white hover:bg-[#cf5c16]">
                 <a href={whatsappUrl(t("wa.generic"))} target="_blank" rel="noreferrer">{t("common.talkToYesod")}</a>
               </Button>
@@ -525,4 +528,10 @@ function Home() {
       </section>
     </div>
   );
-}
+}      <section className="home-reveal border-y border-primary/15 bg-card py-20 sm:py-24">
+        <div className="mx-auto max-w-3xl px-6">
+          <SectionHeading title={narrativeFor(lang).guaranteeTitle} text={narrativeFor(lang).guaranteeText} />
+        </div>
+      </section>
+
+
