@@ -171,6 +171,10 @@ function narrativeFor(lang: Lang) {
 
 const faqKeys: { q: TranslationKey; a: TranslationKey }[] = [];
 
+const hasSupabaseConfig = Boolean(
+  import.meta.env["VITE_SUPABASE_URL"] && import.meta.env["VITE_SUPABASE_PUBLISHABLE_KEY"],
+);
+
 function useHeroParallax() {
   const [offset, setOffset] = useState(0);
 
@@ -212,6 +216,7 @@ function FounderSection() {
   const { t, tm } = useI18n();
   const founderQuery = useQuery({
     queryKey: ["site-settings", "founder"],
+    enabled: hasSupabaseConfig,
     queryFn: async () => {
       const { data, error } = await supabase.from("site_settings").select("value").eq("key", "founder").maybeSingle();
       if (error) throw error;
@@ -262,6 +267,7 @@ function Home() {
   const parallaxOffset = useHeroParallax();
   const visualQuery = useQuery({
     queryKey: ["site-settings", "visual-editor"],
+    enabled: hasSupabaseConfig,
     queryFn: async () => {
       const { data, error } = await supabase
         .from("site_settings")
@@ -277,6 +283,7 @@ function Home() {
     heroPageOverrides[`[data-edit-id="${editId}"]`]?.text ?? fallback;
   const productsQuery = useQuery({
     queryKey: ["site-settings", "products"],
+    enabled: hasSupabaseConfig,
     queryFn: async () => {
       const { data, error } = await supabase.from("site_settings").select("value").eq("key", "products").maybeSingle();
       if (error) throw error;
@@ -285,6 +292,7 @@ function Home() {
   });
   const aiQuery = useQuery({
     queryKey: ["site-settings", "ai-experience"],
+    enabled: hasSupabaseConfig,
     queryFn: async () => {
       const { data, error } = await supabase.from("site_settings").select("value").eq("key", "ai_experience").maybeSingle();
       if (error) throw error;
