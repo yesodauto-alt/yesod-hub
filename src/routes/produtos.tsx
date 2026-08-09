@@ -47,7 +47,7 @@ function Produtos() {
   const products = (productsQuery.data ?? defaultConfigurableProducts()).filter((product) => product.published);
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+    <div className="yesod-page-icons mx-auto max-w-6xl px-6 py-16 sm:py-20">
       <header className="max-w-2xl">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">YESOD</p>
         <h1 className="mt-4 text-3xl sm:text-4xl">{t("products.title")}</h1>
@@ -70,7 +70,7 @@ function Produtos() {
                   0{index + 1}
                 </span>
                 {product.featured && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#fff1e7] px-2.5 py-1 text-[11px] font-semibold text-[#d75a12]">
+                  <span className="yesod-tech-icon yesod-tech-icon-chip inline-flex items-center gap-1.5 rounded-full border border-[#e86f22]/25 bg-[#fff1e7] px-2.5 py-1 text-[11px] font-semibold text-[#d75a12]">
                     <Sparkles className="h-3 w-3" aria-hidden="true" />
                     {t("products.featured")}
                   </span>
