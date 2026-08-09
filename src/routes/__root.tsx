@@ -9,7 +9,7 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 
-import appCss from "../styles.css?url";
+import appCss from "../styles-v2.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { GlobalVisualEditor } from "@/components/admin/global-visual-editor";
 import { Sidebar } from "@/components/layout/Sidebar";
@@ -135,7 +135,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      { rel: "stylesheet", href: `${appCss}?v=20260809-icons-v2` },
+      { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
