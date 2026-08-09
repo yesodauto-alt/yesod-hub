@@ -1,4 +1,4 @@
-const CACHE_NAME = "yesod-hub-shell-v3";
+const CACHE_NAME = "yesod-hub-shell-v4";
 const CORE_ASSETS = [
   "/offline.html",
   "/manifest.webmanifest",
@@ -9,7 +9,12 @@ const CORE_ASSETS = [
 ];
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ASSETS)));
+  event.waitUntil(
+    caches
+      .open(CACHE_NAME)
+      .then((cache) => cache.addAll(CORE_ASSETS))
+      .then(() => self.skipWaiting()),
+  );
 });
 
 self.addEventListener("activate", (event) => {
@@ -33,12 +38,27 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin) return;
 
   if (request.mode === "navigate") {
-    event.respondWith(fetch(request).catch(() => caches.match("/offline.html")));
+    event.respondWith(fetch(request, { cache: "no-store" }).catch(() => caches.match("/offline.html")));
     return;
   }
 
-  const cacheable = ["style", "script", "font", "image"].includes(request.destination);
-  if (!cacheable) return;
+  const networkFirst = ["style", "script", "font"].includes(request.destination);
+  if (networkFirst) {
+    event.respondWith(
+      fetch(request, { cache: "no-cache" })
+        .then((response) => {
+          if (response.ok) {
+            const copy = response.clone();
+            event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.put(request, copy)));
+          }
+          return response;
+        })
+        .catch(() => caches.match(request)),
+    );
+    return;
+  }
+
+  if (request.destination !== "image") return;
 
   event.respondWith(
     caches.match(request).then((cached) => {
@@ -46,7 +66,7 @@ self.addEventListener("fetch", (event) => {
         .then((response) => {
           if (response.ok) {
             const copy = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+            event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.put(request, copy)));
           }
           return response;
         })
