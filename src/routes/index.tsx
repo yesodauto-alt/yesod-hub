@@ -61,13 +61,13 @@ const heroCopy: Record<Lang, {
 }> = {
   pt: {
     welcome: "Bem-vindo ao",
-    titleOne: "Automatize o que consome seu time. Potencialize o que só o humano faz.",
-    titleTwo: "É assim que a IA vira lucro e não custo.",
+    titleOne: "Recupere o tempo que seu time perde em tarefas repetitivas.",
+    titleTwo: "IA não é custo. É tempo devolvido.",
     text:
-      "Ela organiza informações, acelera tarefas e reduz erros no dia a dia. Conheça os projetos e soluções da YESOD e acompanhe as novidades que já estão transformando empresas.",
+      "A YESOD usa inteligência artificial para tirar o trabalho braçal do seu time — e devolver as horas para o que realmente importa: decisão, criação e crescimento.",
     projects: "Conhecer projetos",
     solutions: "Ver soluções",
-    news: "Acompanhar novidades",
+    news: "Explorar a Central de Conteúdo",
     hubDescriptor: "Seu espaço de informação, conteúdo e direção com IA.",
   },
   en: {
@@ -94,13 +94,75 @@ const heroCopy: Record<Lang, {
   },
 };
 
-const faqKeys: { q: TranslationKey; a: TranslationKey }[] = [
-  { q: "faq.q1", a: "faq.a1" },
-  { q: "faq.q2", a: "faq.a2" },
-  { q: "faq.q3", a: "faq.a3" },
-  { q: "faq.q4", a: "faq.a4" },
-  { q: "faq.q5", a: "faq.a5" },
-];
+const homeNarrative = {
+  pt: {
+    simpleTitle: "O que é automação com IA, afinal?",
+    simpleLead: "Em linguagem simples: é tirar o trabalho braçal do time e deixar a máquina cuidar do repetitivo.",
+    simpleItems: [
+      "Tarefas que hoje seu time digita, copia, cola e confere manualmente.",
+      "Fluxos onde a IA lê, organiza e responde por você — sem erro, sem cansaço, sem hora extra.",
+      "O resultado: seu time para de ser máquina e volta a pensar.",
+    ],
+    investTitle: "IA é investimento, não custo",
+    investRows: [
+      ["Tarefas repetitivas feitas à mão, com erro e lentidão", "Tarefas feitas pela IA em segundos"],
+      ["Tempo preso em planilha e copiar/colar", "Tempo livre para decisão e criação"],
+      ["IA como promessa complicada", "IA como ferramenta que já funciona"],
+      ["Hora extra e retrabalho", "Investimento que devolve tempo"],
+    ],
+    investMessage: "Não é sobre ter IA. É usar a IA certa, do jeito certo, para o seu problema. A YESOD não vende promessa — entrega automação funcionando.",
+    bridgeTitle: "IA não resolve tudo sozinha. E é exatamente por isso que a YESOD existe.",
+    bridgeItems: [
+      "A IA precisa de alguém que entenda o seu negócio para saber o que automatizar primeiro.",
+      "A IA precisa de configuração, integração e acompanhamento para funcionar de verdade.",
+      "A YESOD é esse meio-termo: expertise aplicada ao seu caso.",
+    ],
+    proofTitle: "Resultados que devolvem tempo",
+    proofItems: ["Reduzimos em 70% o tempo de emissão de relatórios.", "Liberamos o time comercial de horas de digitação manual por semana.", "Automação que antes parecia impossível, funcionando em dias."],
+    faqTitle: "Perguntas que todo cliente faz",
+    faq: [
+      ["Isso vai substituir meu time?", "Não. Libera seu time para decisão, criação e atendimento."],
+      ["Quanto custa?", "Menos do que a hora extra e o retrabalho que você já paga hoje."],
+      ["Preciso entender de tecnologia?", "Não. A YESOD cuida da estratégia, configuração e integração."],
+      ["Isso funciona para a minha empresa?", "Sim. Começamos com um diagnóstico para mapear prioridades."],
+      ["O que é automação com IA?", "É tirar o trabalho repetitivo do time e deixar a máquina fazer."],
+    ],
+  },
+  en: {
+    simpleTitle: "What is AI automation, really?",
+    simpleLead: "In simple terms: remove repetitive manual work and give your team time to think.",
+    simpleItems: ["Tasks your team types, copies, pastes and checks manually.", "Flows where AI reads, organizes and replies for you — without fatigue or overtime.", "The result: your team stops acting like a machine and starts thinking again."],
+    investTitle: "AI is an investment, not a cost",
+    investRows: [["Manual tasks with errors and delays", "Tasks completed by AI in seconds"], ["Time trapped in spreadsheets", "Time for decisions and creativity"], ["AI as a complicated promise", "AI as a tool that works"], ["Overtime and rework", "An investment that gives time back"]],
+    investMessage: "It is not about having AI. It is about using the right AI for your problem. YESOD delivers automation that works.",
+    bridgeTitle: "AI does not solve everything alone. That is why YESOD exists.",
+    bridgeItems: ["AI needs business understanding to know what to automate first.", "AI needs configuration, integration and follow-up to work in real life.", "YESOD brings that expertise to your case."],
+    proofTitle: "Results that give time back",
+    proofItems: ["70% less time spent issuing reports.", "Commercial teams freed from weekly manual typing.", "Automation that seemed impossible, working in days."],
+    faqTitle: "Questions every client asks",
+    faq: [["Will this replace my team?", "No. It frees your team for decisions, creativity and service."], ["How much does it cost?", "Less than the overtime and rework you already pay for."], ["Do I need to understand technology?", "No. YESOD handles the strategy and integration."], ["Will it work for my company?", "Yes. We start with a diagnosis to map priorities."], ["What is AI automation?", "Removing repetitive work so the machine can handle it."]],
+  },
+  es: {
+    simpleTitle: "¿Qué es la automatización con IA?",
+    simpleLead: "En pocas palabras: quitar el trabajo repetitivo y devolver tiempo a tu equipo.",
+    simpleItems: ["Tareas que hoy el equipo escribe, copia, pega y revisa manualmente.", "Flujos donde la IA lee, organiza y responde por ti — sin cansancio ni horas extra.", "El resultado: tu equipo deja de ser una máquina y vuelve a pensar."],
+    investTitle: "La IA es una inversión, no un costo",
+    investRows: [["Tareas manuales con errores y lentitud", "Tareas hechas por la IA en segundos"], ["Tiempo atrapado en hojas de cálculo", "Tiempo para decidir y crear"], ["IA como promesa complicada", "IA como herramienta que funciona"], ["Horas extra y retrabajo", "Inversión que devuelve tiempo"]],
+    investMessage: "No se trata de tener IA. Se trata de usar la IA correcta para tu problema. YESOD entrega automatización funcionando.",
+    bridgeTitle: "La IA no lo resuelve todo sola. Por eso existe YESOD.",
+    bridgeItems: ["La IA necesita entender el negocio para saber qué automatizar primero.", "Necesita configuración, integración y seguimiento para funcionar de verdad.", "YESOD lleva esa experiencia a tu caso."],
+    proofTitle: "Resultados que devuelven tiempo",
+    proofItems: ["70% menos tiempo para emitir informes.", "El equipo comercial libre de horas de digitación manual.", "Automatización que parecía imposible, funcionando en días."],
+    faqTitle: "Preguntas de cada cliente",
+    faq: [["¿Esto sustituirá a mi equipo?", "No. Libera tiempo para decidir, crear y atender."], ["¿Cuánto cuesta?", "Menos que las horas extra y el retrabajo actuales."], ["¿Necesito saber de tecnología?", "No. YESOD se ocupa de la estrategia e integración."], ["¿Funciona para mi empresa?", "Sí. Empezamos con un diagnóstico."], ["¿Qué es la automatización con IA?", "Quitar el trabajo repetitivo y dejar que la máquina lo haga."]],
+  },
+} as const;
+
+function narrativeFor(lang: Lang) {
+  return homeNarrative[lang];
+}
+
+const faqKeys: { q: TranslationKey; a: TranslationKey }[] = [];
 
 function useHeroParallax() {
   const [offset, setOffset] = useState(0);
@@ -343,6 +405,50 @@ function Home() {
         </div>
       </section>
 
+      <section className="home-reveal bg-background">
+        <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
+          <SectionHeading title={narrativeFor(lang).simpleTitle} text={narrativeFor(lang).simpleLead} />
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            {narrativeFor(lang).simpleItems.map((item) => (
+              <article key={item} className="interactive-card border-t-2 border-[#e86f22] bg-white p-6 shadow-soft">
+                <p className="text-base leading-7 text-foreground/85">{item}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="home-reveal border-y border-primary/15 bg-card py-20 sm:py-24">
+        <div className="mx-auto max-w-6xl px-6">
+          <SectionHeading title={narrativeFor(lang).investTitle} />
+          <div className="mt-10 overflow-hidden border border-border bg-white">
+            <div className="grid grid-cols-2 border-b border-border bg-[#fff4ec] text-xs font-bold uppercase tracking-[0.12em] text-[#c65313]">
+              <div className="p-4">Sem a YESOD</div><div className="border-l border-border p-4">Com a YESOD</div>
+            </div>
+            {narrativeFor(lang).investRows.map(([without, withYesod]) => (
+              <div key={without} className="grid grid-cols-2 border-b border-border last:border-0">
+                <div className="p-4 text-sm leading-6 text-muted-foreground">{without}</div>
+                <div className="border-l border-border p-4 text-sm font-medium leading-6 text-foreground">{withYesod}</div>
+              </div>
+            ))}
+          </div>
+          <p className="mt-6 max-w-3xl text-base font-medium leading-7 text-[#c65313]">{narrativeFor(lang).investMessage}</p>
+        </div>
+      </section>
+
+      <section className="home-reveal bg-background">
+        <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
+          <SectionHeading title={narrativeFor(lang).bridgeTitle} />
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            {narrativeFor(lang).bridgeItems.map((item) => (
+              <article key={item} className="border border-border bg-card p-6 shadow-soft">
+                <p className="text-base leading-7 text-muted-foreground">{item}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <FounderSection />
 
       {aiExperience.enabled && aiExperience.url && (
@@ -391,12 +497,12 @@ function Home() {
 
       <section className="home-reveal border-y border-primary/15 bg-card py-20 sm:py-24">
         <div className="mx-auto max-w-3xl px-6">
-          <SectionHeading title={t("home.faqTitle")} />
+          <SectionHeading title={narrativeFor(lang).faqTitle} />
           <Accordion type="single" collapsible className="mt-8">
-            {faqKeys.map((item) => (
-              <AccordionItem key={item.q} value={item.q}>
-                <AccordionTrigger className="text-left text-sm font-medium">{t(item.q)}</AccordionTrigger>
-                <AccordionContent className="leading-7 text-muted-foreground">{t(item.a)}</AccordionContent>
+            {narrativeFor(lang).faq.map(([question, answer], index) => (
+              <AccordionItem key={question} value={`faq-${index}`}>
+                <AccordionTrigger className="text-left text-sm font-medium">{question}</AccordionTrigger>
+                <AccordionContent className="leading-7 text-muted-foreground">{answer}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
