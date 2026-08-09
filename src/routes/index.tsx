@@ -191,6 +191,21 @@ function Home() {
   const { t, tm, lang } = useI18n();
   const hero = heroCopy[lang];
   const parallaxOffset = useHeroParallax();
+  const visualQuery = useQuery({
+    queryKey: ["site-settings", "visual-editor"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("site_settings")
+        .select("value")
+        .eq("key", "visual_editor")
+        .maybeSingle();
+      if (error) throw error;
+      return (data?.value ?? {}) as Record<string, Record<string, { text?: string }>>;
+    },
+  });
+  const heroPageOverrides = visualQuery.data?.[`/::${lang}`] ?? {};
+  const editedHeroText = (editId: string, fallback: string) =>
+    heroPageOverrides[`[data-edit-id="${editId}"]`]?.text ?? fallback;
   const productsQuery = useQuery({
     queryKey: ["site-settings", "products"],
     queryFn: async () => {
@@ -226,25 +241,43 @@ function Home() {
 
   return (
     <div className="home-fade-in">
-      <section className="border-b border-border bg-card">
-        <div className="mx-auto grid max-w-6xl gap-12 px-6 pb-24 pt-12 sm:pb-28 sm:pt-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-deep">
-              {t("brand.tagline")}
+      <section
+        className="yesod-neural-hero relative isolate overflow-hidden border-b border-border"
+        onPointerMove={(event) => {
+          const bounds = event.currentTarget.getBoundingClientRect();
+          event.currentTarget.style.setProperty("--pointer-x", `${event.clientX - bounds.left}px`);
+          event.currentTarget.style.setProperty("--pointer-y", `${event.clientY - bounds.top}px`);
+        }}
+      >
+        <div className="yesod-neural-ambient" aria-hidden="true" />
+
+
+        <div className="relative z-10 mx-auto grid max-w-6xl gap-12 px-6 pb-24 pt-12 sm:pb-28 sm:pt-16 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
+          <div className="yesod-hero-copy">
+            <p data-edit-id="home.hero.eyebrow" className="text-xs font-semibold uppercase tracking-[0.24em] text-white/78">
+              {editedHeroText("home.hero.eyebrow", t("brand.tagline"))}
             </p>
-            <div className="mt-4 h-0.5 w-14 bg-[#e86f22]" aria-hidden="true" />
-            <p className="mt-7 text-base font-medium text-slate-600">{hero.welcome}</p>
-            <h1 className="mt-1 font-display text-5xl font-bold leading-[0.95] tracking-[-0.045em] text-primary-deep sm:text-6xl lg:text-7xl">
-              YESOD <span className="text-brand-gradient">HUB</span>
-            </h1>
-            <p data-edit-id="home.hero.descriptor" className="mt-2 w-fit max-w-[31rem] font-sans text-[0.62rem] font-light uppercase leading-tight tracking-[0.15em] text-white/70 sm:whitespace-nowrap sm:text-[0.68rem] sm:tracking-[0.19em]">
-              {hero.hubDescriptor}
+            <div className="mt-4 flex items-center gap-2" aria-hidden="true">
+              <span className="h-px w-14 bg-[#e86f22]" />
+              <span className="yesod-signal-dot h-1.5 w-1.5 rounded-full bg-[#ff8a3d]" />
+            </div>
+            <p data-edit-id="home.hero.welcome" className="mt-7 text-base font-medium text-white/70">{editedHeroText("home.hero.welcome", hero.welcome)}</p>
+            <div className="mt-1 flex flex-wrap items-end gap-x-4 gap-y-2">
+              <h1 className="font-display text-5xl font-bold leading-[0.95] tracking-[-0.055em] text-white sm:text-6xl lg:text-7xl">
+                <span data-edit-id="home.hero.brand">{editedHeroText("home.hero.brand", "YESOD")}</span>
+              </h1>
+              <span data-edit-id="home.hero.hub-label" className="mb-1.5 inline-flex items-center gap-2 border-l border-[#e86f22]/65 pl-3 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-[#ff8a3d] sm:mb-2 sm:text-[0.82rem]">
+                {editedHeroText("home.hero.hub-label", "HUB")}
+              </span>
+            </div>
+            <p data-edit-id="home.hero.descriptor" className="mt-3 w-fit max-w-[31rem] font-sans text-[0.62rem] font-light uppercase leading-tight tracking-[0.15em] text-white/62 sm:whitespace-nowrap sm:text-[0.68rem] sm:tracking-[0.19em]">
+              {editedHeroText("home.hero.descriptor", hero.hubDescriptor)}
             </p>
             <p className="mt-12 max-w-2xl font-display text-xl leading-snug font-semibold text-foreground sm:mt-16 sm:text-2xl">
-              <span data-edit-id="home.hero.title-one" className="hero-zoom-copy text-[1.65rem] font-black leading-[1.12] tracking-[-0.025em] uppercase text-[#d75a12] sm:text-[2rem] lg:text-[2.15rem]">{hero.titleOne}</span>{" "}
-              <span data-edit-id="home.hero.title-two" className="hero-shimmer-copy text-primary">{hero.titleTwo}</span>
+              <span data-edit-id="home.hero.title-one" className="hero-zoom-copy text-[1.65rem] font-black leading-[1.12] tracking-[-0.025em] uppercase text-[#d75a12] sm:text-[2rem] lg:text-[2.15rem]">{editedHeroText("home.hero.title-one", hero.titleOne)}</span>{" "}
+              <span data-edit-id="home.hero.title-two" className="hero-shimmer-copy text-primary">{editedHeroText("home.hero.title-two", hero.titleTwo)}</span>
             </p>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700">{hero.text}</p>
+            <p data-edit-id="home.hero.body" className="mt-6 max-w-2xl text-lg leading-8 text-white/72">{editedHeroText("home.hero.body", hero.text)}</p>
 
             <div className="mt-16 flex flex-wrap gap-3 sm:mt-20">
               <Button asChild size="lg" className="bg-[#e86f22] text-white hover:bg-[#cf5c16]">
@@ -259,28 +292,32 @@ function Home() {
             </div>
           </div>
 
-          <div className="hero-panel-float relative">
+          <div className="hero-panel-float yesod-intelligence-panel relative">
             <div
               aria-hidden="true"
-              className="hero-orange-rail absolute -right-5 top-8 h-[78%] w-12 bg-[#e86f22] will-change-transform"
+              className="hero-orange-rail absolute -right-5 top-8 h-[78%] w-12 bg-brand-gradient will-change-transform"
               style={{ transform: `translate3d(0, ${parallaxOffset}px, 0)` }}
             />
-            <div className="relative border border-border bg-white p-5 shadow-soft sm:p-7">
-              <div className="grid">
+            <div className="yesod-brain-orbit" aria-hidden="true">
+              <span className="yesod-brain-ring yesod-brain-ring-one" />
+              <img src="/yesod-brain-mark.svg" alt="" className="yesod-brain-mark" />
+            </div>
+            <div className="yesod-panel-scan relative overflow-hidden border border-white/12 bg-[#0d0e10]/92 p-5 shadow-2xl shadow-black/45 backdrop-blur-xl sm:p-7">
+              <div className="grid pt-14 sm:pt-16">
               {pillars.map((pillar, index) => (
                 <Link
                   key={pillar.titleKey}
                   to={pillar.to}
-                  className="group flex items-start gap-4 border-b border-border p-4 transition-colors last:border-b-0 hover:bg-muted/60"
+                  className="group flex items-start gap-4 border-b border-white/10 p-4 transition-colors last:border-b-0 hover:bg-white/[0.045]"
                 >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-[#fff1e7] text-[#d75a12]">
-                    <pillar.icon className="h-4.5 w-4.5" strokeWidth={1.8} aria-hidden="true" />
+                  <span className="yesod-tech-icon flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-[#e86f22]/25 bg-[#e86f22]/10 text-[#ff8a3d]">
+                    <pillar.icon className="relative z-10 h-4.5 w-4.5" strokeWidth={1.8} aria-hidden="true" />
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-semibold text-primary-deep">{t(pillar.titleKey)}</span>
-                    <span className="mt-1 block text-xs leading-5 text-muted-foreground">{t(pillar.textKey)}</span>
+                    <span className="block text-sm font-semibold text-white">{t(pillar.titleKey)}</span>
+                    <span className="mt-1 block text-xs leading-5 text-white/58">{t(pillar.textKey)}</span>
                   </span>
-                  <span className="mt-1 text-xs font-semibold text-[#d75a12]">0{index + 1}</span>
+                  <span className="mt-1 text-xs font-semibold text-[#ff8a3d]">0{index + 1}</span>
                 </Link>
               ))}
               </div>
@@ -295,7 +332,9 @@ function Home() {
           <div className="mt-10 grid gap-px border-y border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
             {pillars.map((pillar) => (
               <Link key={pillar.titleKey} to={pillar.to} className="interactive-card group bg-white p-6 transition-colors hover:bg-[#fff8f3]">
-                <pillar.icon className="h-5 w-5 text-[#d75a12]" strokeWidth={1.7} aria-hidden="true" />
+                <span className="yesod-tech-icon flex h-10 w-10 items-center justify-center rounded-sm border border-[#e86f22]/25 bg-[#e86f22]/10 text-[#ff8a3d]">
+                  <pillar.icon className="relative z-10 h-5 w-5" strokeWidth={1.7} aria-hidden="true" />
+                </span>
                 <h3 className="mt-8 text-base group-hover:text-primary">{t(pillar.titleKey)}</h3>
                 <p className="mt-3 text-sm leading-6 text-muted-foreground">{t(pillar.textKey)}</p>
               </Link>
@@ -309,8 +348,8 @@ function Home() {
       {aiExperience.enabled && aiExperience.url && (
         <section className="home-reveal border-y border-[#e86f22]/35 bg-[#111214]">
           <div className="mx-auto grid max-w-6xl gap-6 px-6 py-12 sm:grid-cols-[72px_minmax(0,1fr)_auto] sm:items-center sm:py-14">
-            <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#e86f22] text-white shadow-lg shadow-[#e86f22]/25">
-              <Bot className="h-8 w-8" strokeWidth={1.7} aria-hidden="true" />
+            <span className="yesod-tech-icon yesod-tech-icon-feature flex h-16 w-16 items-center justify-center rounded-2xl border border-[#ff9a5e]/45 bg-[#e86f22] text-white shadow-lg shadow-[#e86f22]/25">
+              <Bot className="relative z-10 h-8 w-8" strokeWidth={1.7} aria-hidden="true" />
             </span>
             <div className="max-w-2xl sm:pl-4">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e86f22]">{tm(aiExperience.eyebrow)}</p>
@@ -339,7 +378,7 @@ function Home() {
                   <h3 className="text-lg">{tm(product.name)}</h3>
                   {product.featured && (
                     <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#fff1e7] px-2.5 py-1 text-[11px] font-semibold text-[#d75a12]">
-                      <Sparkles className="h-3 w-3" aria-hidden="true" /> {t("products.featured")}
+                      <Sparkles className="yesod-featured-spark h-3 w-3" aria-hidden="true" /> {t("products.featured")}
                     </span>
                   )}
                 </div>
