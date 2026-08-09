@@ -81,7 +81,7 @@ function ProjectCard({ project, index }: { project: ProjectRow; index: number })
             </div>
           </figure>
         ) : (
-          <div className="flex h-full min-h-56 w-full items-center justify-center border border-[#e86f22]/45 bg-[#101114] text-[#e86f22]">
+          <div className="yesod-tech-icon yesod-tech-icon-page flex h-full min-h-56 w-full items-center justify-center border border-[#e86f22]/45 bg-[#101114] text-[#e86f22]">
             <ImageIcon className="h-8 w-8" strokeWidth={1.5} aria-hidden="true" />
           </div>
         )}
@@ -146,7 +146,7 @@ function Projetos() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+    <div className="yesod-page-icons mx-auto max-w-6xl px-6 py-16 sm:py-20">
       <header className="max-w-2xl">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">YESOD</p>
         <h1 className="mt-4 text-3xl sm:text-4xl">{t("projects.title")}</h1>

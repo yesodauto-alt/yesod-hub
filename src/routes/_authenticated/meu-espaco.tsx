@@ -283,7 +283,7 @@ function MeuEspaco() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
+    <div className="yesod-page-icons mx-auto max-w-6xl px-4 py-10">
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div className="min-w-0">
           <h1 className="text-3xl font-bold">{t("space.title")}</h1>
@@ -303,7 +303,7 @@ function MeuEspaco() {
         </CardHeader>
         <CardContent className="space-y-7">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-            <div className="flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-full border bg-muted">
+            <div className="yesod-tech-icon yesod-tech-icon-avatar flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-full border bg-muted">
               {avatarUrl ? (
                 <img src={avatarUrl} alt={fullName || t("space.photo")} className="h-full w-full object-cover" />
               ) : (
