@@ -1097,3 +1097,68 @@ select,
 }
 
 /* Preview deployment refresh: global icon system */
+
+
+/* Prominent animated finish for Marley and WhatsApp primary icons */
+.yesod-tech-icon-feature,
+.yesod-tech-icon-contact {
+  box-shadow:
+    0 0 0 1px rgb(255 157 94 / 24%),
+    0 0 22px rgb(232 111 34 / 24%),
+    0 14px 32px -14px rgb(232 111 34 / 72%);
+  animation: yesod-primary-icon-halo 3.8s ease-in-out infinite;
+}
+
+.yesod-tech-icon-feature::before,
+.yesod-tech-icon-contact::before {
+  inset: -64%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0 24%,
+    rgb(255 200 164 / 95%) 36%,
+    rgb(255 128 45 / 86%) 45%,
+    transparent 58% 100%
+  );
+  opacity: 1;
+  animation: yesod-icon-orbit 5.2s linear infinite;
+}
+
+.yesod-tech-icon-feature::after,
+.yesod-tech-icon-contact::after {
+  inset: 2px;
+}
+
+.yesod-tech-icon-feature svg,
+.yesod-tech-icon-contact svg {
+  filter: drop-shadow(0 0 5px rgb(255 255 255 / 30%));
+  animation: yesod-primary-icon-breathe 3.8s ease-in-out infinite;
+}
+
+@keyframes yesod-primary-icon-halo {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px rgb(255 157 94 / 20%),
+      0 0 16px rgb(232 111 34 / 20%),
+      0 14px 30px -14px rgb(232 111 34 / 62%);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgb(255 182 128 / 38%),
+      0 0 29px rgb(232 111 34 / 36%),
+      0 16px 36px -12px rgb(232 111 34 / 82%);
+  }
+}
+
+@keyframes yesod-primary-icon-breathe {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 4px rgb(255 255 255 / 22%)); }
+  50% { transform: scale(1.075); filter: drop-shadow(0 0 8px rgb(255 255 255 / 46%)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yesod-tech-icon-feature,
+  .yesod-tech-icon-contact,
+  .yesod-tech-icon-feature svg,
+  .yesod-tech-icon-contact svg {
+    animation: none !important;
+  }
+}
