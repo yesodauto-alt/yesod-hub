@@ -102,7 +102,7 @@ function FeedPage() {
   });
 
   return (
-    <div className="mx-auto max-w-4xl px-5 py-14 sm:px-6 sm:py-20">
+    <div className="yesod-page-icons mx-auto max-w-4xl px-5 py-14 sm:px-6 sm:py-20">
       <header className="max-w-2xl">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">YESOD</p>
         <h1 className="mt-4 text-3xl sm:text-4xl">{t("hub.title")}</h1>
