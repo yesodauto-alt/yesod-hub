@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Bot, Layers, Lock, Newspaper, Sparkles, UserRound } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+
 
 import {
   Accordion,
@@ -61,10 +61,10 @@ const heroCopy: Record<Lang, {
 }> = {
   pt: {
     welcome: "Bem-vindo ao",
-    titleOne: "Recupere o tempo que seu time perde em tarefas repetitivas — e transforme isso em resultado.",
+    titleOne: "Seu time perde horas em tarefas que uma máquina faz em segundos.",
     titleTwo: "IA não é custo. É tempo devolvido.",
     text:
-      "Seu time passa horas em trabalho braçal que uma máquina faz em segundos. A YESOD usa IA para devolver essas horas — e o que era custo vira investimento que gera eficiência, tempo e crescimento.",
+      "Enquanto você perde tempo com trabalho braçal, sua empresa deixa de crescer. A YESOD usa IA para devolver essas horas — e transformar custo em investimento, tempo em resultado, e esforço em eficiência.",
     projects: "Conhecer projetos",
     solutions: "Ver soluções",
     news: "Explorar a Central de Conteúdo",
@@ -72,24 +72,24 @@ const heroCopy: Record<Lang, {
   },
   en: {
     welcome: "Welcome to",
-    titleOne: "Automate what drains your team. Amplify what only humans can do.",
-    titleTwo: "That is how AI becomes profit, not cost.",
+    titleOne: "Your team loses hours on tasks a machine completes in seconds.",
+    titleTwo: "AI is not a cost. It is time returned.",
     text:
-      "It organizes information, speeds up tasks and reduces everyday errors. Explore YESOD projects and solutions and follow the updates already transforming businesses.",
+      "While manual work consumes your time, your business stops growing. YESOD uses AI to return those hours — turning cost into investment, time into results, and effort into efficiency.",
     projects: "Explore projects",
     solutions: "See solutions",
-    news: "Follow AI updates",
+    news: "Explore the Content Center",
     hubDescriptor: "Your space for information, content and AI-powered direction.",
   },
   es: {
     welcome: "Bienvenido al",
-    titleOne: "Automatiza lo que consume a tu equipo. Potencia lo que solo el humano hace.",
-    titleTwo: "Así la IA se convierte en ganancia y no en costo.",
+    titleOne: "Tu equipo pierde horas en tareas que una máquina hace en segundos.",
+    titleTwo: "La IA no es un costo. Es tiempo recuperado.",
     text:
-      "Organiza información, acelera tareas y reduce errores del día a día. Conoce los proyectos y soluciones de YESOD y sigue las novedades que ya están transformando empresas.",
+      "Mientras pierdes tiempo con trabajo manual, tu empresa deja de crecer. YESOD usa IA para devolverte esas horas — y transformar costo en inversión, tiempo en resultados y esfuerzo en eficiencia.",
     projects: "Conocer proyectos",
     solutions: "Ver soluciones",
-    news: "Seguir novedades",
+    news: "Explorar la Central de Contenido",
     hubDescriptor: "Tu espacio de información, contenido y orientación con IA.",
   },
 };
@@ -126,11 +126,11 @@ const homeNarrative = {
     guaranteeText: "A YESOD começa mapeando a sua operação para mostrar, na prática, o que pode ser automatizado primeiro. Você entende o valor antes de investir.",
     faqTitle: "Perguntas que todo cliente faz",
     faq: [
-      ["Isso vai substituir meu time?", "Não. Libera seu time para decisão, criação e atendimento."],
-      ["Quanto custa?", "Menos do que a hora extra e o retrabalho que você já paga hoje."],
-      ["Preciso entender de tecnologia?", "Não. A YESOD cuida da estratégia, configuração e integração."],
-      ["Isso funciona para a minha empresa?", "Sim. Começamos com um diagnóstico para mapear prioridades."],
-      ["O que é automação com IA?", "É tirar o trabalho repetitivo do time e deixar a máquina fazer."],
+      ["Isso vai substituir meu time?", "Não. Libera seu time para o que importa: decisão, criação e atendimento. Máquina faz o braçal; humano faz o estratégico."],
+      ["Quanto custa?", "Menos do que a hora extra e o retrabalho que você já paga hoje. É investimento, não custo."],
+      ["Preciso entender de tecnologia?", "Não. A YESOD cuida de tudo. Você só precisa do problema."],
+      ["Isso funciona para a minha empresa?", "Sim. Começamos com um diagnóstico para mapear o que pode ser automatizado primeiro."],
+      ["O que é automação com IA?", "É tirar o trabalho braçal e repetitivo do time e deixar a máquina fazer."],
     ],
   },
   en: {
@@ -174,34 +174,6 @@ const faqKeys: { q: TranslationKey; a: TranslationKey }[] = [];
 const hasSupabaseConfig = Boolean(
   import.meta.env["VITE_SUPABASE_URL"] && import.meta.env["VITE_SUPABASE_PUBLISHABLE_KEY"],
 );
-
-function useHeroParallax() {
-  const [offset, setOffset] = useState(0);
-
-  useEffect(() => {
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const smallScreen = window.matchMedia("(max-width: 1023px)");
-    if (reducedMotion.matches || smallScreen.matches) return;
-
-    let frame = 0;
-    const update = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const next = Math.max(-28, Math.min(28, (window.scrollY - 140) * 0.04));
-        setOffset(next);
-      });
-    };
-
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", update);
-    };
-  }, []);
-
-  return offset;
-}
 
 function SectionHeading({ title, text }: { title: string; text?: string }) {
   return (
@@ -264,7 +236,6 @@ function FounderSection() {
 function Home() {
   const { t, tm, lang } = useI18n();
   const hero = heroCopy[lang];
-  const parallaxOffset = useHeroParallax();
   const visualQuery = useQuery({
     queryKey: ["site-settings", "visual-editor"],
     enabled: hasSupabaseConfig,
@@ -329,8 +300,11 @@ function Home() {
         <div className="yesod-neural-ambient" aria-hidden="true" />
 
 
-        <div className="relative z-10 mx-auto grid max-w-6xl gap-12 px-6 pb-24 pt-12 sm:pb-28 sm:pt-16 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
-          <div className="yesod-hero-copy">
+        <div className="relative z-10 mx-auto max-w-6xl px-6 pb-24 pt-12 sm:pb-28 sm:pt-16">
+          <div className="pointer-events-none absolute right-8 top-12 hidden h-24 w-24 items-center justify-center rounded-full border border-[#e86f22]/35 bg-[#0d0e10]/75 shadow-[0_0_40px_rgba(232,111,34,0.18)] backdrop-blur-sm lg:flex" aria-hidden="true">
+            <img src="/yesod-brain-mark.svg" alt="" className="h-16 w-16 object-contain drop-shadow-[0_0_14px_rgba(255,138,61,0.45)]" />
+          </div>
+          <div className="yesod-hero-copy max-w-4xl">
             <p data-edit-id="home.hero.eyebrow" className="text-xs font-semibold uppercase tracking-[0.24em] text-white/78">
               {editedHeroText("home.hero.eyebrow", t("brand.tagline"))}
             </p>
@@ -355,7 +329,7 @@ function Home() {
               <span data-edit-id="home.hero.title-two-v2" className="hero-shimmer-copy text-primary">{editedHeroText("home.hero.title-two-v2", hero.titleTwo)}</span>
             </p>
             <p data-edit-id="home.hero.body-v2" className="mt-6 max-w-2xl text-lg leading-8 text-white/72">{editedHeroText("home.hero.body-v2", hero.text)}</p>
-            <div className="mt-5 inline-flex items-center gap-2 border border-[#e86f22]/40 bg-[#e86f22]/10 px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#ff9a5e]"><span className="h-1.5 w-1.5 rounded-full bg-[#ff8a3d] shadow-[0_0_12px_#ff8a3d]" />Automações reais em operação — IA que já funciona, não promessa.</div>
+            <div className="mt-5 inline-flex items-center gap-2 border border-[#e86f22]/40 bg-[#e86f22]/10 px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#ff9a5e]"><span className="h-1.5 w-1.5 rounded-full bg-[#ff8a3d] shadow-[0_0_12px_#ff8a3d]" />{lang === "pt" ? "Automações reais em operação — IA que já funciona, não promessa." : lang === "en" ? "Real automations in operation — AI that already works, not a promise." : "Automatizaciones reales en operación — IA que ya funciona, no una promesa."}</div>
 
             <div className="mt-16 flex flex-wrap gap-3 sm:mt-20">
               <Button asChild size="lg" className="bg-[#e86f22] text-white hover:bg-[#cf5c16]">
@@ -370,37 +344,6 @@ function Home() {
             </div>
           </div>
 
-          <div className="hero-panel-float yesod-intelligence-panel relative">
-            <div
-              aria-hidden="true"
-              className="hero-orange-rail absolute -right-5 top-8 h-[78%] w-12 bg-brand-gradient will-change-transform"
-              style={{ transform: `translate3d(0, ${parallaxOffset}px, 0)` }}
-            />
-            <div className="yesod-brain-orbit" aria-hidden="true">
-              <span className="yesod-brain-ring yesod-brain-ring-one" />
-              <img src="/yesod-brain-mark.svg" alt="" className="yesod-brain-mark" />
-            </div>
-            <div className="yesod-panel-scan relative overflow-hidden border border-white/12 bg-[#0d0e10]/92 p-5 shadow-2xl shadow-black/45 backdrop-blur-xl sm:p-7">
-              <div className="grid pt-14 sm:pt-16">
-              {pillars.map((pillar, index) => (
-                <Link
-                  key={pillar.titleKey}
-                  to={pillar.to}
-                  className="group flex items-start gap-4 border-b border-white/10 p-4 transition-colors last:border-b-0 hover:bg-white/[0.045]"
-                >
-                  <span className="yesod-tech-icon flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-[#e86f22]/25 bg-[#e86f22]/10 text-[#ff8a3d]">
-                    <pillar.icon className="relative z-10 h-4.5 w-4.5" strokeWidth={1.8} aria-hidden="true" />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-semibold text-white">{t(pillar.titleKey)}</span>
-                    <span className="mt-1 block text-xs leading-5 text-white/58">{t(pillar.textKey)}</span>
-                  </span>
-                  <span className="mt-1 text-xs font-semibold text-[#ff8a3d]">0{index + 1}</span>
-                </Link>
-              ))}
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -413,7 +356,7 @@ function Home() {
                 <span className="yesod-tech-icon flex h-10 w-10 items-center justify-center rounded-sm border border-[#e86f22]/25 bg-[#e86f22]/10 text-[#ff8a3d]">
                   <pillar.icon className="relative z-10 h-5 w-5" strokeWidth={1.7} aria-hidden="true" />
                 </span>
-                <h3 className="mt-8 text-base group-hover:text-primary">{t(pillar.titleKey)}</h3>
+                <h3 className="mt-8 text-base group-hover:text-primary">{pillar.titleKey === "home.pillar.news" ? (lang === "pt" ? "Central de Conteúdo" : lang === "en" ? "Content Center" : "Central de Contenido") : t(pillar.titleKey)}</h3>
                 <p className="mt-3 text-sm leading-6 text-muted-foreground">{t(pillar.textKey)}</p>
               </Link>
             ))}
@@ -508,6 +451,26 @@ function Home() {
         </div>
       </section>
 
+      <section className="home-reveal border-y border-primary/15 bg-card py-20 sm:py-24">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+            <SectionHeading title={narrativeFor(lang).proofTitle} />
+            <div className="inline-flex w-fit items-center gap-3 border border-[#e86f22]/35 bg-[#e86f22]/10 px-4 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-[#d75a12]">
+              <span>{lang === "pt" ? "Automações em operação" : lang === "en" ? "Automations in operation" : "Automatizaciones en operación"}</span>
+              <span className="text-foreground">X {lang === "pt" ? "projetos ativos" : lang === "en" ? "active projects" : "proyectos activos"}</span>
+              <span className="text-foreground">Y {lang === "pt" ? "horas economizadas" : lang === "en" ? "hours saved" : "horas ahorradas"}</span>
+            </div>
+          </div>
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            {narrativeFor(lang).proofItems.map((item) => (
+              <blockquote key={item} className="interactive-card border border-border border-t-2 border-t-[#e86f22] bg-background p-6 shadow-soft">
+                <p className="text-lg font-semibold leading-8 text-foreground">“{item}”</p>
+              </blockquote>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="home-reveal bg-background">
         <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
           <SectionHeading title={narrativeFor(lang).qualifyTitle} />
@@ -515,13 +478,7 @@ function Home() {
             {narrativeFor(lang).qualifyItems.map((item) => <div key={item} className="border border-[#e86f22]/30 bg-card p-4 text-sm leading-6 text-muted-foreground">✕ {item}</div>)}
           </div>
           <p className="mt-8 text-lg font-semibold text-foreground">{narrativeFor(lang).qualifyCta}</p>
-          <Button asChild className="mt-4 bg-[#e86f22] text-white hover:bg-[#cf5c16]"><a href={whatsappUrl(t("wa.generic"))} target="_blank" rel="noreferrer">Falar com a YESOD</a></Button>
-        </div>
-      </section>
-
-      <section className="home-reveal border-y border-primary/15 bg-card py-20 sm:py-24">
-        <div className="mx-auto max-w-3xl px-6">
-          <SectionHeading title={narrativeFor(lang).guaranteeTitle} text={narrativeFor(lang).guaranteeText} />
+          <Button asChild className="mt-4 bg-[#e86f22] text-white hover:bg-[#cf5c16]"><a href={whatsappUrl(t("wa.generic"))} target="_blank" rel="noreferrer">{lang === "pt" ? "Falar com a YESOD" : lang === "en" ? "Talk to YESOD" : "Hablar con YESOD"}</a></Button>
         </div>
       </section>
 
@@ -539,6 +496,12 @@ function Home() {
         </div>
       </section>
 
+      <section className="home-reveal border-y border-primary/15 bg-card py-20 sm:py-24">
+        <div className="mx-auto max-w-3xl px-6">
+          <SectionHeading title={narrativeFor(lang).guaranteeTitle} text={narrativeFor(lang).guaranteeText} />
+        </div>
+      </section>
+
       <section className="home-reveal bg-background">
         <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
           <div className="relative overflow-hidden bg-navy px-7 py-12 text-white shadow-lift sm:px-12 sm:py-14">
@@ -546,9 +509,14 @@ function Home() {
             <div className="max-w-2xl">
               <h2 className="text-3xl sm:text-4xl">Pronto para parar de perder tempo e começar a ganhar eficiência?</h2>
               <p className="mt-4 leading-7 text-white/75">Conte qual rotina consome mais tempo do seu time e a gente mostra por onde começar.</p>
-              <Button asChild size="lg" className="mt-8 bg-[#e86f22] text-white hover:bg-[#cf5c16]">
-                <a href={whatsappUrl(t("wa.generic"))} target="_blank" rel="noreferrer">{t("common.talkToYesod")}</a>
-              </Button>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Button asChild size="lg" className="bg-[#e86f22] text-white hover:bg-[#cf5c16]">
+                  <a href={whatsappUrl(t("wa.generic"))} target="_blank" rel="noreferrer">{t("common.talkToYesod")}</a>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="border-white/25 bg-transparent text-white hover:bg-white/10 hover:text-white">
+                  <a href={whatsappUrl(t("wa.generic"))} target="_blank" rel="noreferrer">{lang === "pt" ? "Falar no WhatsApp" : lang === "en" ? "Talk on WhatsApp" : "Hablar por WhatsApp"}</a>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
