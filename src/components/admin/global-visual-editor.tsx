@@ -1,4 +1,4 @@
-import { Bold, CaseUpper, Edit3, Eye, Italic, RotateCcw, Save, Underline, X } from "lucide-react";
+import { ArrowDown, ArrowUp, Bold, CaseUpper, Edit3, Eye, Italic, RotateCcw, Save, Underline, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouterState } from "@tanstack/react-router";
@@ -20,6 +20,11 @@ type VisualStyle = {
   fontStyle?: "normal" | "italic";
   textDecoration?: "none" | "underline";
   textTransform?: "none" | "uppercase";
+  fontSize?: number;
+  letterSpacing?: number;
+  wordSpacing?: number;
+  lineHeight?: number;
+  marginBottom?: number;
 };
 
 type VisualOverrides = Record<string, Record<string, VisualStyle>>;
@@ -95,6 +100,11 @@ function applyPageOverrides(root: HTMLElement, pageKey: string, overrides: Recor
     if (value.fontStyle && element.style.fontStyle !== value.fontStyle) element.style.fontStyle = value.fontStyle;
     if (value.textDecoration && element.style.textDecoration !== value.textDecoration) element.style.textDecoration = value.textDecoration;
     if (value.textTransform && element.style.textTransform !== value.textTransform) element.style.textTransform = value.textTransform;
+    if (value.fontSize !== undefined) element.style.setProperty("font-size", `${value.fontSize}px`, "important");
+    if (value.letterSpacing !== undefined) element.style.letterSpacing = `${value.letterSpacing}px`;
+    if (value.wordSpacing !== undefined) element.style.wordSpacing = `${value.wordSpacing}px`;
+    if (value.lineHeight !== undefined) element.style.lineHeight = `${value.lineHeight}px`;
+    if (value.marginBottom !== undefined) element.style.marginBottom = `${value.marginBottom}px`;
   });
 }
 
@@ -159,6 +169,11 @@ export function GlobalVisualEditor() {
         fontStyle: current?.fontStyle ?? (computed.fontStyle === "italic" ? "italic" : "normal"),
         textDecoration: current?.textDecoration ?? (computed.textDecorationLine.includes("underline") ? "underline" : "none"),
         textTransform: current?.textTransform ?? (computed.textTransform === "uppercase" ? "uppercase" : "none"),
+        fontSize: current?.fontSize ?? Number.parseFloat(computed.fontSize),
+        letterSpacing: current?.letterSpacing ?? (computed.letterSpacing === "normal" ? 0 : Number.parseFloat(computed.letterSpacing)),
+        wordSpacing: current?.wordSpacing ?? (computed.wordSpacing === "normal" ? 0 : Number.parseFloat(computed.wordSpacing)),
+        lineHeight: current?.lineHeight ?? (computed.lineHeight === "normal" ? Number.parseFloat(computed.fontSize) * 1.25 : Number.parseFloat(computed.lineHeight)),
+        marginBottom: current?.marginBottom ?? Number.parseFloat(computed.marginBottom),
       });
     };
 
@@ -178,6 +193,11 @@ export function GlobalVisualEditor() {
     if (value.fontStyle) selected.element.style.fontStyle = value.fontStyle;
     if (value.textDecoration) selected.element.style.textDecoration = value.textDecoration;
     if (value.textTransform) selected.element.style.textTransform = value.textTransform;
+    if (value.fontSize !== undefined) selected.element.style.setProperty("font-size", `${value.fontSize}px`, "important");
+    if (value.letterSpacing !== undefined) selected.element.style.letterSpacing = `${value.letterSpacing}px`;
+    if (value.wordSpacing !== undefined) selected.element.style.wordSpacing = `${value.wordSpacing}px`;
+    if (value.lineHeight !== undefined) selected.element.style.lineHeight = `${value.lineHeight}px`;
+    if (value.marginBottom !== undefined) selected.element.style.marginBottom = `${value.marginBottom}px`;
   }, [draft, selected]);
 
   async function save() {
@@ -245,7 +265,7 @@ export function GlobalVisualEditor() {
   return (
     <div data-visual-editor-ui className="fixed bottom-24 right-5 z-[90] flex flex-col items-end gap-3">
       {selected && (
-        <div className="w-[min(92vw,390px)] rounded-xl border border-border bg-white p-5 shadow-2xl">
+        <div className="max-h-[min(78vh,720px)] w-[min(94vw,460px)] overflow-y-auto rounded-xl border border-border bg-white p-5 shadow-2xl">
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#d75a12]">Editor visual</p>
@@ -277,6 +297,54 @@ export function GlobalVisualEditor() {
             <div className="ml-auto flex items-center gap-2">
               <Label htmlFor="visual-color" className="text-xs">Cor</Label>
               <Input id="visual-color" type="color" value={draft.color?.startsWith("#") ? draft.color : "#111827"} onChange={(event) => setDraft((current) => ({ ...current, color: event.target.value }))} className="h-9 w-12 cursor-pointer p-1" />
+            </div>
+          </div>
+
+          <div className="mt-5 border-t border-border pt-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#d75a12]">Tamanho e espaçamentos</p>
+            <div className="mt-3 grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label htmlFor="visual-font-size" className="text-xs">Tamanho da fonte (px)</Label>
+                <div className="flex">
+                  <Input
+                    id="visual-font-size"
+                    type="number"
+                    min={8}
+                    max={160}
+                    step={1}
+                    value={draft.fontSize ?? ""}
+                    onChange={(event) => {
+                      const value = Number(event.target.value);
+                      setDraft((current) => ({ ...current, fontSize: Math.min(160, Math.max(8, value)) }));
+                    }}
+                    className="rounded-r-none"
+                  />
+                  <div className="flex w-10 shrink-0 flex-col overflow-hidden rounded-r-md border border-l-0 border-input">
+                    <button type="button" className="flex flex-1 items-center justify-center border-b border-input bg-white text-slate-700 hover:bg-muted" onClick={() => setDraft((current) => ({ ...current, fontSize: Math.min(160, Math.round((current.fontSize ?? 16) + 1)) }))} aria-label="Aumentar tamanho da fonte" title="Aumentar 1 px">
+                      <ArrowUp className="h-3.5 w-3.5" />
+                    </button>
+                    <button type="button" className="flex flex-1 items-center justify-center bg-white text-slate-700 hover:bg-muted" onClick={() => setDraft((current) => ({ ...current, fontSize: Math.max(8, Math.round((current.fontSize ?? 16) - 1)) }))} aria-label="Diminuir tamanho da fonte" title="Diminuir 1 px">
+                      <ArrowDown className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="visual-line-height" className="text-xs">Espaço entre linhas (px)</Label>
+                <Input id="visual-line-height" type="number" min={8} max={240} step={1} value={draft.lineHeight ?? ""} onChange={(event) => setDraft((current) => ({ ...current, lineHeight: Number(event.target.value) }))} />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="visual-letter-spacing" className="text-xs">Espaço entre letras (px)</Label>
+                <Input id="visual-letter-spacing" type="number" min={-5} max={30} step={0.1} value={draft.letterSpacing ?? ""} onChange={(event) => setDraft((current) => ({ ...current, letterSpacing: Number(event.target.value) }))} />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="visual-word-spacing" className="text-xs">Espaço entre palavras (px)</Label>
+                <Input id="visual-word-spacing" type="number" min={-5} max={60} step={0.5} value={draft.wordSpacing ?? ""} onChange={(event) => setDraft((current) => ({ ...current, wordSpacing: Number(event.target.value) }))} />
+              </div>
+              <div className="col-span-2 space-y-1.5">
+                <Label htmlFor="visual-paragraph-spacing" className="text-xs">Espaço depois da frase ou parágrafo (px)</Label>
+                <Input id="visual-paragraph-spacing" type="number" min={0} max={160} step={1} value={draft.marginBottom ?? ""} onChange={(event) => setDraft((current) => ({ ...current, marginBottom: Number(event.target.value) }))} />
+              </div>
             </div>
           </div>
 

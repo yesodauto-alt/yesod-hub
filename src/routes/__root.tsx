@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -167,21 +168,33 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const router = useRouter();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
+    let active = true;
+    void supabase.auth.getSession().then(({ data }) => {
+      if (active) setIsAuthenticated(Boolean(data.session));
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsAuthenticated(Boolean(session));
       if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
       router.invalidate();
       if (event !== "SIGNED_OUT") queryClient.invalidateQueries();
     });
-    return () => sub.subscription.unsubscribe();
+    return () => {
+      active = false;
+      sub.subscription.unsubscribe();
+    };
   }, [router, queryClient]);
+
+  const usesReadingCanvas = isAuthenticated && (pathname === "/hub" || pathname.startsWith("/meu-espaco"));
 
   return (
     <QueryClientProvider client={queryClient}>
       <I18nProvider>
         <Sidebar />
-        <div data-editable-site className="flex min-h-screen flex-col lg:pl-[17rem]">
+        <div data-editable-site data-authenticated={isAuthenticated || undefined} className={`flex min-h-screen flex-col lg:pl-[17rem] ${usesReadingCanvas ? "authenticated-reading-shell" : ""}`}>
           <main className="flex-1"><Outlet /></main>
           <Footer />
         </div>
