@@ -35,7 +35,7 @@ function Servicos() {
   useLocalizedMeta("meta.services.title", "meta.services.desc");
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+    <div className="yesod-page-icons mx-auto max-w-6xl px-6 py-16 sm:py-20">
       <header className="max-w-2xl">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">YESOD</p>
         <h1 className="mt-4 text-3xl sm:text-4xl">{t("services.title")}</h1>
@@ -48,7 +48,7 @@ function Servicos() {
             key={service.title}
             className="grid gap-5 border-b border-border p-6 last:border-b-0 sm:grid-cols-[56px_1fr_auto] sm:items-start sm:p-7"
           >
-            <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#fff1e7] text-[#d75a12]">
+            <span className="yesod-tech-icon yesod-tech-icon-page flex h-11 w-11 items-center justify-center rounded-lg border border-[#e86f22]/30 bg-[#fff1e7] text-[#d75a12]">
               <service.icon className="h-5 w-5" strokeWidth={1.7} aria-hidden="true" />
             </span>
             <div>
