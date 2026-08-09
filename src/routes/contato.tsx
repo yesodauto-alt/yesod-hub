@@ -51,7 +51,7 @@ function Contato() {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-16 sm:py-20">
+    <div className="yesod-page-icons mx-auto max-w-5xl px-6 py-16 sm:py-20">
       <header className="max-w-2xl">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">YESOD</p>
         <h1 className="mt-4 text-3xl sm:text-4xl">{t("contact.title")}</h1>
@@ -60,7 +60,7 @@ function Contato() {
 
       <div className="mt-12 grid overflow-hidden rounded-2xl border border-border bg-card lg:grid-cols-[0.85fr_1.15fr]">
         <aside className="bg-navy p-7 text-white sm:p-9">
-          <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#e86f22] text-white shadow-[0_8px_22px_rgba(232,111,34,0.22)]">
+          <span className="yesod-tech-icon yesod-tech-icon-contact flex h-11 w-11 items-center justify-center rounded-lg border border-[#ffad78]/35 bg-[#e86f22] text-white shadow-[0_8px_22px_rgba(232,111,34,0.22)]">
             <MessageCircle className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
           </span>
           <h2 className="mt-7 text-2xl">{t("contact.whatsappTitle")}</h2>
