@@ -500,6 +500,23 @@ function Home() {
         </div>
       </section>
 
+      <section className="home-reveal bg-background">
+        <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
+          <SectionHeading title={narrativeFor(lang).qualifyTitle} />
+          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+            {narrativeFor(lang).qualifyItems.map((item) => <div key={item} className="border border-[#e86f22]/30 bg-card p-4 text-sm leading-6 text-muted-foreground">✕ {item}</div>)}
+          </div>
+          <p className="mt-8 text-lg font-semibold text-foreground">{narrativeFor(lang).qualifyCta}</p>
+          <Button asChild className="mt-4 bg-[#e86f22] text-white hover:bg-[#cf5c16]"><a href={whatsappUrl(t("wa.generic"))} target="_blank" rel="noreferrer">Falar com a YESOD</a></Button>
+        </div>
+      </section>
+
+      <section className="home-reveal border-y border-primary/15 bg-card py-20 sm:py-24">
+        <div className="mx-auto max-w-3xl px-6">
+          <SectionHeading title={narrativeFor(lang).guaranteeTitle} text={narrativeFor(lang).guaranteeText} />
+        </div>
+      </section>
+
       <section className="home-reveal border-y border-primary/15 bg-card py-20 sm:py-24">
         <div className="mx-auto max-w-3xl px-6">
           <SectionHeading title={narrativeFor(lang).faqTitle} />
