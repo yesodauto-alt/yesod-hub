@@ -336,10 +336,10 @@ function Home() {
               {editedHeroText("home.hero.descriptor", hero.hubDescriptor)}
             </p>
             <p className="mt-12 max-w-2xl font-display text-xl leading-snug font-semibold text-foreground sm:mt-16 sm:text-2xl">
-              <span data-edit-id="home.hero.title-one" className="hero-zoom-copy text-[1.65rem] font-black leading-[1.12] tracking-[-0.025em] uppercase text-[#d75a12] sm:text-[2rem] lg:text-[2.15rem]">{editedHeroText("home.hero.title-one", hero.titleOne)}</span>{" "}
-              <span data-edit-id="home.hero.title-two" className="hero-shimmer-copy text-primary">{editedHeroText("home.hero.title-two", hero.titleTwo)}</span>
+              <span data-edit-id="home.hero.title-one-v2" className="hero-zoom-copy text-[1.65rem] font-black leading-[1.12] tracking-[-0.025em] uppercase text-[#d75a12] sm:text-[2rem] lg:text-[2.15rem]">{editedHeroText("home.hero.title-one-v2", hero.titleOne)}</span>{" "}
+              <span data-edit-id="home.hero.title-two-v2" className="hero-shimmer-copy text-primary">{editedHeroText("home.hero.title-two-v2", hero.titleTwo)}</span>
             </p>
-            <p data-edit-id="home.hero.body" className="mt-6 max-w-2xl text-lg leading-8 text-white/72">{editedHeroText("home.hero.body", hero.text)}</p>
+            <p data-edit-id="home.hero.body-v2" className="mt-6 max-w-2xl text-lg leading-8 text-white/72">{editedHeroText("home.hero.body-v2", hero.text)}</p>
 
             <div className="mt-16 flex flex-wrap gap-3 sm:mt-20">
               <Button asChild size="lg" className="bg-[#e86f22] text-white hover:bg-[#cf5c16]">
