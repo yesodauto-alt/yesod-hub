@@ -1095,3 +1095,5 @@ select,
 @media (prefers-reduced-motion: reduce) {
   .yesod-nav-icon::before { animation: none !important; }
 }
+
+/* Preview deployment refresh: global icon system */
