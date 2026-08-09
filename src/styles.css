@@ -1025,3 +1025,73 @@ select,
 @media (max-width: 639px) {
   .yesod-neural-hero::before { background-size: auto; }
 }
+
+
+/* Shared technological icon treatment across YESOD HUB pages */
+.yesod-page-icons svg {
+  transition: transform 420ms cubic-bezier(.2,.72,.22,1), filter 420ms ease, color 420ms ease;
+}
+
+.yesod-page-icons :is(a, button, .group):hover svg {
+  transform: translateY(-1px) scale(1.055);
+  filter: drop-shadow(0 0 6px rgb(255 138 61 / 52%));
+}
+
+.yesod-tech-icon-page::after,
+.yesod-tech-icon-chip::after,
+.yesod-tech-icon-avatar::after {
+  background: var(--card);
+}
+
+.yesod-tech-icon-contact::after {
+  background: linear-gradient(145deg, #f07829 0%, #d95b14 100%);
+}
+
+.yesod-tech-icon-page,
+.yesod-tech-icon-chip,
+.yesod-tech-icon-contact,
+.yesod-tech-icon-avatar {
+  box-shadow: 0 0 0 1px rgb(232 111 34 / 7%), 0 10px 28px -16px rgb(232 111 34 / 58%);
+}
+
+.yesod-tech-icon-avatar::after {
+  border-radius: 999px;
+}
+
+.yesod-nav-icon {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: inherit;
+  transition: transform 420ms cubic-bezier(.2,.72,.22,1), color 420ms ease, box-shadow 420ms ease;
+}
+
+.yesod-nav-icon::before {
+  position: absolute;
+  inset: -58%;
+  z-index: -2;
+  content: "";
+  background: conic-gradient(from 0deg, transparent 0 38%, rgb(255 138 61 / 56%) 46%, transparent 55% 100%);
+  opacity: .48;
+  animation: yesod-icon-orbit 9s linear infinite;
+}
+
+.yesod-nav-icon::after {
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  content: "";
+  border-radius: .32rem;
+  background: #121315;
+}
+
+.group:hover .yesod-nav-icon,
+.group[aria-current="page"] .yesod-nav-icon {
+  color: #ff8a3d;
+  transform: translateY(-1px) scale(1.06);
+  box-shadow: 0 0 16px rgb(232 111 34 / 18%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yesod-nav-icon::before { animation: none !important; }
+}
