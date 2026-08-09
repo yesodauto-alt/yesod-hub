@@ -555,10 +555,4 @@ function Home() {
       </section>
     </div>
   );
-}      <section className="home-reveal border-y border-primary/15 bg-card py-20 sm:py-24">
-        <div className="mx-auto max-w-3xl px-6">
-          <SectionHeading title={narrativeFor(lang).guaranteeTitle} text={narrativeFor(lang).guaranteeText} />
-        </div>
-      </section>
-
-
+}
