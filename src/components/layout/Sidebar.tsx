@@ -111,7 +111,7 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
             className="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition-colors hover:bg-white/10 hover:text-white"
             activeProps={{ className: item.active === false ? "" : "bg-white/15 text-white" }}
           >
-            <item.icon className="h-[17px] w-[17px]" strokeWidth={1.8} aria-hidden="true" />
+            <span className="yesod-nav-icon flex h-7 w-7 shrink-0 items-center justify-center rounded-md"><item.icon className="h-[17px] w-[17px]" strokeWidth={1.8} aria-hidden="true" /></span>
             {labelFor(item.label)}
           </Link>
         ))}
