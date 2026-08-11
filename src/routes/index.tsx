@@ -363,7 +363,7 @@ function Home() {
     description: localizeAiField(legacyAiExperience.description, DEFAULT_AI_EXPERIENCE.description),
     buttonLabel: localizeAiField(legacyAiExperience.buttonLabel, DEFAULT_AI_EXPERIENCE.buttonLabel),
   };
-  const heroVideoUrl = "https://xsudhsyfcapgsirtfkes.supabase.co/storage/v1/object/public/hub-media/site/hero-0811.mp4";
+  const heroVideoUrl = "/yesod-hub-final.mp4";
   useLocalizedMeta("meta.home.title", "meta.home.desc");
 
   return (
@@ -382,6 +382,7 @@ function Home() {
                 muted
                 loop
                 playsInline
+                controls
                 preload="metadata"
                 aria-label={lang === "pt" ? "Apresentação visual da YESOD" : lang === "en" ? "YESOD visual presentation" : "Presentación visual de YESOD"}
               />
