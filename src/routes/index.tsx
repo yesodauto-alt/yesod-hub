@@ -369,11 +369,6 @@ function Home() {
     <div className="home-fade-in">
       <section
         className="yesod-neural-hero relative isolate overflow-hidden border-b border-border"
-        onPointerMove={(event) => {
-          const bounds = event.currentTarget.getBoundingClientRect();
-          event.currentTarget.style.setProperty("--pointer-x", `${event.clientX - bounds.left}px`);
-          event.currentTarget.style.setProperty("--pointer-y", `${event.clientY - bounds.top}px`);
-        }}
       >
         <div className="yesod-neural-ambient" aria-hidden="true" />
         <div className="relative z-10 mx-auto max-w-6xl px-6 pb-24 pt-12 sm:pb-28 sm:pt-16">
