@@ -10,6 +10,7 @@ import {
 import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles-v2.css?url";
+import previewSalesCss from "../preview-sales-refinement.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { GlobalVisualEditor } from "@/components/admin/global-visual-editor";
 import { Sidebar } from "@/components/layout/Sidebar";
@@ -136,6 +137,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "stylesheet", href: previewSalesCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
