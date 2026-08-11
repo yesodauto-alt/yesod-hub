@@ -101,7 +101,7 @@ const homeNarrative = {
     ],
     dataEyebrow: "O que os dados já mostram",
     dataTitle: "A IA já está transformando produtividade em operações reais.",
-    dataLead: "Estudos independentes medem ganhos relevantes quando a IA é aplicada à tarefa certa. Estes dados não são resultados de clientes da YESOD nem promessa de performance.",
+    dataLead: "Estudos independentes mostram ganhos concretos quando a IA é aplicada aos processos certos. Os resultados apresentados são referências de mercado e podem variar conforme cada operação.",
     evidence: [
       ["+14%", "mais produtividade", "em atendimento ao cliente, em estudo com 5.179 agentes", "NBER", "https://www.nber.org/papers/w31161"],
       ["−40%", "menos tempo", "em tarefas profissionais de escrita; a qualidade também aumentou", "Science / Stanford", "https://scale.stanford.edu/publications/experimental-evidence-productivity-effects-generative-artificial-intelligence"],
