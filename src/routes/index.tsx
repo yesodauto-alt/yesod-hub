@@ -377,8 +377,8 @@ function Home() {
       >
         <div className="yesod-neural-ambient" aria-hidden="true" />
         <div className="relative z-10 mx-auto max-w-6xl px-6 pb-24 pt-12 sm:pb-28 sm:pt-16">
-          <div className="pointer-events-none absolute right-8 top-12 hidden h-24 w-24 items-center justify-center rounded-full border border-[#e86f22]/35 bg-[#0d0e10]/75 shadow-[0_0_40px_rgba(232,111,34,0.18)] backdrop-blur-sm lg:flex" aria-hidden="true">
-            <img src="/yesod-brain-mark.svg" alt="" className="h-16 w-16 object-contain drop-shadow-[0_0_14px_rgba(255,138,61,0.45)]" />
+          <div className="yesod-video-placeholder" aria-label={lang === "pt" ? "Espaço reservado para vídeo em formato 16 por 9" : lang === "en" ? "Reserved space for a 16 by 9 video" : "Espacio reservado para video en formato 16 por 9"}>
+            <span>{lang === "pt" ? "VÍDEO 16:9 EM BREVE" : lang === "en" ? "16:9 VIDEO COMING SOON" : "VIDEO 16:9 PRÓXIMAMENTE"}</span>
           </div>
 
           <div className="yesod-hero-copy max-w-4xl">
