@@ -970,3 +970,53 @@
     transition-delay: 0ms !important;
   }
 }
+
+
+/* =============================================================
+   PREVIEW POLISH 08 — evidence copy hierarchy and centered bridge
+   ============================================================= */
+
+/* Keep the blue hero subtitle at its current scale, now consistently uppercase. */
+.yesod-hero-copy [data-edit-id="home.hero.title-two-v2"] {
+  text-transform: uppercase !important;
+}
+
+/* Turn the evidence conclusion into a centered, rounded editorial callout. */
+.home-reveal:has(.mt-12.grid.gap-4.sm\:grid-cols-2.lg\:grid-cols-4) .mt-10.max-w-4xl {
+  position: relative;
+  max-width: 58rem !important;
+  margin-inline: auto !important;
+  border: 1px solid rgb(70 127 251 / 24%) !important;
+  border-radius: 1.35rem !important;
+  background:
+    linear-gradient(135deg, rgb(70 127 251 / 8%), rgb(255 255 255 / 2.5%)) !important;
+  padding: clamp(1.5rem, 3vw, 2.15rem) clamp(1.4rem, 4vw, 3rem) !important;
+  text-align: center;
+  box-shadow:
+    0 24px 64px -48px rgb(0 0 0 / 96%),
+    0 0 36px -28px rgb(70 127 251 / 48%);
+}
+
+.home-reveal:has(.mt-12.grid.gap-4.sm\:grid-cols-2.lg\:grid-cols-4) .mt-10.max-w-4xl::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -1px;
+  width: min(11rem, 38%);
+  height: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, #467ffb, transparent);
+}
+
+.home-reveal:has(.mt-12.grid.gap-4.sm\:grid-cols-2.lg\:grid-cols-4) .mt-10.max-w-4xl > p:first-child {
+  max-width: 48rem;
+  margin-inline: auto;
+  font-size: clamp(1.15rem, 2vw, 1.65rem) !important;
+  line-height: 1.4 !important;
+}
+
+.home-reveal:has(.mt-12.grid.gap-4.sm\:grid-cols-2.lg\:grid-cols-4) .mt-10.max-w-4xl > p:last-child {
+  max-width: 45rem;
+  margin-inline: auto;
+  margin-top: 0.85rem !important;
+}
