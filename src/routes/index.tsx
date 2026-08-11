@@ -376,18 +376,33 @@ function Home() {
     video.loop = true;
 
     const startVideo = () => {
+      if (document.visibilityState === "hidden") return;
+      video.defaultMuted = true;
+      video.muted = true;
       void video.play().catch(() => {
-        // Browsers may defer autoplay until the video has enough data.
+        // A first interaction provides a second chance on restrictive mobile browsers.
       });
     };
 
     startVideo();
+    video.addEventListener("loadedmetadata", startVideo);
+    video.addEventListener("loadeddata", startVideo);
     video.addEventListener("canplay", startVideo);
+    video.addEventListener("canplaythrough", startVideo);
     document.addEventListener("visibilitychange", startVideo);
+    window.addEventListener("pageshow", startVideo);
+    document.addEventListener("pointerdown", startVideo, { once: true });
+    document.addEventListener("touchstart", startVideo, { once: true, passive: true });
 
     return () => {
+      video.removeEventListener("loadedmetadata", startVideo);
+      video.removeEventListener("loadeddata", startVideo);
       video.removeEventListener("canplay", startVideo);
+      video.removeEventListener("canplaythrough", startVideo);
       document.removeEventListener("visibilitychange", startVideo);
+      window.removeEventListener("pageshow", startVideo);
+      document.removeEventListener("pointerdown", startVideo);
+      document.removeEventListener("touchstart", startVideo);
     };
   }, []);
   useLocalizedMeta("meta.home.title", "meta.home.desc");
@@ -407,10 +422,11 @@ function Home() {
                 src={heroVideoUrl}
                 autoPlay
                 muted
+                defaultMuted
                 loop
                 playsInline
                 controls
-                preload="metadata"
+                preload="auto"
                 aria-label={lang === "pt" ? "Apresentação visual da YESOD" : lang === "en" ? "YESOD visual presentation" : "Presentación visual de YESOD"}
               />
             ) : (

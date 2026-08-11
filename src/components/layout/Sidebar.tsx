@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import yesodLogo from "@/assets/yesod-logo";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { Button } from "@/components/ui/button";
 import { useAuth, useIsAdmin } from "@/hooks/use-auth";
@@ -97,9 +96,10 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
       <Link
         to="/"
         onClick={onNavigate}
-        className="brand-logo-shell mx-5 mt-7 flex items-center justify-center rounded-2xl bg-white px-3 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="brand-logo-shell mx-5 mt-7 flex items-center justify-center rounded-2xl px-3 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        aria-label="YESOD"
       >
-        <img src={yesodLogo} alt="YESOD Automation" className="h-7 w-auto" />
+        <img src="/yesod-brain-mark.svg" alt="" className="h-12 w-12 object-contain" />
       </Link>
 
       <nav className="mt-10 flex flex-1 flex-col gap-1 px-4" aria-label={t("nav.navigation")}>
