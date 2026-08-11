@@ -408,10 +408,6 @@ function Home() {
                 <span data-edit-id="home.hero.title-two-v2" className="hero-shimmer-copy mt-3 inline-block text-primary">{editedHeroText("home.hero.title-two-v2", hero.titleTwo)}</span>
               </p>
               <p data-edit-id="home.hero.body-v2" className="mt-6 max-w-2xl text-lg leading-8 text-white/68">{editedHeroText("home.hero.body-v2", hero.text)}</p>
-              <div className="mt-5 inline-flex items-center gap-2 border border-[#e86f22]/35 bg-[#e86f22]/8 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#ff9a5e]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#ff8a3d] shadow-[0_0_12px_#ff8a3d]" />
-                {lang === "pt" ? "Projetos demonstrativos — veja o potencial aplicado na prática." : lang === "en" ? "Demonstration projects — see applied potential in practice." : "Proyectos demostrativos — mira el potencial aplicado en la práctica."}
-              </div>
             </div>
 
             <div className="mt-12 flex flex-wrap gap-3 sm:mt-14">
