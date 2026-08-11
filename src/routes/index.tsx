@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n, useLocalizedMeta, type Lang, type TranslationKey } from "@/lib/i18n";
 import type { FounderSettings } from "@/lib/projects";
-import { HUB_MEDIA_BUCKET, SITE_BUCKET, useMediaUrl } from "@/lib/storage";
+import { SITE_BUCKET, useMediaUrl } from "@/lib/storage";
 import {
   DEFAULT_AI_EXPERIENCE,
   defaultConfigurableProducts,
@@ -363,7 +363,7 @@ function Home() {
     description: localizeAiField(legacyAiExperience.description, DEFAULT_AI_EXPERIENCE.description),
     buttonLabel: localizeAiField(legacyAiExperience.buttonLabel, DEFAULT_AI_EXPERIENCE.buttonLabel),
   };
-  const heroVideoUrl = useMediaUrl(HUB_MEDIA_BUCKET, "site/hero-0811.mp4");
+  const heroVideoUrl = "https://xsudhsyfcapgsirtfkes.supabase.co/storage/v1/object/public/hub-media/site/hero-0811.mp4";
   useLocalizedMeta("meta.home.title", "meta.home.desc");
 
   return (
