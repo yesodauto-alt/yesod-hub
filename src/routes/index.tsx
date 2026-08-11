@@ -407,7 +407,6 @@ function Home() {
                 <span data-edit-id="home.hero.title-one-v2" className="hero-zoom-copy text-[1.72rem] font-black leading-[1.08] tracking-[-0.03em] uppercase text-[#d75a12] sm:text-[2.15rem] lg:text-[2.55rem]">{editedHeroText("home.hero.title-one-v2", hero.titleOne)}</span>{" "}
                 <span data-edit-id="home.hero.title-two-v2" className="hero-shimmer-copy mt-3 inline-block text-primary">{editedHeroText("home.hero.title-two-v2", hero.titleTwo)}</span>
               </p>
-              <p data-edit-id="home.hero.body-v2" className="mt-6 max-w-2xl text-lg leading-8 text-white/68">{editedHeroText("home.hero.body-v2", hero.text)}</p>
             </div>
 
             <div className="mt-12 flex flex-wrap gap-3 sm:mt-14">
