@@ -10,7 +10,7 @@ export function whatsappUrl(message: string) {
 
 export const ADMIN_EMAIL = "yesod.auto@gmail.com";
 
-export const CATEGORIES = ["Novidades", "Automação", "Projetos", "Ofertas"] as const;
+export const CATEGORIES = ["Novidades", "Automação", "Projetos"] as const;
 
 export type Category = (typeof CATEGORIES)[number];
 
