@@ -127,12 +127,11 @@ const pt = {
     "Sim. Não há fidelidade: você pode sair ou ajustar o que contratou falando com a equipe pelo WhatsApp.",
 
   "hub.title": "Yesod HUB",
-  "hub.subtitle": "Novidades, automação, projetos e ofertas publicados pela equipe YESOD.",
+  "hub.subtitle": "Notícias, análises e aplicações de inteligência artificial selecionadas pela equipe YESOD.",
   "hub.all": "Todas",
   "hub.cat.Novidades": "Novidades",
   "hub.cat.Automação": "Automação",
   "hub.cat.Projetos": "Projetos",
-  "hub.cat.Ofertas": "Ofertas",
   "hub.loadingPosts": "Carregando publicações…",
   "hub.loadError": "Não foi possível carregar as publicações.",
   "hub.empty": "Ainda não há publicações nesta categoria.",
@@ -363,7 +362,7 @@ const pt = {
     "Yesod HUB: novidades, projetos de automação, conteúdo exclusivo e área de membros para quem quer escalar processos com inteligência artificial.",
   "meta.hub.title": "Yesod HUB — feed de automação e IA",
   "meta.hub.desc":
-    "Publicações da equipe YESOD: novidades, automação, projetos e ofertas. Curta e comente com sua conta de membro.",
+    "Publicações da equipe YESOD: notícias, análises e aplicações de inteligência artificial. Curta e comente com sua conta de membro.",
   "meta.projects.title": "Projetos YESOD — automações em operação",
   "meta.projects.desc":
     "Vitrine de projetos da YESOD: automação gráfica, comercial, de dados e IA aplicada, com o que cada projeto automatiza e o resultado alcançado.",
@@ -476,12 +475,11 @@ const en: Dictionary = {
     "Yes. There is no lock-in: you can leave or adjust what you contracted by talking to the team on WhatsApp.",
 
   "hub.title": "Yesod HUB",
-  "hub.subtitle": "News, automation, projects and offers published by the YESOD team.",
+  "hub.subtitle": "Artificial intelligence news, analysis and applications selected by the YESOD team.",
   "hub.all": "All",
   "hub.cat.Novidades": "News",
   "hub.cat.Automação": "Automation",
   "hub.cat.Projetos": "Projects",
-  "hub.cat.Ofertas": "Offers",
   "hub.loadingPosts": "Loading posts…",
   "hub.loadError": "We couldn't load the posts.",
   "hub.empty": "There are no posts in this category yet.",
@@ -822,12 +820,11 @@ const es: Dictionary = {
     "Sí. No hay permanencia: puedes salir o ajustar lo contratado hablando con el equipo por WhatsApp.",
 
   "hub.title": "Yesod HUB",
-  "hub.subtitle": "Novedades, automatización, proyectos y ofertas publicados por el equipo YESOD.",
+  "hub.subtitle": "Noticias, análisis y aplicaciones de inteligencia artificial seleccionadas por el equipo YESOD.",
   "hub.all": "Todas",
   "hub.cat.Novidades": "Novedades",
   "hub.cat.Automação": "Automatización",
   "hub.cat.Projetos": "Proyectos",
-  "hub.cat.Ofertas": "Ofertas",
   "hub.loadingPosts": "Cargando publicaciones…",
   "hub.loadError": "No fue posible cargar las publicaciones.",
   "hub.empty": "Todavía no hay publicaciones en esta categoría.",
@@ -1059,7 +1056,7 @@ const es: Dictionary = {
     "Yesod HUB: novedades, proyectos de automatización, contenido exclusivo y área de miembros para quien quiere escalar procesos con inteligencia artificial.",
   "meta.hub.title": "Yesod HUB — feed de automatización e IA",
   "meta.hub.desc":
-    "Publicaciones del equipo YESOD: novedades, automatización, proyectos y ofertas. Da me gusta y comenta con tu cuenta de miembro.",
+    "Publicaciones del equipo YESOD: noticias, análisis y aplicaciones de inteligencia artificial. Da me gusta y comenta con tu cuenta de miembro.",
   "meta.projects.title": "Proyectos YESOD — automatizaciones en operación",
   "meta.projects.desc":
     "Vitrina de proyectos de YESOD: automatización gráfica, comercial, de datos e IA aplicada, con lo que cada proyecto automatiza y el resultado logrado.",

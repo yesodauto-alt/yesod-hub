@@ -8,7 +8,6 @@ import {
   Mail,
   Menu,
   Settings2,
-  Sparkles,
   UserRound,
   Users,
   X,
@@ -21,10 +20,13 @@ import { Button } from "@/components/ui/button";
 import { useAuth, useIsAdmin } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n, type TranslationKey } from "@/lib/i18n";
+import { whatsappUrl } from "@/lib/yesod";
 
-type NavLabel = TranslationKey | "nav.exclusive" | "nav.siteSettings";
+type NavLabel = TranslationKey | "nav.exclusive" | "nav.siteSettings" | "nav.contentCenter" | "nav.solutions";
 
 const customLabels = {
+  "nav.contentCenter": { pt: "Central de Conteúdo", en: "Content Center", es: "Central de Contenido" },
+  "nav.solutions": { pt: "Soluções", en: "Solutions", es: "Soluciones" },
   "nav.exclusive": {
     pt: "Conteúdos exclusivos",
     en: "Exclusive content",
@@ -59,10 +61,9 @@ const items: Array<{
   adminOnly?: boolean;
 }> = [
   { to: "/", label: "nav.home", icon: Home },
-  { to: "/hub", label: "nav.hub", icon: Users },
+  { to: "/hub", label: "nav.contentCenter", icon: Users },
   { to: "/projetos", label: "nav.projects", icon: Layers },
-  { to: "/servicos", label: "nav.services", icon: Sparkles },
-  { to: "/produtos", label: "nav.products", icon: Boxes },
+    { to: "/produtos", label: "nav.solutions", icon: Boxes },
   { to: "/meu-espaco", label: "nav.exclusive", icon: Lock, active: false },
   { to: "/meu-espaco", label: "nav.members", icon: UserRound },
   { to: "/configuracoes-site", label: "nav.siteSettings", icon: Settings2, adminOnly: true },
@@ -118,6 +119,9 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
       </nav>
 
       <div className="space-y-4 border-t border-white/10 p-4">
+        <Button asChild className="w-full bg-[#e86f22] text-white hover:bg-[#cf5c16]">
+          <a href={whatsappUrl(t("wa.generic"))} target="_blank" rel="noreferrer">{lang === "pt" ? "Falar com a YESOD" : lang === "en" ? "Talk to YESOD" : "Hablar con YESOD"}</a>
+        </Button>
         <LanguageSwitcher />
         {user ? (
           <div className="grid gap-2">
