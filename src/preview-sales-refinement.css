@@ -824,3 +824,74 @@
     font-size: clamp(1.45rem, 7vw, 2rem) !important;
   }
 }
+
+
+/* =============================================================
+   PREVIEW POLISH 06 — clean portrait, unified hover and static hero
+   ============================================================= */
+
+/* Remove the cursor-following halo while preserving the static atmosphere. */
+.yesod-neural-hero::after {
+  display: none !important;
+}
+
+.yesod-neural-hero {
+  background:
+    radial-gradient(ellipse at 82% 22%, rgb(70 127 251 / 8%), transparent 29rem),
+    linear-gradient(132deg, #070708 0%, #0d0d0f 56%, #090706 100%) !important;
+}
+
+@media (min-width: 1100px) {
+  .yesod-neural-hero {
+    background:
+      radial-gradient(ellipse at 82% 22%, rgb(70 127 251 / 8%), transparent 29rem),
+      linear-gradient(132deg, #070708 0%, #0d0d0f 56%, #090706 100%) !important;
+  }
+}
+
+/* Keep the 3:4 frame, but let the portrait fill it without orange side bars. */
+.home-reveal:has(.rich-text) > div.relative.mx-auto.grid > div:first-child > div:last-child > div:first-child {
+  background: #0b0b0d !important;
+}
+
+.home-reveal:has(.rich-text) img[alt] {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: 50% 38% !important;
+}
+
+/* Give previously static cards the same clear, restrained hover feedback. */
+.home-fade-in article:not(.interactive-card) {
+  transition:
+    translate 240ms ease,
+    border-color 240ms ease,
+    background-color 240ms ease,
+    box-shadow 240ms ease,
+    filter 240ms ease !important;
+}
+
+.home-fade-in article:not(.interactive-card):hover {
+  translate: 0 -4px;
+  border-color: rgb(255 138 61 / 32%) !important;
+  box-shadow:
+    0 26px 58px -38px rgb(0 0 0 / 94%),
+    0 0 30px -23px rgb(232 111 34 / 42%) !important;
+  filter: brightness(1.08);
+}
+
+.home-reveal:has(> .mx-auto > .mt-16.grid.gap-px) .mt-16.grid.gap-px > article:nth-child(n+3):hover {
+  box-shadow:
+    0 26px 58px -38px rgb(0 0 0 / 94%),
+    0 0 30px -23px rgb(70 127 251 / 48%) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-fade-in article:not(.interactive-card) {
+    transition: none !important;
+  }
+
+  .home-fade-in article:not(.interactive-card):hover {
+    translate: none;
+  }
+}
