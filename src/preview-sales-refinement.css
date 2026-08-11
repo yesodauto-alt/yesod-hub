@@ -572,6 +572,16 @@
   filter: drop-shadow(0 0 10px rgb(232 111 34 / 34%));
 }
 
+.sidebar-brain-brand {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.sidebar-brain-brand img {
+  filter: drop-shadow(0 0 12px rgb(232 111 34 / 38%));
+}
+
 @media (min-width: 1100px) {
   .yesod-neural-hero {
     background:

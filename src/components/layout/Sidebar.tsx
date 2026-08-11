@@ -96,7 +96,7 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
       <Link
         to="/"
         onClick={onNavigate}
-        className="brand-logo-shell mx-5 mt-7 flex items-center justify-center rounded-2xl px-3 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="brand-logo-shell sidebar-brain-brand mx-5 mt-7 flex items-center justify-center rounded-2xl px-3 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         aria-label="YESOD"
       >
         <img src="/yesod-brain-mark.svg" alt="" className="h-12 w-12 object-contain" />
