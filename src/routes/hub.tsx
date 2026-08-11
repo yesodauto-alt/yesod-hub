@@ -132,7 +132,7 @@ const PREVIEW_EDITORIAL_POSTS: Post[] = [
     source_label: "Google",
     published: true,
     created_at: "2026-08-06T12:00:00.000Z",
-  },,
+  },
   {
     id: "preview-editorial-qwen3",
     title: "Qwen3 amplia a disputa por modelos abertos e multilíngues",
