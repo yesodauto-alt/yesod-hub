@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n, useLocalizedMeta, type Lang, type TranslationKey } from "@/lib/i18n";
 import type { FounderSettings } from "@/lib/projects";
-import { SITE_BUCKET, useMediaUrl } from "@/lib/storage";
+import { HUB_MEDIA_BUCKET, SITE_BUCKET, useMediaUrl } from "@/lib/storage";
 import {
   DEFAULT_AI_EXPERIENCE,
   defaultConfigurableProducts,
@@ -363,6 +363,7 @@ function Home() {
     description: localizeAiField(legacyAiExperience.description, DEFAULT_AI_EXPERIENCE.description),
     buttonLabel: localizeAiField(legacyAiExperience.buttonLabel, DEFAULT_AI_EXPERIENCE.buttonLabel),
   };
+  const heroVideoUrl = useMediaUrl(HUB_MEDIA_BUCKET, "site/hero-0811.mp4");
   useLocalizedMeta("meta.home.title", "meta.home.desc");
 
   return (
@@ -372,8 +373,21 @@ function Home() {
       >
         <div className="yesod-neural-ambient" aria-hidden="true" />
         <div className="relative z-10 mx-auto max-w-6xl px-6 pb-24 pt-12 sm:pb-28 sm:pt-16">
-          <div className="yesod-video-placeholder" aria-label={lang === "pt" ? "Espaço reservado para vídeo em formato 16 por 9" : lang === "en" ? "Reserved space for a 16 by 9 video" : "Espacio reservado para video en formato 16 por 9"}>
-            <span>{lang === "pt" ? "VÍDEO 16:9 EM BREVE" : lang === "en" ? "16:9 VIDEO COMING SOON" : "VIDEO 16:9 PRÓXIMAMENTE"}</span>
+          <div className="yesod-video-placeholder overflow-hidden" aria-label={lang === "pt" ? "Vídeo de apresentação da YESOD" : lang === "en" ? "YESOD presentation video" : "Video de presentación de YESOD"}>
+            {heroVideoUrl ? (
+              <video
+                className="h-full w-full object-cover"
+                src={heroVideoUrl}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                aria-label={lang === "pt" ? "Apresentação visual da YESOD" : lang === "en" ? "YESOD visual presentation" : "Presentación visual de YESOD"}
+              />
+            ) : (
+              <span>{lang === "pt" ? "CARREGANDO VÍDEO" : lang === "en" ? "LOADING VIDEO" : "CARGANDO VIDEO"}</span>
+            )}
           </div>
 
           <div className="yesod-hero-copy max-w-4xl">
