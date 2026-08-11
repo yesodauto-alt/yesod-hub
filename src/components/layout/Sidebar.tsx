@@ -176,8 +176,8 @@ export function Sidebar() {
       </aside>
 
       <header className="sticky top-0 z-40 flex items-center justify-between border-b border-border bg-card/95 pt-[max(0.75rem,env(safe-area-inset-top))] pr-[max(1rem,env(safe-area-inset-right))] pb-3 pl-[max(1rem,env(safe-area-inset-left))] backdrop-blur lg:hidden">
-        <Link to="/" className="brand-logo-shell flex items-center rounded-xl bg-white px-2 py-1.5">
-          <img src={yesodLogo} alt="YESOD" className="h-5 w-auto" />
+        <Link to="/" className="mobile-brain-mark flex h-11 w-11 items-center justify-center rounded-xl" aria-label="YESOD">
+          <img src="/yesod-brain-mark.svg" alt="" className="h-9 w-9 object-contain" />
         </Link>
         <div className="flex items-center gap-2">
           <LanguageSwitcher compact />

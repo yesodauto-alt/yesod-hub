@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Bot, Layers, Lock, Newspaper, Sparkles, UserRound } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useRef } from "react";
 
 import {
   Accordion,
@@ -309,6 +310,7 @@ function FounderSection({ lang }: { lang: Lang }) {
 }
 
 function Home() {
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
   const { t, tm, lang } = useI18n();
   const hero = heroCopy[lang];
   const copy = narrativeFor(lang);
@@ -364,6 +366,30 @@ function Home() {
     buttonLabel: localizeAiField(legacyAiExperience.buttonLabel, DEFAULT_AI_EXPERIENCE.buttonLabel),
   };
   const heroVideoUrl = "/yesod-hub-final.mp4";
+
+  useEffect(() => {
+    const video = heroVideoRef.current;
+    if (!video) return;
+
+    video.defaultMuted = true;
+    video.muted = true;
+    video.loop = true;
+
+    const startVideo = () => {
+      void video.play().catch(() => {
+        // Browsers may defer autoplay until the video has enough data.
+      });
+    };
+
+    startVideo();
+    video.addEventListener("canplay", startVideo);
+    document.addEventListener("visibilitychange", startVideo);
+
+    return () => {
+      video.removeEventListener("canplay", startVideo);
+      document.removeEventListener("visibilitychange", startVideo);
+    };
+  }, []);
   useLocalizedMeta("meta.home.title", "meta.home.desc");
 
   return (
@@ -376,6 +402,7 @@ function Home() {
           <div className="yesod-video-placeholder overflow-hidden" aria-label={lang === "pt" ? "Vídeo de apresentação da YESOD" : lang === "en" ? "YESOD presentation video" : "Video de presentación de YESOD"}>
             {heroVideoUrl ? (
               <video
+                ref={heroVideoRef}
                 className="h-full w-full object-cover"
                 src={heroVideoUrl}
                 autoPlay
