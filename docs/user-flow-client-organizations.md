@@ -1,1 +1,0 @@
-Admin flow: create organization → authorize email → publish content → choose global or selected organizations. Client flow: sign in with authorized email → open Conteúdo exclusivo → see only content allowed by RLS for linked organization(s).
