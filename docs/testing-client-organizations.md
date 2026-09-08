@@ -1,1 +1,0 @@
-Testing intent: verify admin organization management, authorized email linkage, tenant isolation for content and media, and route separation between Conteúdo exclusivo and Meu espaço.
