@@ -1,1 +1,0 @@
-The migration `20260907233000_add_client_organizations.sql` defines the organization-scoped access model used by the private content area. It is structural and intentionally contains no client-specific seed data.
