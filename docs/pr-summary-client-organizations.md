@@ -1,1 +1,0 @@
-Feature branch summary: separates Conteúdo exclusivo from Área de membros and introduces generic organization-scoped authorization, admin-managed email access, per-organization content assignment, and RLS-protected private media.
