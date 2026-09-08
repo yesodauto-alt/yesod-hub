@@ -27,9 +27,9 @@ const customLabels = {
   "nav.contentCenter": { pt: "Central de Conteúdo", en: "Content Center", es: "Central de Contenido" },
   "nav.solutions": { pt: "Soluções", en: "Solutions", es: "Soluciones" },
   "nav.exclusive": {
-    pt: "Conteúdos exclusivos",
+    pt: "Conteúdo exclusivo",
     en: "Exclusive content",
-    es: "Contenidos exclusivos",
+    es: "Contenido exclusivo",
   },
   "nav.siteSettings": {
     pt: "Editar página inicial",
@@ -51,6 +51,7 @@ const items: Array<{
     | "/projetos"
     | "/servicos"
     | "/produtos"
+    | "/conteudo-exclusivo"
     | "/meu-espaco"
     | "/configuracoes-site"
     | "/contato";
@@ -62,8 +63,8 @@ const items: Array<{
   { to: "/", label: "nav.home", icon: Home },
   { to: "/hub", label: "nav.contentCenter", icon: Users },
   { to: "/projetos", label: "nav.projects", icon: Layers },
-    { to: "/produtos", label: "nav.solutions", icon: Boxes },
-  { to: "/meu-espaco", label: "nav.exclusive", icon: Lock, active: false },
+  { to: "/produtos", label: "nav.solutions", icon: Boxes },
+  { to: "/conteudo-exclusivo", label: "nav.exclusive", icon: Lock },
   { to: "/meu-espaco", label: "nav.members", icon: UserRound },
   { to: "/configuracoes-site", label: "nav.siteSettings", icon: Settings2, adminOnly: true },
   { to: "/contato", label: "nav.contact", icon: Mail },
