@@ -1,0 +1,1 @@
+Access model: client organizations are records in the database. Membership is authorized by email and linked to auth users. Exclusive content can be global or linked to one or more organizations. RLS is the source of truth for reads.
