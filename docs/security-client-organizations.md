@@ -1,1 +1,0 @@
-Security note: organization visibility is enforced by database RLS and private storage policies, not only by frontend filtering. The feature contains no hard-coded tenant identifiers.
