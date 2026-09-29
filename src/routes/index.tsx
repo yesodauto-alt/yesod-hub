@@ -10,6 +10,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { MarleyChatDialog } from "@/components/MarleyChatDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n, useLocalizedMeta, type Lang, type TranslationKey } from "@/lib/i18n";
 import type { FounderSettings } from "@/lib/projects";
@@ -569,7 +570,7 @@ function Home() {
 
       <FounderSection lang={lang} />
 
-      {aiExperience.enabled && aiExperience.url && (
+      {aiExperience.enabled && (
         <section className="home-reveal border-b border-[#e86f22]/30 bg-[#111214]">
           <div className="mx-auto grid max-w-6xl gap-6 px-6 py-12 sm:grid-cols-[72px_minmax(0,1fr)_auto] sm:items-center sm:py-14">
             <span className="yesod-tech-icon yesod-tech-icon-feature flex h-16 w-16 items-center justify-center rounded-2xl border border-[#ff9a5e]/45 bg-[#e86f22] text-white shadow-lg shadow-[#e86f22]/25">
@@ -580,9 +581,7 @@ function Home() {
               <h2 className="mt-3 text-2xl text-white sm:text-3xl">{tm(aiExperience.headline)}</h2>
               <p className="mt-3 leading-7 text-white/65">{tm(aiExperience.description)}</p>
             </div>
-            <Button asChild size="lg" className="shrink-0 bg-[#e86f22] text-white hover:bg-[#cf5c16]">
-              <a href={aiExperience.url} target="_blank" rel="noreferrer noopener">{tm(aiExperience.buttonLabel)}</a>
-            </Button>
+            <MarleyChatDialog buttonLabel={tm(aiExperience.buttonLabel)} />
           </div>
         </section>
       )}

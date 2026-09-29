@@ -216,10 +216,6 @@ export function AiExperienceSettingsEditor() {
   }, [query.data]);
 
   async function save() {
-    if (settings.enabled && !/^https:\/\//i.test(settings.url)) {
-      toast.error("Informe uma URL segura iniciada por https:// para ativar a experiência.");
-      return;
-    }
     setSaving(true);
     try {
       const translations = await translateContent({
@@ -298,11 +294,7 @@ export function AiExperienceSettingsEditor() {
             </TabsContent>
           ))}
         </Tabs>
-        <div className="space-y-2">
-          <Label>URL pública da experiência</Label>
-          <Input type="url" placeholder="https://…" value={settings.url} onChange={(event) => setSettings((current) => ({ ...current, url: event.target.value }))} />
-          <p className="text-xs leading-5 text-muted-foreground">Use a URL pública do agente ou chatbot. Nunca insira uma chave de API neste campo.</p>
-        </div>
+        <p className="text-sm text-muted-foreground">O botão abre o chat do Marley dentro do Yesod HUB. A conexão do modelo é gerenciada no servidor.</p>
         <Button type="button" onClick={save} disabled={saving} className="w-fit bg-purple-700 hover:bg-purple-800">
           <Save className="mr-2 h-4 w-4" />
           {saving ? "Salvando…" : "Salvar configuração da IA"}

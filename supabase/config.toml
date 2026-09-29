@@ -1,1 +1,4 @@
 project_id = "xsudhsyfcapgsirtfkes"
+
+[functions.marley-chat]
+verify_jwt = false
