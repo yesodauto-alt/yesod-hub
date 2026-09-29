@@ -116,7 +116,7 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
         <img src="/yesod-brain-mark.svg" alt="" className="h-12 w-12 object-contain" />
       </Link>
 
-      <nav className="mt-10 flex flex-1 flex-col gap-1 px-4" aria-label={t("nav.navigation")}>
+      <nav className="mt-10 flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto px-4" aria-label={t("nav.navigation")}>
         {navSections.map((item, index) => (
           <div key={`${item.to}-${index}`}>
             {item.section && (
