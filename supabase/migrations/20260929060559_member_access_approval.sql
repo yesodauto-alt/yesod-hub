@@ -4,16 +4,10 @@ ALTER TABLE public.profiles
   ADD COLUMN IF NOT EXISTS email text,
   ADD COLUMN IF NOT EXISTS membership_status text;
 
--- Require approval for existing and new members while keeping administrators
--- able to manage the approval queue.
+-- Preserve access for accounts that already exist. New signups remain pending
+-- through the default and auth.users trigger below.
 UPDATE public.profiles
-SET membership_status = CASE
-  WHEN EXISTS (
-    SELECT 1 FROM public.user_roles
-    WHERE user_id = profiles.id AND role = 'admin'
-  ) THEN 'active'
-  ELSE 'pending'
-END
+SET membership_status = 'active'
 WHERE membership_status IS NULL;
 
 UPDATE public.profiles AS profile
