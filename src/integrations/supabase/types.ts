@@ -205,9 +205,11 @@ export type Database = {
           community_goal: string | null
           company: string | null
           created_at: string
+          email: string | null
           employee_count: number | null
           full_name: string | null
           id: string
+          membership_status: string
           newsletter_opt_in: boolean
           phone: string | null
           updated_at: string
@@ -218,9 +220,11 @@ export type Database = {
           community_goal?: string | null
           company?: string | null
           created_at?: string
+          email?: string | null
           employee_count?: number | null
           full_name?: string | null
           id: string
+          membership_status?: string
           newsletter_opt_in?: boolean
           phone?: string | null
           updated_at?: string
@@ -231,9 +235,11 @@ export type Database = {
           community_goal?: string | null
           company?: string | null
           created_at?: string
+          email?: string | null
           employee_count?: number | null
           full_name?: string | null
           id?: string
+          membership_status?: string
           newsletter_opt_in?: boolean
           phone?: string | null
           updated_at?: string
@@ -306,6 +312,24 @@ export type Database = {
         }
         Relationships: []
       }
+      content_editors: {
+        Row: {
+          assigned_by: string | null
+          created_at: string
+          user_id: string
+        }
+        Insert: {
+          assigned_by?: string | null
+          created_at?: string
+          user_id: string
+        }
+        Update: {
+          assigned_by?: string | null
+          created_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       site_settings: {
         Row: {
           created_at: string
@@ -353,6 +377,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      can_manage_exclusive_content: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      can_view_exclusive_content: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

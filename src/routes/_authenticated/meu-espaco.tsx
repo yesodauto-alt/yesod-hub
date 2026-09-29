@@ -14,7 +14,6 @@ import {
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import { ExclusiveContentCenter } from "@/components/admin/exclusive-content-center";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -65,6 +64,7 @@ type ProfileData = {
   employee_count: number | null;
   newsletter_opt_in: boolean;
   avatar_url: string | null;
+  membership_status: "pending" | "active" | "suspended";
 };
 
 type MultiForm = Record<Lang, string>;
@@ -179,7 +179,7 @@ function MeuEspaco() {
       if (!auth.user) throw new Error("Sessão expirada.");
       const { data, error } = await supabase
         .from("profiles")
-        .select("id, full_name, company, phone, community_goal, account_type, employee_count, newsletter_opt_in, avatar_url")
+        .select("id, full_name, company, phone, community_goal, account_type, employee_count, newsletter_opt_in, avatar_url, membership_status")
         .eq("id", auth.user.id)
         .maybeSingle();
       if (error) throw error;
@@ -297,6 +297,21 @@ function MeuEspaco() {
         </Button>
       </header>
 
+      {!isAdmin && profileQuery.data?.membership_status !== "active" && (
+        <Card className="mt-6 border-primary/30">
+          <CardContent className="p-5">
+            <h2 className="font-semibold">
+              {profileQuery.data?.membership_status === "suspended" ? "Acesso temporariamente suspenso" : "Aguardando aprovação"}
+            </h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              {profileQuery.data?.membership_status === "suspended"
+                ? "Seu perfil continua disponível, mas o acesso à biblioteca de membros está suspenso. Fale com a equipe YESOD se precisar de ajuda."
+                : "Seu cadastro foi recebido. Você poderá acessar a biblioteca de membros assim que a equipe YESOD aprovar seu acesso."}
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
       <Card className="mt-8">
         <CardHeader>
           <h2 className="font-display text-lg font-semibold">{t("space.profileTitle")}</h2>
@@ -386,9 +401,6 @@ function MeuEspaco() {
         </CardContent>
       </Card>
 
-      {isAdmin && <ProjectAdmin />}
-
-      <ExclusiveContentCenter isAdmin={isAdmin} />
     </div>
   );
 }
@@ -402,7 +414,7 @@ function Field({ label, id, children }: { label: string; id: string; children: R
   );
 }
 
-function ProjectAdmin() {
+export function ProjectAdmin() {
   const queryClient = useQueryClient();
   const { t, lang } = useI18n();
   const galleryLabels = galleryAdminCopy[lang];

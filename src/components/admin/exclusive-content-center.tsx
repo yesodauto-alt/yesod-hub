@@ -109,7 +109,7 @@ function ContentMedia({ item }: { item: ExclusiveContent }) {
   );
 }
 
-export function ExclusiveContentCenter({ isAdmin }: { isAdmin: boolean }) {
+export function ExclusiveContentCenter({ canManageContent = false, managementMode = false }: { canManageContent?: boolean; managementMode?: boolean }) {
   const { tm } = useI18n();
   const queryClient = useQueryClient();
   const [form, setForm] = useState<FormState>(blankForm);
@@ -117,13 +117,15 @@ export function ExclusiveContentCenter({ isAdmin }: { isAdmin: boolean }) {
   const [uploading, setUploading] = useState(false);
 
   const contentsQuery = useQuery({
-    queryKey: ["exclusive-contents", isAdmin ? "admin" : "member"],
+    queryKey: ["exclusive-contents", managementMode ? "management" : "library"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      let request = supabase
         .from("exclusive_contents")
         .select("id,title,excerpt,content_html,category,title_i18n,excerpt_i18n,content_i18n,category_i18n,cover_image_url,media_url,media_type,external_video_url,published,sort_order,author_id,created_at")
         .order("sort_order")
         .order("created_at", { ascending: false });
+      if (!managementMode) request = request.eq("published", true);
+      const { data, error } = await request;
       if (error) throw error;
       return (data ?? []) as ExclusiveContent[];
     },
@@ -218,12 +220,12 @@ export function ExclusiveContentCenter({ isAdmin }: { isAdmin: boolean }) {
           <h2 className="text-2xl font-bold">Conteúdo exclusivo</h2>
           <p className="mt-2 text-muted-foreground">Materiais disponíveis apenas para membros do Yesod HUB.</p>
         </div>
-        {isAdmin && form.id && (
+        {canManageContent && managementMode && form.id && (
           <Button variant="outline" onClick={() => setForm(blankForm())}><Plus className="mr-2 h-4 w-4" />Novo conteúdo</Button>
         )}
       </div>
 
-      {isAdmin && (
+      {canManageContent && managementMode && (
         <Card className="mt-7 border-t-4 border-t-[#e86f22]">
           <CardHeader>
             <h3 className="text-xl font-bold">{form.id ? "Editar conteúdo" : "Adicionar conteúdo exclusivo"}</h3>
@@ -262,12 +264,12 @@ export function ExclusiveContentCenter({ isAdmin }: { isAdmin: boolean }) {
             <div className="p-6 sm:p-8">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <span className="text-xs font-bold uppercase tracking-[0.16em] text-[#d75a12]">{tm(item.category_i18n) || item.category}</span>
-                {isAdmin && <span className={`text-xs font-semibold ${item.published ? "text-emerald-700" : "text-amber-700"}`}>{item.published ? "Publicado" : "Rascunho"}</span>}
+                {canManageContent && managementMode && <span className={`text-xs font-semibold ${item.published ? "text-emerald-700" : "text-amber-700"}`}>{item.published ? "Publicado" : "Rascunho"}</span>}
               </div>
               <h3 className="mt-3 text-2xl font-bold">{tm(item.title_i18n) || item.title}</h3>
               {(tm(item.excerpt_i18n) || item.excerpt) && <p className="mt-3 text-muted-foreground">{tm(item.excerpt_i18n) || item.excerpt}</p>}
               <div className="rich-text mt-6 text-base leading-8 text-slate-700" dangerouslySetInnerHTML={{ __html: sanitizeRichText(tm(item.content_i18n) || item.content_html) }} />
-              {isAdmin && (
+              {canManageContent && managementMode && (
                 <div className="mt-7 flex gap-3 border-t border-border pt-5">
                   <Button variant="outline" onClick={() => { setForm({ ...item, external_video_url: item.external_video_url ?? null }); window.scrollTo({ top: 0, behavior: "smooth" }); }}><Edit3 className="mr-2 h-4 w-4" />Editar</Button>
                   <Button variant="outline" className="text-destructive" onClick={() => void remove(item)}><Trash2 className="mr-2 h-4 w-4" />Excluir</Button>

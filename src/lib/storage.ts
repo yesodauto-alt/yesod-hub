@@ -33,7 +33,8 @@ export async function resolveMediaUrl(bucket: string, path: string | null | unde
     return data.publicUrl || null;
   }
 
-  const { data, error } = await supabase.storage.from(bucket).createSignedUrl(path, 60 * 60);
+  const expirySeconds = bucket === EXCLUSIVE_MEDIA_BUCKET ? 5 * 60 : 60 * 60;
+  const { data, error } = await supabase.storage.from(bucket).createSignedUrl(path, expirySeconds);
   if (error) return null;
   return data?.signedUrl ?? null;
 }
@@ -43,7 +44,7 @@ export function useMediaUrl(bucket: string, path: string | null | undefined) {
     queryKey: ["media-url", bucket, path ?? null],
     queryFn: () => resolveMediaUrl(bucket, path),
     enabled: Boolean(path),
-    staleTime: 30 * 60 * 1000,
+    staleTime: bucket === EXCLUSIVE_MEDIA_BUCKET ? 4 * 60 * 1000 : 30 * 60 * 1000,
   });
   return query.data ?? null;
 }

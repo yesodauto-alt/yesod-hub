@@ -16,26 +16,29 @@ import { useEffect, useState } from "react";
 
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { Button } from "@/components/ui/button";
-import { useAuth, useIsAdmin } from "@/hooks/use-auth";
+import { useAuth, useCanManageExclusiveContent, useIsAdmin } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n, type TranslationKey } from "@/lib/i18n";
 import { whatsappUrl } from "@/lib/yesod";
 
-type NavLabel = TranslationKey | "nav.exclusive" | "nav.siteSettings" | "nav.contentCenter" | "nav.solutions";
+type NavLabel = TranslationKey | "nav.exclusive" | "nav.siteSettings" | "nav.contentCenter" | "nav.solutions" | "nav.adminContent" | "nav.adminMembers" | "nav.adminProjects";
 
 const customLabels = {
   "nav.contentCenter": { pt: "Central de Conteúdo", en: "Content Center", es: "Central de Contenido" },
   "nav.solutions": { pt: "Soluções", en: "Solutions", es: "Soluciones" },
   "nav.exclusive": {
-    pt: "Conteúdos exclusivos",
-    en: "Exclusive content",
-    es: "Contenidos exclusivos",
+    pt: "Biblioteca de membros",
+    en: "Members library",
+    es: "Biblioteca de miembros",
   },
   "nav.siteSettings": {
     pt: "Editar página inicial",
     en: "Edit home page",
     es: "Editar página inicial",
   },
+  "nav.adminContent": { pt: "Gerenciar conteúdos", en: "Manage content", es: "Gestionar contenido" },
+  "nav.adminMembers": { pt: "Gerenciar membros", en: "Manage members", es: "Gestionar miembros" },
+  "nav.adminProjects": { pt: "Gerenciar projetos", en: "Manage projects", es: "Gestionar proyectos" },
 } as const;
 
 const signOutLabels = {
@@ -44,38 +47,49 @@ const signOutLabels = {
   es: "Salir",
 } as const;
 
-const items: Array<{
-  to:
-    | "/"
-    | "/hub"
-    | "/projetos"
-    | "/servicos"
-    | "/produtos"
-    | "/meu-espaco"
-    | "/configuracoes-site"
-    | "/contato";
+const publicItems: Array<{
+  to: "/" | "/hub" | "/projetos" | "/servicos" | "/produtos" | "/contato";
   label: NavLabel;
   icon: typeof Home;
   active?: boolean;
-  adminOnly?: boolean;
 }> = [
   { to: "/", label: "nav.home", icon: Home },
   { to: "/hub", label: "nav.contentCenter", icon: Users },
   { to: "/projetos", label: "nav.projects", icon: Layers },
-    { to: "/produtos", label: "nav.solutions", icon: Boxes },
-  { to: "/meu-espaco", label: "nav.exclusive", icon: Lock, active: false },
-  { to: "/meu-espaco", label: "nav.members", icon: UserRound },
-  { to: "/configuracoes-site", label: "nav.siteSettings", icon: Settings2, adminOnly: true },
+  { to: "/produtos", label: "nav.solutions", icon: Boxes },
   { to: "/contato", label: "nav.contact", icon: Mail },
 ];
+
+const memberItems = [
+  { to: "/conteudos-exclusivos", label: "nav.exclusive", icon: Lock },
+  { to: "/meu-espaco", label: "nav.mySpace", icon: UserRound },
+] as const;
+
+const editorialAdminItems = [
+  { to: "/gerenciar-conteudos", label: "nav.adminContent", icon: Lock },
+] as const;
+
+const adminItems = [
+  { to: "/gerenciar-projetos", label: "nav.adminProjects", icon: Layers },
+  { to: "/admin-membros", label: "nav.adminMembers", icon: Users },
+  { to: "/configuracoes-site", label: "nav.siteSettings", icon: Settings2 },
+] as const;
 
 function NavList({ onNavigate }: { onNavigate?: () => void }) {
   const navigate = useNavigate();
   const { user } = useAuth();
   const isAdmin = useIsAdmin(user);
+  const canManageContent = useCanManageExclusiveContent(user);
   const { t, lang } = useI18n();
   const [signingOut, setSigningOut] = useState(false);
-  const visibleItems = items.filter((item) => !item.adminOnly || isAdmin);
+  const navSections = [
+    ...publicItems.map((item) => ({ ...item, section: "" })),
+    ...(user
+      ? memberItems.map((item, index) => ({ ...item, section: index === 0 ? "members" : "" }))
+      : [{ to: "/auth" as const, label: "nav.members" as const, icon: UserRound, section: "" }]),
+    ...(user && canManageContent ? editorialAdminItems.map((item, index) => ({ ...item, section: index === 0 ? "admin" : "" })) : []),
+    ...(user && isAdmin ? adminItems.map((item, index) => ({ ...item, section: index === 0 && !canManageContent ? "admin" : "" })) : []),
+  ];
 
   function labelFor(label: NavLabel) {
     if (label in customLabels) return customLabels[label as keyof typeof customLabels][lang];
@@ -103,18 +117,24 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
       </Link>
 
       <nav className="mt-10 flex flex-1 flex-col gap-1 px-4" aria-label={t("nav.navigation")}>
-        {visibleItems.map((item) => (
-          <Link
-            key={item.label}
-            to={item.to}
-            onClick={onNavigate}
-            activeOptions={{ exact: item.to === "/" }}
-            className="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition-colors hover:bg-white/10 hover:text-white"
-            activeProps={{ className: item.active === false ? "" : "bg-white/15 text-white" }}
-          >
-            <span className="yesod-nav-icon flex h-7 w-7 shrink-0 items-center justify-center rounded-md"><item.icon className="h-[17px] w-[17px]" strokeWidth={1.8} aria-hidden="true" /></span>
-            {labelFor(item.label)}
-          </Link>
+        {navSections.map((item, index) => (
+          <div key={`${item.to}-${index}`}>
+            {item.section && (
+              <p className="mb-1 mt-3 border-t border-white/10 px-3 pt-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">
+                {item.section === "admin" ? (lang === "en" ? "Administration" : lang === "es" ? "Administración" : "Administração") : (lang === "en" ? "Members" : lang === "es" ? "Miembros" : "Membros")}
+              </p>
+            )}
+            <Link
+              to={item.to}
+              onClick={onNavigate}
+              activeOptions={{ exact: item.to === "/" }}
+              className="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+              activeProps={{ className: "bg-white/15 text-white" }}
+            >
+              <span className="yesod-nav-icon flex h-7 w-7 shrink-0 items-center justify-center rounded-md"><item.icon className="h-[17px] w-[17px]" strokeWidth={1.8} aria-hidden="true" /></span>
+              {labelFor(item.label)}
+            </Link>
+          </div>
         ))}
       </nav>
 

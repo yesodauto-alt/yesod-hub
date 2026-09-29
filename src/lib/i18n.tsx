@@ -259,8 +259,8 @@ const pt = {
   "auth.signin": "Entrar",
   "auth.haveAccount": "Já tenho conta — quero entrar",
   "auth.noAccount": "Ainda não tenho conta — quero me cadastrar",
-  "auth.created": "Conta criada! Bem-vindo ao Yesod HUB.",
-  "auth.confirmEmail": "Conta criada! Confirme seu e-mail para acessar.",
+  "auth.created": "Conta criada! Seu acesso aos conteúdos será liberado após aprovação da equipe YESOD.",
+  "auth.confirmEmail": "Conta criada! Confirme seu e-mail; depois a equipe YESOD aprovará seu acesso aos conteúdos.",
   "auth.welcomeBack": "Bem-vindo de volta!",
   "auth.failed": "Não foi possível continuar.",
 
@@ -607,8 +607,8 @@ const en: Dictionary = {
   "auth.signin": "Sign in",
   "auth.haveAccount": "I already have an account — sign in",
   "auth.noAccount": "I don't have an account — sign up",
-  "auth.created": "Account created! Welcome to Yesod HUB.",
-  "auth.confirmEmail": "Account created! Confirm your email to get access.",
+  "auth.created": "Account created! The YESOD team will approve your access to exclusive content.",
+  "auth.confirmEmail": "Account created! Confirm your email; then the YESOD team will approve access to content.",
   "auth.welcomeBack": "Welcome back!",
   "auth.failed": "We couldn't continue.",
 
@@ -952,8 +952,8 @@ const es: Dictionary = {
   "auth.signin": "Entrar",
   "auth.haveAccount": "Ya tengo cuenta — quiero entrar",
   "auth.noAccount": "Aún no tengo cuenta — quiero registrarme",
-  "auth.created": "¡Cuenta creada! Bienvenido a Yesod HUB.",
-  "auth.confirmEmail": "¡Cuenta creada! Confirma tu correo para acceder.",
+  "auth.created": "¡Cuenta creada! El equipo YESOD aprobará tu acceso al contenido exclusivo.",
+  "auth.confirmEmail": "¡Cuenta creada! Confirma tu correo; después el equipo YESOD aprobará el acceso al contenido.",
   "auth.welcomeBack": "¡Bienvenido de vuelta!",
   "auth.failed": "No fue posible continuar.",
 

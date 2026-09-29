@@ -20,6 +20,10 @@ import { Route as ProjetosRouteImport } from './routes/projetos'
 import { Route as ServicosRouteImport } from './routes/servicos'
 import { Route as AuthenticatedConfiguracoesSiteRouteImport } from './routes/_authenticated/configuracoes-site'
 import { Route as AuthenticatedMeuEspacoRouteImport } from './routes/_authenticated/meu-espaco'
+import { Route as AuthenticatedAdminMembrosRouteImport } from './routes/_authenticated/admin-membros'
+import { Route as AuthenticatedConteudosExclusivosRouteImport } from './routes/_authenticated/conteudos-exclusivos'
+import { Route as AuthenticatedGerenciarConteudosRouteImport } from './routes/_authenticated/gerenciar-conteudos'
+import { Route as AuthenticatedGerenciarProjetosRouteImport } from './routes/_authenticated/gerenciar-projetos'
 import { Route as ProjetosSlugRouteImport } from './routes/projetos.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -77,6 +81,10 @@ const AuthenticatedMeuEspacoRoute = AuthenticatedMeuEspacoRouteImport.update({
   path: '/meu-espaco',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminMembrosRoute = AuthenticatedAdminMembrosRouteImport.update({ id: '/admin-membros', path: '/admin-membros', getParentRoute: () => AuthenticatedRouteRoute } as any)
+const AuthenticatedConteudosExclusivosRoute = AuthenticatedConteudosExclusivosRouteImport.update({ id: '/conteudos-exclusivos', path: '/conteudos-exclusivos', getParentRoute: () => AuthenticatedRouteRoute } as any)
+const AuthenticatedGerenciarConteudosRoute = AuthenticatedGerenciarConteudosRouteImport.update({ id: '/gerenciar-conteudos', path: '/gerenciar-conteudos', getParentRoute: () => AuthenticatedRouteRoute } as any)
+const AuthenticatedGerenciarProjetosRoute = AuthenticatedGerenciarProjetosRouteImport.update({ id: '/gerenciar-projetos', path: '/gerenciar-projetos', getParentRoute: () => AuthenticatedRouteRoute } as any)
 const ProjetosSlugRoute = ProjetosSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -94,6 +102,10 @@ export interface FileRoutesByFullPath {
   '/servicos': typeof ServicosRoute
   '/configuracoes-site': typeof AuthenticatedConfiguracoesSiteRoute
   '/meu-espaco': typeof AuthenticatedMeuEspacoRoute
+  '/admin-membros': typeof AuthenticatedAdminMembrosRoute
+  '/conteudos-exclusivos': typeof AuthenticatedConteudosExclusivosRoute
+  '/gerenciar-conteudos': typeof AuthenticatedGerenciarConteudosRoute
+  '/gerenciar-projetos': typeof AuthenticatedGerenciarProjetosRoute
   '/projetos/$slug': typeof ProjetosSlugRoute
 }
 export interface FileRoutesByTo {
@@ -107,6 +119,10 @@ export interface FileRoutesByTo {
   '/servicos': typeof ServicosRoute
   '/configuracoes-site': typeof AuthenticatedConfiguracoesSiteRoute
   '/meu-espaco': typeof AuthenticatedMeuEspacoRoute
+  '/admin-membros': typeof AuthenticatedAdminMembrosRoute
+  '/conteudos-exclusivos': typeof AuthenticatedConteudosExclusivosRoute
+  '/gerenciar-conteudos': typeof AuthenticatedGerenciarConteudosRoute
+  '/gerenciar-projetos': typeof AuthenticatedGerenciarProjetosRoute
   '/projetos/$slug': typeof ProjetosSlugRoute
 }
 export interface FileRoutesById {
@@ -122,6 +138,10 @@ export interface FileRoutesById {
   '/servicos': typeof ServicosRoute
   '/_authenticated/configuracoes-site': typeof AuthenticatedConfiguracoesSiteRoute
   '/_authenticated/meu-espaco': typeof AuthenticatedMeuEspacoRoute
+  '/_authenticated/admin-membros': typeof AuthenticatedAdminMembrosRoute
+  '/_authenticated/conteudos-exclusivos': typeof AuthenticatedConteudosExclusivosRoute
+  '/_authenticated/gerenciar-conteudos': typeof AuthenticatedGerenciarConteudosRoute
+  '/_authenticated/gerenciar-projetos': typeof AuthenticatedGerenciarProjetosRoute
   '/projetos/$slug': typeof ProjetosSlugRoute
 }
 export interface FileRouteTypes {
@@ -137,6 +157,10 @@ export interface FileRouteTypes {
     | '/servicos'
     | '/configuracoes-site'
     | '/meu-espaco'
+    | '/admin-membros'
+    | '/conteudos-exclusivos'
+    | '/gerenciar-conteudos'
+    | '/gerenciar-projetos'
     | '/projetos/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -150,6 +174,10 @@ export interface FileRouteTypes {
     | '/servicos'
     | '/configuracoes-site'
     | '/meu-espaco'
+    | '/admin-membros'
+    | '/conteudos-exclusivos'
+    | '/gerenciar-conteudos'
+    | '/gerenciar-projetos'
     | '/projetos/$slug'
   id:
     | '__root__'
@@ -164,6 +192,10 @@ export interface FileRouteTypes {
     | '/servicos'
     | '/_authenticated/configuracoes-site'
     | '/_authenticated/meu-espaco'
+    | '/_authenticated/admin-membros'
+    | '/_authenticated/conteudos-exclusivos'
+    | '/_authenticated/gerenciar-conteudos'
+    | '/_authenticated/gerenciar-projetos'
     | '/projetos/$slug'
   fileRoutesById: FileRoutesById
 }
@@ -258,6 +290,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMeuEspacoRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin-membros': {
+      id: '/_authenticated/admin-membros'
+      path: '/admin-membros'
+      fullPath: '/admin-membros'
+      preLoaderRoute: typeof AuthenticatedAdminMembrosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/conteudos-exclusivos': {
+      id: '/_authenticated/conteudos-exclusivos'
+      path: '/conteudos-exclusivos'
+      fullPath: '/conteudos-exclusivos'
+      preLoaderRoute: typeof AuthenticatedConteudosExclusivosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/gerenciar-conteudos': {
+      id: '/_authenticated/gerenciar-conteudos'
+      path: '/gerenciar-conteudos'
+      fullPath: '/gerenciar-conteudos'
+      preLoaderRoute: typeof AuthenticatedGerenciarConteudosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/gerenciar-projetos': {
+      id: '/_authenticated/gerenciar-projetos'
+      path: '/gerenciar-projetos'
+      fullPath: '/gerenciar-projetos'
+      preLoaderRoute: typeof AuthenticatedGerenciarProjetosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/projetos/$slug': {
       id: '/projetos/$slug'
       path: '/$slug'
@@ -271,11 +331,19 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedConfiguracoesSiteRoute: typeof AuthenticatedConfiguracoesSiteRoute
   AuthenticatedMeuEspacoRoute: typeof AuthenticatedMeuEspacoRoute
+  AuthenticatedAdminMembrosRoute: typeof AuthenticatedAdminMembrosRoute
+  AuthenticatedConteudosExclusivosRoute: typeof AuthenticatedConteudosExclusivosRoute
+  AuthenticatedGerenciarConteudosRoute: typeof AuthenticatedGerenciarConteudosRoute
+  AuthenticatedGerenciarProjetosRoute: typeof AuthenticatedGerenciarProjetosRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedConfiguracoesSiteRoute: AuthenticatedConfiguracoesSiteRoute,
   AuthenticatedMeuEspacoRoute: AuthenticatedMeuEspacoRoute,
+  AuthenticatedAdminMembrosRoute: AuthenticatedAdminMembrosRoute,
+  AuthenticatedConteudosExclusivosRoute: AuthenticatedConteudosExclusivosRoute,
+  AuthenticatedGerenciarConteudosRoute: AuthenticatedGerenciarConteudosRoute,
+  AuthenticatedGerenciarProjetosRoute: AuthenticatedGerenciarProjetosRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

@@ -50,3 +50,29 @@ export function useIsAdmin(user: User | null) {
 
   return isAdmin;
 }
+
+export function useCanManageExclusiveContent(user: User | null) {
+  const isAdmin = useIsAdmin(user);
+  const [isEditor, setIsEditor] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    if (!user) {
+      setIsEditor(false);
+      return;
+    }
+    supabase
+      .from("content_editors")
+      .select("user_id")
+      .eq("user_id", user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (active) setIsEditor(Boolean(data));
+      });
+    return () => {
+      active = false;
+    };
+  }, [user]);
+
+  return isAdmin || isEditor;
+}
