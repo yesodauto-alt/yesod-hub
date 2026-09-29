@@ -44,8 +44,18 @@ export function MarleyChatDialog({ buttonLabel }: { buttonLabel: string }) {
       if (typeof data?.reply !== "string" || !data.reply.trim()) throw new Error("Resposta vazia");
       setMessages((current) => [...current, { role: "assistant", content: data.reply }]);
       requestAnimationFrame(() => transcriptRef.current?.scrollTo({ top: transcriptRef.current.scrollHeight, behavior: "smooth" }));
-    } catch {
-      setError("Não consegui responder agora. Tente novamente em instantes.");
+    } catch (caught) {
+      const context = caught && typeof caught === "object" && "context" in caught
+        ? (caught as { context?: unknown }).context
+        : undefined;
+      if (context instanceof Response) {
+        const body = await context.clone().json().catch(() => null) as { error?: unknown } | null;
+        setError(typeof body?.error === "string" ? body.error : `O serviço do Marley respondeu com erro (${context.status}).`);
+      } else if (caught instanceof Error && /failed to send a request/i.test(caught.message)) {
+        setError("Não consegui conectar ao serviço do Marley. Verifique a conexão ou se uma extensão/VPN do navegador está bloqueando a chamada e tente novamente.");
+      } else {
+        setError("Não consegui responder agora. Tente novamente em instantes.");
+      }
     } finally {
       setSending(false);
     }
